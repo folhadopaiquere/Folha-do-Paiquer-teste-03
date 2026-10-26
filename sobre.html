@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="pt-BR">
+<head>
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Folha do Paiquerê">
+<link rel="apple-touch-icon" href="assets/branding/brasao-folha-paiquere-192.png">
+<link rel="icon" type="image/png" href="assets/branding/brasao-folha-paiquere.png">
+
+<meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="#0B2545" name="theme-color"/><meta content="Conheça a missão, as diretrizes editoriais, as tecnologias e os créditos da Folha do Paiquerê." name="description"/>
+<title>Sobre — Folha do Paiquerê</title>
+<script>
+    (()=>{try{const s=localStorage.getItem('theme'),d=window.matchMedia('(prefers-color-scheme: dark)').matches,t=s==='dark'||s==='light'?s:(d?'dark':'light');document.documentElement.classList.toggle('dark',t==='dark');const fs=Number(localStorage.getItem('fp-font-scale'));if(Number.isFinite(fs)&&fs>=-2&&fs<=3){document.documentElement.dataset.fontScale=String(fs);document.documentElement.style.fontSize=`${100+fs*10}%`}}catch(_){}})();
+  </script>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>tailwind.config={darkMode:'class',theme:{extend:{colors:{folha:{50:'#F2F7F3',100:'#E8F2E9',300:'#81C784',700:'#2E7D32',800:'#1B5E20'}}}}}</script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>
+    :root{--access-bar-height:56px}html[data-font-scale="-2"]{font-size:80%}html[data-font-scale="-1"]{font-size:90%}html[data-font-scale="0"]{font-size:100%}html[data-font-scale="1"]{font-size:110%}html[data-font-scale="2"]{font-size:120%}html[data-font-scale="3"]{font-size:130%}*{box-sizing:border-box}body{margin:0;padding-top:0;font-family:Inter,system-ui,sans-serif;background:#F8F9FA;color:#1A1D1A}.dark body{background:#121212;color:#E0E0E0}:focus-visible{outline:3px solid #81C784;outline-offset:3px}.skip-link{position:fixed;top:.75rem;left:.75rem;z-index:10000;transform:translateY(-150%);background:#1B5E20;color:#fff;padding:.75rem 1rem;border-radius:.5rem;font-weight:700}.skip-link:focus{transform:translateY(0)}.accessibility-bar{position:fixed;right:1rem;bottom:1rem;top:auto;left:auto;width:auto;min-height:0;z-index:9999;background:#fff;border:1px solid #D5DDD6;border-radius:.9rem;box-shadow:0 8px 24px rgba(0,0,0,.14);padding:.4rem}.dark .accessibility-bar{position:fixed;right:1rem;bottom:1rem;top:auto;left:auto;width:auto;min-height:0;z-index:9999;background:#fff;border:1px solid #D5DDD6;border-radius:.9rem;box-shadow:0 8px 24px rgba(0,0,0,.14);padding:.4rem}.access-btn{min-width:2.35rem;height:2.35rem;display:inline-flex;align-items:center;justify-content:center;gap:.35rem;border:1px solid #B8C3BA;border-radius:.5rem;background:#fff;color:#1A1D1A;font-weight:700;cursor:pointer}.access-btn:hover{background:#F2F7F3;border-color:#2E7D32}.dark .access-btn{background:#242424;border-color:#4A4A4A;color:#E0E0E0}.brand-mark{width:2.75rem;height:2.75rem;border-radius:.75rem;display:grid;place-items:center;background:#2E7D32;color:#fff}.dark .brand-mark{background:#81C784;color:#121212}@media(max-width:480px){.accessibility-bar{right:.55rem;bottom:.55rem;padding:.3rem}.access-btn{font-size:.72rem}
+:root{--access-bar-height:52px}.access-btn{min-width:2.15rem;width:2.15rem;height:2.15rem;padding:0}}@media(prefers-reduced-motion:reduce){*,*::before,*::after{transition-duration:.01ms!important;animation-duration:.01ms!important;scroll-behavior:auto!important}}
+  
+.news-poll{margin:2rem 0;padding:1.2rem;border:1px solid #D5DDD6;border-radius:1rem;background:#F8FAF8}.dark .news-poll{background:#1E241F;border-color:#3B463D}.news-poll h3{font-size:1.1rem;font-weight:800;margin:0}.poll-kind{font-size:.72rem;color:#69746D;margin:.35rem 0 .8rem}.poll-options{display:grid;gap:.55rem}.poll-options button{border:1px solid #C8D2CA;background:#fff;border-radius:.7rem;padding:.65rem .8rem;text-align:left;font-weight:700;cursor:pointer}.dark .poll-options button{background:#242424;color:#E0E0E0;border-color:#454A46}.poll-options button.active{background:#E8F2E9;border-color:#2E7D32;color:#1B5E20}.dark .poll-options button.active{background:#2D382E;color:#81C784}.poll-status{font-size:.75rem;font-weight:700;margin-top:.7rem;color:#1B5E20}.dark .poll-status{color:#81C784}
+</style>
+<style id="fp-about-directory">
+.about-directory{background:#fff}.dark .about-directory{background:#121212}.about-directory-shell{max-width:72rem;margin:0 auto;padding:3.5rem 1rem}.about-search-panel{border:1px solid #DCE5DE;border-radius:1.25rem;padding:1.25rem;background:#FBFCFB;box-shadow:0 8px 24px rgba(15,23,42,.07)}.dark .about-search-panel{background:#191D19;border-color:#303A32;box-shadow:0 8px 24px rgba(0,0,0,.22)}.about-search-title{display:flex;align-items:center;gap:.8rem}.about-search-icon{width:2.6rem;height:2.6rem;border-radius:.8rem;display:grid;place-items:center;background:#E8F2E9;color:#1B5E20;font-size:1.25rem}.dark .about-search-icon{background:#2D382E;color:#81C784}.about-search-controls{display:grid;grid-template-columns:minmax(0,1fr) repeat(3,minmax(10rem,14rem));gap:.65rem;margin-top:1rem}.about-search-input{min-height:46px;width:100%;border:1px solid #C8D2CA;border-radius:.8rem;background:#fff;padding:.7rem .85rem;color:#1A1D1A}.about-search-select{min-height:46px;width:100%;border:1px solid #C8D2CA;border-radius:.8rem;background:#fff;padding:.7rem .75rem;font-weight:700;color:#1A1D1A}.dark .about-search-input,.dark .about-search-select{background:#242424;color:#E0E0E0;border-color:#454A46}.about-profile-grid{margin-top:1rem;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-auto-rows:minmax(245px,auto);gap:1rem;max-height:535px;overflow-y:auto;padding:.15rem .15rem .6rem;scrollbar-gutter:stable}.about-profile-card{display:flex;flex-direction:column;min-width:0;border:1px solid #DFE7E0;border-radius:1rem;background:#fff;padding:1rem;box-shadow:0 5px 18px rgba(15,23,42,.08)}.dark .about-profile-card{background:#1E1E1E;border-color:#303A32;box-shadow:0 5px 18px rgba(0,0,0,.22)}.about-profile-avatar{width:3.5rem;height:3.5rem;flex:0 0 3.5rem;border-radius:999px;object-fit:cover;border:2px solid #E8F2E9}.about-profile-placeholder{display:grid;place-items:center;background:#E8F2E9;color:#1B5E20;font-weight:900}.dark .about-profile-placeholder{background:#2D382E;color:#81C784}.about-profile-bio{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}.about-profile-stats{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-top:auto}.about-profile-stat{padding:.55rem .65rem;border-radius:.7rem;background:#F2F7F3}.dark .about-profile-stat{background:#242D25}.about-profile-empty{padding:2.5rem 1rem;text-align:center;border:1px dashed #C8D2CA;border-radius:1rem;color:#69746D}.dark .about-profile-empty{border-color:#454A46;color:#AAB4AC}@media(max-width:900px){.about-search-controls{grid-template-columns:1fr 1fr}.about-search-controls .about-search-input{grid-column:1/-1}.about-profile-grid{grid-template-columns:repeat(2,minmax(0,1fr));max-height:535px}}@media(max-width:600px){.about-directory-shell{padding:2.5rem 1rem}.about-search-controls{grid-template-columns:1fr}.about-profile-grid{grid-template-columns:1fr;max-height:650px}.about-search-panel{padding:1rem}}
+</style>
+<style id="fp-visual-density">.panel-surface,.achievement-card,.creative-card,.news-card,.mobile-block-card{box-shadow:0 5px 18px rgba(15,23,42,.10)!important}.dark .panel-surface,.dark .achievement-card,.dark .creative-card,.dark .news-card,.dark .mobile-block-card{box-shadow:0 5px 18px rgba(0,0,0,.24)!important}</style>
+<script defer="" src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script defer="" src="supabase-config.js"></script>
+<style id="fp-final-polish">
+html{scroll-behavior:smooth}*,*::before,*::after{box-sizing:border-box}img,video{max-width:100%}button,input,select,textarea{font:inherit}button,a,input,select,textarea{outline-color:#2E7D32}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid rgba(46,125,50,.32);outline-offset:2px}.site-input::placeholder{color:#667067;opacity:1}.dark .site-input::placeholder{color:#AAB4AC;opacity:1}.site-input{min-height:44px}.panel-surface{overflow-wrap:anywhere}.table-wrap,table{max-width:100%}@media(max-width:767px){body{overflow-x:hidden}.max-w-7xl,.max-w-\[1500px\]{width:100%}main{padding-left:1rem!important;padding-right:1rem!important}.site-input{font-size:16px}.accessibility-bar{max-width:calc(100vw - 1rem)}button,.access-btn{min-height:44px}news-poll{padding:1rem;margin:1.5rem 0}.poll-options button{padding:.8rem .75rem}.poll-footer{display:grid!important;grid-template-columns:1fr;gap:.75rem}.poll-submit{width:100%}}@media(min-width:768px) and (max-width:1279px){main{padding-left:1.25rem!important;padding-right:1.25rem!important}}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+.dark button:focus-visible,.dark a:focus-visible,.dark input:focus-visible,.dark select:focus-visible,.dark textarea:focus-visible{outline-color:#81C784}
+</style>
+<style id="fp-v27-global-polish">
+/* v27 — acabamento visual global: proporção, conforto e acessibilidade */
+:root{
+  --fp-bg:#F6F8F6;
+  --fp-surface:#FFFFFF;
+  --fp-surface-soft:#F2F7F3;
+  --fp-line:#DDE5DE;
+  --fp-line-strong:#C9D5CC;
+  --fp-text:#1A1D1A;
+  --fp-muted:#667067;
+  --fp-green:#2E7D32;
+  --fp-green-deep:#1B5E20;
+  --fp-green-light:#81C784;
+}
+html{scroll-padding-top:1rem}
+body{background:var(--fp-bg);color:var(--fp-text);line-height:1.55;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.dark body{background:#111411;color:#E5EAE6}
+main{min-height:calc(100vh - 15rem)}
+button,.btn-primary,.btn-neutral,.btn-soft,.access-btn,a,input,select,textarea{transition:background-color .16s ease,border-color .16s ease,color .16s ease,box-shadow .16s ease,transform .16s ease}
+button:not(:disabled):hover,.btn-primary:not(:disabled):hover,.btn-neutral:not(:disabled):hover,.btn-soft:not(:disabled):hover{transform:translateY(-1px)}
+button:active,.btn-primary:active,.btn-neutral:active,.btn-soft:active{transform:translateY(0)}
+.btn-primary{min-height:44px;border-radius:.8rem!important;background:var(--fp-green);color:#fff;border:1px solid var(--fp-green);padding:.65rem 1rem;font-weight:800;box-shadow:0 4px 12px rgba(46,125,50,.12)}
+.dark .btn-primary{background:var(--fp-green-light);border-color:var(--fp-green-light);color:#121212}
+.btn-soft{min-height:44px;border-radius:.8rem!important;background:var(--fp-surface-soft);color:var(--fp-green-deep);border:1px solid #CFE0D1;padding:.65rem 1rem}
+.dark .btn-soft{background:#243026;color:var(--fp-green-light);border-color:#3A5140}
+.btn-neutral{min-height:44px;border-radius:.8rem!important;background:var(--fp-surface);color:var(--fp-text);border:1px solid var(--fp-line-strong);padding:.65rem 1rem}
+.dark .btn-neutral{background:#1E211F;color:#E2E7E3;border-color:#3B433D}
+.site-input,.about-search-input,.about-search-select{border-radius:.82rem!important;border-color:var(--fp-line-strong)!important;background:#fff!important;box-shadow:0 1px 1px rgba(15,23,42,.02)}
+.site-input:focus,.about-search-input:focus,.about-search-select:focus{box-shadow:0 0 0 4px rgba(129,199,132,.16)!important}
+.dark .site-input,.dark .about-search-input,.dark .about-search-select{background:#1D211E!important;border-color:#455048!important;color:#E5EAE6!important}
+.panel-surface,.news-card,.achievement-card,.creative-card,.school-notice-card,.comment-item,.comment-composer,.about-profile-card,.profile-page-card{border-radius:1.1rem!important}
+.panel-surface,.news-card,.achievement-card,.creative-card,.school-notice-card,.comment-item,.about-profile-card,.profile-page-card{box-shadow:0 8px 26px rgba(15,23,42,.07)!important}
+.dark .panel-surface,.dark .news-card,.dark .achievement-card,.dark .creative-card,.dark .school-notice-card,.dark .comment-item,.dark .about-profile-card,.dark .profile-page-card{box-shadow:0 8px 26px rgba(0,0,0,.22)!important}
+img{border-radius:inherit}
+.author-profile-link{min-height:32px;padding:.12rem .25rem;border-radius:999px}
+.author-profile-link:hover{background:#F2F7F3;color:var(--fp-green-deep)}
+.dark .author-profile-link:hover{background:#243026;color:var(--fp-green-light)}
+.author-profile-mini,.author-profile-mini img{width:30px!important;height:30px!important;min-width:30px!important;min-height:30px!important;max-width:none!important;max-height:none!important;border-radius:999px!important}
+.accessibility-bar{backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.access-btn{border-radius:.72rem!important}
+.access-btn:hover{background:#F2F7F3!important;color:var(--fp-green-deep)}
+.dark .access-btn:hover{background:#242D25!important;color:var(--fp-green-light)}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:#B9C7BC;border-radius:999px;border:3px solid transparent;background-clip:padding-box}
+.dark ::-webkit-scrollbar-thumb{background:#4D5A50;border-color:transparent}
+::selection{background:#CFE8D0;color:#153719}
+.dark ::selection{background:#355A3A;color:#EFF7F0}
+@media(max-width:767px){
+  main{min-height:calc(100vh - 11rem)}
+  h1.text-6xl{font-size:2.35rem!important;line-height:1.08!important}
+  h1.text-5xl{font-size:2.1rem!important;line-height:1.1!important}
+  h1.text-4xl{font-size:1.95rem!important;line-height:1.12!important}
+  h2.text-4xl{font-size:1.75rem!important}
+  h2.text-3xl{font-size:1.55rem!important}
+  .panel-surface,.news-card,.achievement-card,.creative-card,.school-notice-card{box-shadow:0 5px 18px rgba(15,23,42,.06)!important}
+  .dark .panel-surface,.dark .news-card,.dark .achievement-card,.dark .creative-card,.dark .school-notice-card{box-shadow:0 5px 18px rgba(0,0,0,.18)!important}
+}
+@media(min-width:768px) and (max-width:1199px){
+  main{padding-top:2.5rem!important;padding-bottom:4rem!important}
+}
+@media(prefers-reduced-motion:reduce){button,.btn-primary,.btn-neutral,.btn-soft,a{transition:none!important}button:hover,.btn-primary:hover,.btn-neutral:hover,.btn-soft:hover{transform:none!important}}
+</style>
+<style id="fp-v27-about-polish">
+.about-directory{background:#F6F8F6!important}.dark .about-directory{background:#111411!important}
+.about-directory-shell{padding-top:2.75rem!important;padding-bottom:3.5rem!important}
+.about-search-panel{border-radius:1.25rem!important;background:linear-gradient(180deg,#FFFFFF 0%,#F8FBF8 100%)!important;border-color:#D9E4DB!important;box-shadow:0 10px 30px rgba(15,23,42,.07)!important}
+.dark .about-search-panel{background:linear-gradient(180deg,#1C211D 0%,#181C19 100%)!important;border-color:#334137!important}
+.about-search-icon{border-radius:.9rem!important}.about-search-icon svg{width:1.3rem;height:1.3rem}
+.about-profile-grid{padding:.25rem .25rem .75rem!important;gap:1.1rem!important;scrollbar-color:#B9C7BC transparent}
+.about-profile-card{padding:1.05rem!important;min-height:245px;transition:transform .16s ease,box-shadow .16s ease,border-color .16s ease!important}
+.about-profile-card:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(15,23,42,.10)!important;border-color:#C5D8C8}
+.dark .about-profile-card:hover{box-shadow:0 12px 30px rgba(0,0,0,.26)!important;border-color:#48614D}
+@media(max-width:600px){.about-search-controls{gap:.55rem!important}.about-profile-grid{gap:.8rem!important}}
+@media(prefers-reduced-motion:reduce){.about-profile-card{transition:none!important}.about-profile-card:hover{transform:none}}
+</style>
+
+<style id="fp-v83-elegant-polish">
+:root{--fp-bg:#F5F8F5;--fp-surface:#FFFFFF;--fp-line:#DCE5DE;--fp-line-soft:#E8EEE9}
+body{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body>header{box-shadow:0 1px 0 rgba(27,94,32,.05),0 5px 18px rgba(15,23,42,.025)}
+.dark body>header{box-shadow:0 1px 0 rgba(129,199,132,.08),0 5px 18px rgba(0,0,0,.12)}
+.hero-grid{background-image:none!important}
+.panel-surface,.news-card,.achievement-card,.creative-card,.school-notice-card,.comment-item,.comment-composer,.about-profile-card,.profile-page-card{border-color:var(--fp-line)!important;box-shadow:0 7px 22px rgba(15,23,42,.055)!important}
+.dark .panel-surface,.dark .news-card,.dark .achievement-card,.dark .creative-card,.dark .school-notice-card,.dark .comment-item,.dark .comment-composer,.dark .about-profile-card,.dark .profile-page-card{border-color:#303A32!important;box-shadow:0 7px 22px rgba(0,0,0,.17)!important}
+.btn-primary{box-shadow:0 4px 12px rgba(46,125,50,.09)!important}
+.btn-soft,.btn-neutral{box-shadow:0 2px 8px rgba(15,23,42,.025)!important}
+.site-input{box-shadow:0 1px 1px rgba(15,23,42,.018)!important}
+.site-input:focus{box-shadow:0 0 0 3px rgba(129,199,132,.17)!important}
+.accessibility-bar{box-shadow:0 6px 18px rgba(15,23,42,.10)!important}
+@media(max-width:767px){body>header{box-shadow:0 1px 0 rgba(27,94,32,.04),0 3px 12px rgba(15,23,42,.02)}}
+@media(prefers-reduced-motion:reduce){*{transition-duration:.01ms!important;animation-duration:.01ms!important}}
+</style>
+<style id="fp-v83-poll-polish">
+.news-poll .poll-options button{display:flex;align-items:center;gap:.65rem}
+.news-poll .poll-option-label{flex:1;min-width:0}
+.news-poll .poll-option-marker{width:1rem;height:1rem;flex:0 0 1rem;border:2px solid #9AA59D;border-radius:50%}
+.news-poll .poll-options button.active .poll-option-marker{border-color:#2E7D32;box-shadow:inset 0 0 0 3px #fff;background:#2E7D32}
+.news-poll .poll-vote-count{margin-left:auto;min-width:2rem;padding:.22rem .45rem;border:1px solid #D5DDD6;border-radius:999px;background:#F2F7F3;color:#1B5E20;text-align:center;font-size:.68rem;font-weight:900;line-height:1.2}
+.dark .news-poll .poll-option-marker{border-color:#69746D}
+.dark .news-poll .poll-options button.active .poll-option-marker{border-color:#81C784;background:#81C784;box-shadow:inset 0 0 0 3px #2D382E}
+.dark .news-poll .poll-vote-count{border-color:#394139;background:#202620;color:#81C784}
+</style>
+<link rel="icon" type="image/png" href="assets/branding/brasao-folha-paiquere.png">
+<style id="fp-v92-branding">
+.brand-mark{background:transparent!important;padding:0!important;width:3.2rem!important;height:3.2rem!important;border-radius:0!important;overflow:visible!important}
+.brand-mark img{width:100%!important;height:100%!important;object-fit:contain!important;border-radius:0!important;display:block!important}
+.footer-school-crest{background:#fff;box-shadow:0 4px 12px rgba(0,0,0,.18);display:block}
+</style>
+
+<style id="fp-v93-responsive-polish">
+/* v93 — somente acabamento responsivo solicitado */
+.brand-mark{width:3.8rem!important;height:3.8rem!important;flex:0 0 3.8rem!important}
+#speech-toggle{min-width:0!important;max-width:100%;flex:0 1 auto;min-height:44px;height:auto;white-space:nowrap!important;overflow:visible;line-height:1.2;display:inline-flex;align-items:center;justify-content:center;align-self:stretch;flex-direction:row}
+#speech-toggle #speech-label{min-width:0;white-space:nowrap!important;overflow:visible;text-align:center}
+@media(max-width:640px){
+  .brand-mark{width:3.5rem!important;height:3.5rem!important;flex-basis:3.5rem!important}
+  #speech-toggle{flex:1 1 100%;width:auto;padding:.7rem .9rem!important;gap:.4rem}
+}
+</style>
+<link rel="stylesheet" href="fp-v98-visual-polish.css">
+<link rel="stylesheet" href="fp-about-v142.css">
+  <script defer src="pwa.js"></script>
+
+<link rel="stylesheet" href="fp-v153-public-refresh.css">
+<link rel="stylesheet" href="fp-v154-public-compact.css">
+<link rel="stylesheet" href="fp-v155-public-polish.css">
+  <link rel="stylesheet" href="fp-v157-polish.css">
+  <link rel="stylesheet" href="fp-v159-focused-polish.css">
+  <link rel="stylesheet" href="fp-v160-targeted-polish.css">
+  <link rel="stylesheet" href="fp-v161-polish.css">
+  <link rel="stylesheet" href="fp-v164-polish.css">
+  <link rel="stylesheet" href="fp-v166-public-mobile.css">
+  <link rel="stylesheet" href="fp-v167-public-mobile-polish.css">
+  <link rel="stylesheet" href="fp-v168-public-mobile-fixes.css">
+  <link rel="stylesheet" href="fp-v169-public-mobile-polish.css">
+<link rel="stylesheet" href="fp-v170-polish.css">
+<link rel="stylesheet" href="fp-v173-verified-fixes.css">
+  <link rel="stylesheet" href="fp-v181-interface-polish.css">
+</head>
+<body class="about-page antialiased">
+<div id="fp-public-loading" class="fp-public-loading" role="status" aria-live="polite" aria-label="Carregando a Folha do Paiquerê"><img src="assets/branding/brasao-folha-paiquere.png" alt=""><span>Carregando a Folha do Paiquerê…</span></div>
+<a class="skip-link" href="#conteudo-principal">Pular para o conteúdo principal</a>
+<header class="fp-public-header sticky top-0 z-50 border-b border-slate-200 bg-white dark:border-slate-800 dark:bg-[#1E1E1E]"><div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"><div class="min-h-[4.8rem] flex items-center justify-between gap-4"><a class="flex items-center gap-3" href="index.html"><span aria-hidden="true" class="brand-mark"><img src="assets/branding/brasao-folha-paiquere.png" alt=""></span><span><span class="block text-lg font-extrabold text-[#1B5E20] dark:text-[#81C784]">Folha do Paiquerê</span><span class="block text-xs text-slate-600 dark:text-slate-400">Jornal Escolar</span></span></a><nav aria-label="Navegação principal" class="hidden md:flex gap-1"><a class="rounded-lg px-4 py-2 text-sm font-semibold hover:bg-[#F2F7F3] dark:hover:bg-[#242424]" href="index.html">Início</a><a class="rounded-lg px-4 py-2 text-sm font-semibold hover:bg-[#F2F7F3] dark:hover:bg-[#242424]" href="noticias.html">Notícias</a><a class="rounded-lg px-4 py-2 text-sm font-semibold hover:bg-[#F2F7F3] dark:hover:bg-[#242424]" href="participar.html">Participar</a><a class="rounded-lg px-4 py-2 text-sm font-semibold hover:bg-[#F2F7F3] dark:hover:bg-[#242424]" href="conquistas.html">Conquistas</a><a aria-current="page" class="rounded-lg bg-[#F2F7F3] px-4 py-2 text-sm font-semibold text-[#1B5E20] dark:bg-[#242424] dark:text-[#81C784]" href="sobre.html">Sobre</a></nav><a class="hidden md:inline-flex rounded-lg bg-[#2E7D32] px-4 py-2.5 text-sm font-bold text-white dark:bg-[#81C784] dark:text-[#121212]" href="login.html">Área do Estudante</a><button aria-controls="mobile-menu" aria-expanded="false" aria-label="Abrir menu" class="md:hidden h-11 w-11 rounded-lg border border-slate-300 dark:border-slate-700" id="mobile-menu-toggle" type="button">☰</button></div><nav aria-label="Navegação móvel" class="md:hidden hidden border-t border-slate-200 py-3 dark:border-slate-800" id="mobile-menu">
+<div class="grid gap-1">
+<a class="rounded-lg px-3 py-3 text-sm font-semibold text-slate-800 hover:bg-[#F2F7F3] dark:text-slate-200 dark:hover:bg-[#242424]" data-nav="home" href="index.html">Início</a><a class="rounded-lg px-3 py-3 text-sm font-semibold text-slate-800 hover:bg-[#F2F7F3] dark:text-slate-200 dark:hover:bg-[#242424]" data-nav="noticias" href="noticias.html">Notícias</a><a class="rounded-lg px-3 py-3 text-sm font-semibold text-slate-800 hover:bg-[#F2F7F3] dark:text-slate-200 dark:hover:bg-[#242424]" data-nav="participar" href="participar.html">Participar</a><a class="rounded-lg px-3 py-3 text-sm font-semibold text-slate-800 hover:bg-[#F2F7F3] dark:text-slate-200 dark:hover:bg-[#242424]" data-nav="conquistas" href="conquistas.html">Conquistas</a><a class="rounded-lg px-3 py-3 text-sm font-semibold text-slate-800 hover:bg-[#F2F7F3] dark:text-slate-200 dark:hover:bg-[#242424]" data-nav="sobre" href="sobre.html">Sobre</a><a class="mt-2 inline-flex items-center justify-center rounded-lg bg-[#2E7D32] px-4 py-3 text-sm font-bold text-white dark:bg-[#81C784] dark:text-[#121212]" href="login.html">Área do Estudante</a></div>
+</nav></div></header>
+<main id="conteudo-principal" class="about-main">
+  <section class="about-hero">
+    <div class="about-hero-inner">
+      <div class="about-hero-copy">
+        <span class="about-kicker">Jornal escolar · Comunidade · Participação</span>
+        <h1>Uma comunidade que conta suas próprias histórias.</h1>
+        <p>A Folha do Paiquerê é um espaço digital para dar voz aos estudantes, valorizar histórias e iniciativas locais e aproximar a comunidade escolar por meio da informação, da escrita e da participação.</p>
+        <div class="about-hero-actions">
+          <a class="about-primary-link" href="participar.html">Enviar uma pauta <span aria-hidden="true">↗</span></a>
+          <a class="about-secondary-link" href="#about-directory">Conheça quem faz</a>
+          <a class="about-secondary-link" href="#about-mission">Conheça o projeto</a>
+        </div>
+      </div>
+      <div class="about-hero-note">
+        <span class="about-note-mark" aria-hidden="true">FP</span>
+        <p class="about-note-label">Nossa essência</p>
+        <p class="about-note-title">Vozes locais. Ideias que circulam. Histórias que ficam.</p>
+        <p class="about-note-copy">Um jornal escolar construído com participação, responsabilidade editorial e respeito por quem faz parte da comunidade.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="about-directory" id="about-directory" aria-labelledby="about-community-heading">
+    <div class="about-directory-shell">
+      <div class="about-search-panel">
+        <div class="about-search-title"><span class="about-search-icon" aria-hidden="true">⌕</span><div><p class="about-eyebrow">Comunidade escolar</p><h2 id="about-community-heading" class="mt-1 text-2xl sm:text-3xl font-extrabold">Conheça quem faz a Folha</h2></div></div>
+        <p class="mt-3 max-w-3xl text-sm leading-6">Pesquise estudantes e integrantes cadastrados pelo nome, título atribuído ou histórico de participação.</p>
+        <div class="about-search-controls"><label class="sr-only" for="about-profile-search">Pesquisar nomes, títulos ou histórico</label><input class="about-search-input" id="about-profile-search" placeholder="Pesquisar nome ou título atribuído…" autocomplete="off"><label class="sr-only" for="about-profile-sort">Classificar perfis</label><select class="about-search-select" id="about-profile-sort"><option value="achievements">Mais conquistas</option><option value="contributions">Mais contribuições</option><option value="year">Ano de cadastro</option><option value="name">Nome</option></select></div>
+        <div class="about-profile-grid" id="about-profile-grid" aria-live="polite"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="about-principles" aria-labelledby="about-purpose-heading">
+    <div class="about-content-width">
+      <div class="about-section-heading">
+        <p class="about-eyebrow">O que nos orienta</p>
+        <h2 id="about-purpose-heading">Informação com propósito e cuidado.</h2>
+        <p>Conheça os princípios que orientam a proposta editorial e a estrutura digital da Folha.</p>
+      </div>
+      <div class="about-info-grid">
+        <article class="about-info-card" id="about-mission">
+          <span class="about-card-index">01 / PROPÓSITO</span>
+          <span class="about-card-icon" aria-hidden="true">✳</span>
+          <h3>Missão e propósito</h3>
+          <p>Dar voz aos estudantes, valorizar a produção de conteúdos locais, incentivar a escrita e promover a participação ativa da comunidade escolar.</p>
+          <p>O jornal abre espaço para notícias, ideias, projetos, conquistas e acontecimentos que merecem ser registrados e compartilhados.</p>
+        </article>
+        <article class="about-info-card" id="about-editorial-guidelines">
+          <span class="about-card-index">02 / RESPONSABILIDADE</span>
+          <span class="about-card-icon" aria-hidden="true">✓</span>
+          <h3>Diretrizes e conduta editorial</h3>
+          <p>A redação busca confirmar as informações antes da publicação, tratar fontes e pessoas com respeito e corrigir imprecisões quando forem identificadas.</p>
+          <ul>
+            <li><strong>Veracidade:</strong> cuidado com fatos, contexto e fontes.</li>
+            <li><strong>Respeito:</strong> consideração pela diversidade e pela privacidade da comunidade.</li>
+            <li><strong>Curadoria:</strong> matérias passam por análise editorial antes de serem publicadas.</li>
+            <li><strong>Responsabilidade:</strong> conteúdos devem contribuir para uma conversa escolar construtiva.</li>
+          </ul>
+        </article>
+        <article class="about-info-card" id="about-technology">
+          <span class="about-card-index">03 / TRANSPARÊNCIA</span>
+          <span class="about-card-icon" aria-hidden="true">⌘</span>
+          <h3>Ferramentas e tecnologias</h3>
+          <p>A plataforma combina tecnologias web com serviços de dados e mídia para organizar a publicação, os perfis e as contribuições da comunidade.</p>
+          <div class="about-tech-list">
+            <span>HTML</span><span>CSS</span><span>JavaScript</span><span>Firebase Authentication</span><span>Cloud Firestore</span><span>Cloud Functions</span><span>Cloudinary</span><span>Service Worker</span>
+          </div>
+          <p class="about-tech-note">O Service Worker dá suporte a recursos de notificação do navegador. Instalação como PWA e funcionamento offline não são anunciados como garantidos sem validação específica dessas capacidades.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="about-credits" aria-labelledby="about-credits-heading">
+    <div class="about-content-width about-credits-layout">
+      <div class="about-section-heading about-credits-heading">
+        <p class="about-eyebrow">Reconhecimento</p>
+        <h2 id="about-credits-heading">Uma iniciativa feita com apoio e dedicação.</h2>
+        <p>O projeto é parte de uma comunidade escolar que ensina, aprende, orienta e compartilha conhecimento.</p>
+      </div>
+      <div class="about-credit-list">
+        <article class="about-credit-item">
+          <span class="about-credit-icon" aria-hidden="true">◎</span>
+          <div><p class="about-credit-label">Orientação institucional</p><h3>Professores orientadores, direção escolar e apoios pedagógicos</h3><p>Reconhecimento à orientação institucional e ao apoio pedagógico relacionado à iniciativa.</p></div>
+        </article>
+        <article class="about-credit-item about-credit-developer">
+          <span class="about-credit-icon" aria-hidden="true">⌘</span>
+          <div><p class="about-credit-label">Idealização e desenvolvimento técnico</p><h3>Maicon Sandriel Ojeda da Rocha</h3><p>Idealização e construção da arquitetura digital da plataforma Folha do Paiquerê.</p></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+
+  <div aria-live="polite" class="sr-only" id="accessibility-status"></div>
+</main>
+<footer class="about-footer"><div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10"><div class="grid grid-cols-1 md:grid-cols-3 gap-8"><div><h2 class="text-xl font-extrabold text-white">Folha do Paiquerê</h2><p class="mt-2 text-sm text-[#81C784]">Jornal Escolar</p><p class="mt-4 text-sm text-slate-300">Colégio Estadual do Campo Antônio Batista do Nascimento - EF II / EM</p><p class="mt-2 text-sm">folhadopaiquere@gmail.com</p></div><div><h3 class="text-sm font-bold uppercase tracking-wide text-white">Acesso</h3><div class="mt-4 space-y-2 text-sm"><a class="block hover:text-[#81C784]" href="index.html">Início</a><a class="block hover:text-[#81C784]" href="noticias.html">Notícias</a><a class="block hover:text-[#81C784]" href="participar.html">Participar</a><a class="block hover:text-[#81C784]" href="conquistas.html">Conquistas</a><a class="block hover:text-[#81C784]" href="sobre.html">Sobre</a></div></div><div><h3 class="text-sm font-bold uppercase tracking-wide text-white">Acessibilidade</h3><div class="mt-5 flex items-center justify-center md:justify-end"><img class="footer-school-crest h-24 w-24 rounded-full object-cover" src="assets/branding/brasao-escola.jpeg" alt="Brasão do Colégio Estadual do Campo Antônio Batista do Nascimento"></div><p class="mt-4 text-sm text-slate-300">Tema, ajuste do texto e notificações disponíveis.</p></div></div><div class="mt-8 border-t border-slate-700 pt-5 text-xs text-slate-400">© 2026 Folha do Paiquerê. Todos os direitos reservados.</div></div></footer>
+<script src="firebase-config.js"></script><script src="cloudinary-config.js"></script><script type="module" src="firebase-client.js"></script><script defer src="notifications.js"></script><script defer="" src="storage.js"></script><script defer="" src="app.js"></script>
+<script defer src="fp-v166-public-mobile.js"></script>
+</body></html>

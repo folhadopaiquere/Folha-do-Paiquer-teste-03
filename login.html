@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="pt-BR">
+<head>
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Folha do Paiquerê">
+<link rel="apple-touch-icon" href="assets/branding/brasao-folha-paiquere-192.png">
+<link rel="icon" type="image/png" href="assets/branding/brasao-folha-paiquere.png">
+
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="#0B2545" name="theme-color"/>
+<title>Folha do Paiquerê</title>
+<script>
+    (() => {
+      try {
+        const savedTheme = localStorage.getItem("theme");
+        const systemDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        const theme = savedTheme === "dark" || savedTheme === "light" ? savedTheme : (systemDark ? "dark" : "light");
+        document.documentElement.classList.toggle("dark", theme === "dark");
+      window.addEventListener("storage", e => { if(e.key === "theme" && (e.newValue === "dark" || e.newValue === "light")) document.documentElement.classList.toggle("dark", e.newValue === "dark"); });
+        const savedScale = Number(localStorage.getItem("fp-font-scale"));
+        if (Number.isFinite(savedScale) && savedScale >= -2 && savedScale <= 3) {
+          document.documentElement.dataset.fontScale = String(savedScale);
+          document.documentElement.style.fontSize = `${100 + savedScale * 10}%`;
+        }
+      } catch (_) {}
+    })();
+  </script>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            folha: {50:"#F2F7F3",100:"#E8F2E9",300:"#81C784",700:"#2E7D32",800:"#1B5E20"}
+          }
+        }
+      }
+    };
+  </script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>
+:root{--access-bar-height:56px}
+html{font-size:100%}
+html[data-font-scale="-2"]{font-size:80%}
+html[data-font-scale="-1"]{font-size:90%}
+html[data-font-scale="0"]{font-size:100%}
+html[data-font-scale="1"]{font-size:110%}
+html[data-font-scale="2"]{font-size:120%}
+html[data-font-scale="3"]{font-size:130%}
+*{box-sizing:border-box}
+body{margin:0;padding-top:0;font-family:Inter,system-ui,sans-serif;background:#F8F9FA;color:#1A1D1A}
+.dark body{background:#121212;color:#E0E0E0}
+:focus-visible{outline:3px solid #81C784;outline-offset:3px}
+.skip-link{position:fixed;top:.75rem;left:.75rem;z-index:10000;transform:translateY(-150%);background:#1B5E20;color:#fff;padding:.75rem 1rem;border-radius:.5rem;font-weight:700}
+.skip-link:focus{transform:translateY(0)}
+.accessibility-bar{position:fixed;right:1rem;bottom:1rem;top:auto;left:auto;width:auto;min-height:0;z-index:9999;background:#fff;border:1px solid #D5DDD6;border-radius:.9rem;box-shadow:0 8px 24px rgba(0,0,0,.14);padding:.4rem}
+.dark .accessibility-bar{position:fixed;right:1rem;bottom:1rem;top:auto;left:auto;width:auto;min-height:0;z-index:9999;background:#fff;border:1px solid #D5DDD6;border-radius:.9rem;box-shadow:0 8px 24px rgba(0,0,0,.14);padding:.4rem}
+.access-btn{min-width:2.35rem;height:2.35rem;display:inline-flex;align-items:center;justify-content:center;gap:.35rem;border:1px solid #B8C3BA;border-radius:.5rem;background:#fff;color:#1A1D1A;font-weight:700;white-space:nowrap;cursor:pointer}
+.access-btn:hover{background:#F2F7F3;border-color:#2E7D32;color:#1B5E20}
+.dark .access-btn{background:#242424;border-color:#4A4A4A;color:#E0E0E0}
+.dark .access-btn:hover{background:#2D382E;border-color:#81C784;color:#81C784}
+.brand-mark{width:2.75rem;height:2.75rem;border-radius:.75rem;display:grid;place-items:center;background:#2E7D32;color:#fff;flex:0 0 auto}
+.dark .brand-mark{background:#81C784;color:#121212}
+.panel-surface{background:#fff;border:1px solid #D3DCD5;border-radius:1rem;box-shadow:0 5px 16px rgba(15,23,42,.09)}
+.dark .panel-surface{background:#242424;border-color:#3A3A3A}
+.panel-input{width:100%;border:1px solid #B8C3BA;border-radius:.65rem;background:#fff;color:#1A1D1A;padding:.7rem .8rem}
+.dark .panel-input{background:#1E1E1E;border-color:#4A4A4A;color:#E0E0E0}
+.panel-input:focus{border-color:#2E7D32}
+.btn-primary{background:#2E7D32;color:#fff}
+.btn-primary:hover{background:#1B5E20}
+.dark .btn-primary{background:#81C784;color:#121212}
+.dark .btn-primary:hover{background:#A5D6A7}
+.btn-neutral{background:#2F3430;color:#fff}
+.btn-neutral:hover{background:#1A1D1A}
+.btn-soft{background:#F2F7F3;color:#1B5E20;border:1px solid #A9D4AB}
+.btn-soft:hover{background:#E8F2E9}
+.dark .btn-soft{background:#2D382E;color:#81C784;border-color:#355A38}
+.badge-pendente,.badge-ajustes{background:#F3E9C7;color:#5E4E1A}
+.badge-aprovado{background:#DCECDC;color:#1B5E20}
+.badge-admin{background:#DCECDC;color:#1B5E20}
+.badge-editor{background:#E8F2E9;color:#1B5E20}
+.dark .badge-pendente,.dark .badge-ajustes{background:#4A4226;color:#F0D98A}
+.dark .badge-aprovado,.dark .badge-admin,.dark .badge-editor{background:#2D382E;color:#81C784}
+.tab-active{background:#2E7D32;color:#fff}
+.dark .tab-active{background:#81C784;color:#121212}
+.note{border-left:4px solid #2E7D32;background:#F2F7F3}
+.dark .note{border-left-color:#81C784;background:#242D25}
+@media(max-width:480px){.accessibility-bar{right:.55rem;bottom:.55rem;padding:.3rem}.access-btn{font-size:.72rem}
+
+  :root{--access-bar-height:52px}
+  .access-btn{min-width:2.15rem;width:2.15rem;height:2.15rem;padding:0}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{transition-duration:.01ms!important;animation-duration:.01ms!important;scroll-behavior:auto!important}
+}
+</style><style id="fp-visual-density">.panel-surface,.achievement-card,.creative-card,.news-card,.mobile-block-card{box-shadow:0 5px 18px rgba(15,23,42,.10)!important}.dark .panel-surface,.dark .achievement-card,.dark .creative-card,.dark .news-card,.dark .mobile-block-card{box-shadow:0 5px 18px rgba(0,0,0,.24)!important}</style>
+<script defer="" src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script defer="" src="supabase-config.js"></script>
+<style id="fp-final-polish">
+html{scroll-behavior:smooth}*,*::before,*::after{box-sizing:border-box}img,video{max-width:100%}button,input,select,textarea{font:inherit}button,a,input,select,textarea{outline-color:#2E7D32}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid rgba(46,125,50,.32);outline-offset:2px}.site-input::placeholder{color:#667067;opacity:1}.dark .site-input::placeholder{color:#AAB4AC;opacity:1}.site-input{min-height:44px}.panel-surface{overflow-wrap:anywhere}.table-wrap,table{max-width:100%}@media(max-width:767px){body{overflow-x:hidden}.max-w-7xl,.max-w-\[1500px\]{width:100%}main{padding-left:1rem!important;padding-right:1rem!important}.site-input{font-size:16px}.accessibility-bar{max-width:calc(100vw - 1rem)}button,.access-btn{min-height:44px}news-poll{padding:1rem;margin:1.5rem 0}.poll-options button{padding:.8rem .75rem}.poll-footer{display:grid!important;grid-template-columns:1fr;gap:.75rem}.poll-submit{width:100%}}@media(min-width:768px) and (max-width:1279px){main{padding-left:1.25rem!important;padding-right:1.25rem!important}}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+.dark button:focus-visible,.dark a:focus-visible,.dark input:focus-visible,.dark select:focus-visible,.dark textarea:focus-visible{outline-color:#81C784}
+</style>
+<style id="fp-v27-global-polish">
+/* v27 — acabamento visual global: proporção, conforto e acessibilidade */
+:root{
+  --fp-bg:#F6F8F6;
+  --fp-surface:#FFFFFF;
+  --fp-surface-soft:#F2F7F3;
+  --fp-line:#DDE5DE;
+  --fp-line-strong:#C9D5CC;
+  --fp-text:#1A1D1A;
+  --fp-muted:#667067;
+  --fp-green:#2E7D32;
+  --fp-green-deep:#1B5E20;
+  --fp-green-light:#81C784;
+}
+html{scroll-padding-top:1rem}
+body{background:var(--fp-bg);color:var(--fp-text);line-height:1.55;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.dark body{background:#111411;color:#E5EAE6}
+main{min-height:calc(100vh - 15rem)}
+button,.btn-primary,.btn-neutral,.btn-soft,.access-btn,a,input,select,textarea{transition:background-color .16s ease,border-color .16s ease,color .16s ease,box-shadow .16s ease,transform .16s ease}
+button:not(:disabled):hover,.btn-primary:not(:disabled):hover,.btn-neutral:not(:disabled):hover,.btn-soft:not(:disabled):hover{transform:translateY(-1px)}
+button:active,.btn-primary:active,.btn-neutral:active,.btn-soft:active{transform:translateY(0)}
+.btn-primary{min-height:44px;border-radius:.8rem!important;background:var(--fp-green);color:#fff;border:1px solid var(--fp-green);padding:.65rem 1rem;font-weight:800;box-shadow:0 4px 12px rgba(46,125,50,.12)}
+.dark .btn-primary{background:var(--fp-green-light);border-color:var(--fp-green-light);color:#121212}
+.btn-soft{min-height:44px;border-radius:.8rem!important;background:var(--fp-surface-soft);color:var(--fp-green-deep);border:1px solid #CFE0D1;padding:.65rem 1rem}
+.dark .btn-soft{background:#243026;color:var(--fp-green-light);border-color:#3A5140}
+.btn-neutral{min-height:44px;border-radius:.8rem!important;background:var(--fp-surface);color:var(--fp-text);border:1px solid var(--fp-line-strong);padding:.65rem 1rem}
+.dark .btn-neutral{background:#1E211F;color:#E2E7E3;border-color:#3B433D}
+.site-input,.about-search-input,.about-search-select{border-radius:.82rem!important;border-color:var(--fp-line-strong)!important;background:#fff!important;box-shadow:0 1px 1px rgba(15,23,42,.02)}
+.site-input:focus,.about-search-input:focus,.about-search-select:focus{box-shadow:0 0 0 4px rgba(129,199,132,.16)!important}
+.dark .site-input,.dark .about-search-input,.dark .about-search-select{background:#1D211E!important;border-color:#455048!important;color:#E5EAE6!important}
+.panel-surface,.news-card,.achievement-card,.creative-card,.school-notice-card,.comment-item,.comment-composer,.about-profile-card,.profile-page-card{border-radius:1.1rem!important}
+.panel-surface,.news-card,.achievement-card,.creative-card,.school-notice-card,.comment-item,.about-profile-card,.profile-page-card{box-shadow:0 8px 26px rgba(15,23,42,.07)!important}
+.dark .panel-surface,.dark .news-card,.dark .achievement-card,.dark .creative-card,.dark .school-notice-card,.dark .comment-item,.dark .about-profile-card,.dark .profile-page-card{box-shadow:0 8px 26px rgba(0,0,0,.22)!important}
+img{border-radius:inherit}
+.author-profile-link{min-height:32px;padding:.12rem .25rem;border-radius:999px}
+.author-profile-link:hover{background:#F2F7F3;color:var(--fp-green-deep)}
+.dark .author-profile-link:hover{background:#243026;color:var(--fp-green-light)}
+.author-profile-mini,.author-profile-mini img{width:30px!important;height:30px!important;min-width:30px!important;min-height:30px!important;max-width:none!important;max-height:none!important;border-radius:999px!important}
+.accessibility-bar{backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.access-btn{border-radius:.72rem!important}
+.access-btn:hover{background:#F2F7F3!important;color:var(--fp-green-deep)}
+.dark .access-btn:hover{background:#242D25!important;color:var(--fp-green-light)}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:#B9C7BC;border-radius:999px;border:3px solid transparent;background-clip:padding-box}
+.dark ::-webkit-scrollbar-thumb{background:#4D5A50;border-color:transparent}
+::selection{background:#CFE8D0;color:#153719}
+.dark ::selection{background:#355A3A;color:#EFF7F0}
+@media(max-width:767px){
+  main{min-height:calc(100vh - 11rem)}
+  h1.text-6xl{font-size:2.35rem!important;line-height:1.08!important}
+  h1.text-5xl{font-size:2.1rem!important;line-height:1.1!important}
+  h1.text-4xl{font-size:1.95rem!important;line-height:1.12!important}
+  h2.text-4xl{font-size:1.75rem!important}
+  h2.text-3xl{font-size:1.55rem!important}
+  .panel-surface,.news-card,.achievement-card,.creative-card,.school-notice-card{box-shadow:0 5px 18px rgba(15,23,42,.06)!important}
+  .dark .panel-surface,.dark .news-card,.dark .achievement-card,.dark .creative-card,.dark .school-notice-card{box-shadow:0 5px 18px rgba(0,0,0,.18)!important}
+}
+@media(min-width:768px) and (max-width:1199px){
+  main{padding-top:2.5rem!important;padding-bottom:4rem!important}
+}
+@media(prefers-reduced-motion:reduce){button,.btn-primary,.btn-neutral,.btn-soft,a{transition:none!important}button:hover,.btn-primary:hover,.btn-neutral:hover,.btn-soft:hover{transform:none!important}}
+</style>
+<style id="fp-v83-elegant-polish">
+:root{--fp-bg:#F5F8F5;--fp-surface:#FFFFFF;--fp-line:#DCE5DE;--fp-line-soft:#E8EEE9}
+body{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body>header{box-shadow:0 1px 0 rgba(27,94,32,.05),0 5px 18px rgba(15,23,42,.025)}
+.dark body>header{box-shadow:0 1px 0 rgba(129,199,132,.08),0 5px 18px rgba(0,0,0,.12)}
+.hero-grid{background-image:none!important}
+.panel-surface,.news-card,.achievement-card,.creative-card,.school-notice-card,.comment-item,.comment-composer,.about-profile-card,.profile-page-card{border-color:var(--fp-line)!important;box-shadow:0 7px 22px rgba(15,23,42,.055)!important}
+.dark .panel-surface,.dark .news-card,.dark .achievement-card,.dark .creative-card,.dark .school-notice-card,.dark .comment-item,.dark .comment-composer,.dark .about-profile-card,.dark .profile-page-card{border-color:#303A32!important;box-shadow:0 7px 22px rgba(0,0,0,.17)!important}
+.btn-primary{box-shadow:0 4px 12px rgba(46,125,50,.09)!important}
+.btn-soft,.btn-neutral{box-shadow:0 2px 8px rgba(15,23,42,.025)!important}
+.site-input{box-shadow:0 1px 1px rgba(15,23,42,.018)!important}
+.site-input:focus{box-shadow:0 0 0 3px rgba(129,199,132,.17)!important}
+.accessibility-bar{box-shadow:0 6px 18px rgba(15,23,42,.10)!important}
+@media(max-width:767px){body>header{box-shadow:0 1px 0 rgba(27,94,32,.04),0 3px 12px rgba(15,23,42,.02)}}
+@media(prefers-reduced-motion:reduce){*{transition-duration:.01ms!important;animation-duration:.01ms!important}}
+</style>
+<style id="fp-v83-poll-polish">
+.news-poll .poll-options button{display:flex;align-items:center;gap:.65rem}
+.news-poll .poll-option-label{flex:1;min-width:0}
+.news-poll .poll-option-marker{width:1rem;height:1rem;flex:0 0 1rem;border:2px solid #9AA59D;border-radius:50%}
+.news-poll .poll-options button.active .poll-option-marker{border-color:#2E7D32;box-shadow:inset 0 0 0 3px #fff;background:#2E7D32}
+.news-poll .poll-vote-count{margin-left:auto;min-width:2rem;padding:.22rem .45rem;border:1px solid #D5DDD6;border-radius:999px;background:#F2F7F3;color:#1B5E20;text-align:center;font-size:.68rem;font-weight:900;line-height:1.2}
+.dark .news-poll .poll-option-marker{border-color:#69746D}
+.dark .news-poll .poll-options button.active .poll-option-marker{border-color:#81C784;background:#81C784;box-shadow:inset 0 0 0 3px #2D382E}
+.dark .news-poll .poll-vote-count{border-color:#394139;background:#202620;color:#81C784}
+</style>
+<link rel="icon" type="image/png" href="assets/branding/brasao-folha-paiquere.png">
+<style id="fp-v92-branding">
+.brand-mark{background:transparent!important;padding:0!important;width:3.2rem!important;height:3.2rem!important;border-radius:0!important;overflow:visible!important}
+.brand-mark img{width:100%!important;height:100%!important;object-fit:contain!important;border-radius:0!important;display:block!important}
+.footer-school-crest{background:#fff;box-shadow:0 4px 12px rgba(0,0,0,.18);display:block}
+</style>
+
+<style id="fp-v93-responsive-polish">
+/* v93 — somente acabamento responsivo solicitado */
+.brand-mark{width:3.8rem!important;height:3.8rem!important;flex:0 0 3.8rem!important}
+#speech-toggle{min-width:0!important;max-width:100%;flex:0 1 auto;min-height:44px;height:auto;white-space:nowrap!important;overflow:visible;line-height:1.2;display:inline-flex;align-items:center;justify-content:center;align-self:stretch;flex-direction:row}
+#speech-toggle #speech-label{min-width:0;white-space:nowrap!important;overflow:visible;text-align:center}
+@media(max-width:640px){
+  .brand-mark{width:3.5rem!important;height:3.5rem!important;flex-basis:3.5rem!important}
+  #speech-toggle{flex:1 1 100%;width:auto;padding:.7rem .9rem!important;gap:.4rem}
+}
+</style>
+<link rel="stylesheet" href="fp-v98-visual-polish.css">
+  <script defer src="pwa.js"></script>
+
+<link rel="stylesheet" href="fp-v153-public-refresh.css">
+<link rel="stylesheet" href="fp-v154-public-compact.css">
+<link rel="stylesheet" href="fp-v170-polish.css">
+  <link rel="stylesheet" href="fp-v181-interface-polish.css">
+</head>
+<link rel="stylesheet" href="fp-v168-auth-loading.css">
+<body class="antialiased">
+<div id="fp-auth-loading" class="fp-auth-loading" data-auth-loading-mode="login" hidden role="status" aria-live="polite" aria-busy="false" aria-label="Carregando a Área do Estudante"><div class="fp-auth-loading-card"><img src="assets/branding/brasao-folha-paiquere.png" alt="Brasão da Folha do Paiquerê"><p class="fp-auth-loading-message" data-auth-loading-message>Verificando seu acesso…</p><span class="fp-auth-loading-indicator" aria-hidden="true"><span></span><span></span><span></span></span></div></div>
+<a class="skip-link" href="#conteudo-principal">Pular para o conteúdo principal</a>
+<div aria-label="Ferramentas de acessibilidade" class="accessibility-bar" role="region">
+<div class="flex items-center gap-1.5">
+<div class="ml-auto flex items-center gap-1.5 sm:gap-2">
+<button aria-label="Diminuir tamanho da fonte" class="access-btn" id="font-decrease" type="button">A-</button>
+<button aria-label="Aumentar tamanho da fonte" class="access-btn" id="font-increase" type="button">A+</button>
+<button aria-label="Alternar tema" class="access-btn" id="theme-toggle" type="button"><span aria-hidden="true" id="theme-icon">🌙</span><span class="sr-only" id="theme-label">Modo escuro</span></button><button aria-label="Ativar notificações" aria-pressed="false" class="access-btn" id="notification-toggle" type="button"><span aria-hidden="true" id="notification-icon">🔔</span><span class="sr-only" id="notification-label">Notificações desativadas</span></button>
+
+</div>
+</div>
+</div>
+<div class="min-h-[calc(100vh-var(--access-bar-height))] flex items-center justify-center px-4 py-10">
+<main aria-labelledby="login-title" class="w-full max-w-md" id="conteudo-principal">
+<section class="panel-surface p-6 sm:p-8">
+<a class="text-sm font-bold text-[#2E7D32] dark:text-[#81C784]" href="index.html">← Voltar ao portal</a>
+<div class="mt-6">
+<p class="text-sm font-bold uppercase tracking-wide text-[#2E7D32] dark:text-[#81C784]">Área restrita</p>
+<h1 class="mt-2 text-3xl font-extrabold" id="login-title">Entrar no jornal</h1>
+<p class="mt-3 text-sm leading-6 text-slate-600 dark:text-slate-400">Somente e-mails autorizados pela redação podem acessar o painel.</p>
+</div>
+<form class="mt-8" id="login-form" novalidate="">
+<label class="block text-sm font-bold" for="login-email">E-mail</label>
+<input autocomplete="email" class="panel-input mt-2" id="login-email" placeholder="seunome@escola.pr.gov.br" required="" type="email"/>
+<label class="block text-sm font-bold mt-5" for="login-password">Senha</label>
+<input autocomplete="current-password" class="panel-input mt-2" id="login-password" placeholder="Digite sua senha" required="" type="password"/>
+<div class="hidden" id="login-alert" role="alert"></div>
+<button class="mt-5 w-full rounded-lg btn-primary px-4 py-3 text-sm font-bold" type="submit">Entrar</button>
+</form>
+<div class="mt-6 rounded-lg note p-4 text-xs leading-5 text-slate-700 dark:text-slate-300">
+<strong>Protótipo local:</strong> a allowlist, sessão e permissões são simuladas com localStorage. Para produção, use autenticação real, sessões seguras e autorização no servidor.
+      </div>
+</section>
+</main>
+</div>
+<div aria-live="polite" class="sr-only" id="accessibility-status"></div>
+<script src="firebase-config.js"></script><script src="cloudinary-config.js"></script><script type="module" src="firebase-client.js"></script><script defer src="notifications.js"></script><script defer src="fp-v168-auth-loading.js"></script><script defer="" src="portal.js"></script>
+</body>
+</html>

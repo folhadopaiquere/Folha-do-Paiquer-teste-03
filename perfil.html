@@ -1,0 +1,162 @@
+<!doctype html><html lang="pt-BR"><head>
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Folha do Paiquerê">
+<link rel="apple-touch-icon" href="assets/branding/brasao-folha-paiquere-192.png">
+<link rel="icon" type="image/png" href="assets/branding/brasao-folha-paiquere.png">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Perfil acadêmico na Folha do Paiquerê"><title>Folha do Paiquerê</title><script src="https://cdn.tailwindcss.com"></script><script>tailwind.config={darkMode:'class'};</script><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"><style>body{font-family:Inter,system-ui,sans-serif}.panel-surface{background:#fff;border:1px solid #dfe6e0;border-radius:1rem;box-shadow:0 5px 18px rgba(15,23,42,.10)}.dark .panel-surface{background:#1E1E1E;border-color:#303830;box-shadow:0 5px 18px rgba(0,0,0,.24)}.author-profile-link{display:inline-flex;align-items:center;gap:.5rem;color:inherit;text-decoration:none}.profile-page-avatar{width:68px;height:68px;border-radius:999px;object-fit:cover;border:3px solid #E8F2E9}.profile-page-placeholder{display:flex;align-items:center;justify-content:center;background:#E8F2E9;color:#1B5E20;font-weight:900;font-size:1.6rem}.school-notice-card{background:#fff;border:1px solid #dfe6e0;border-radius:1rem;overflow:hidden}.dark .school-notice-card{background:#1E1E1E;border-color:#303830}button:focus-visible,a:focus-visible{outline:3px solid rgba(46,125,50,.32);outline-offset:2px}.profile-page-card{background:linear-gradient(135deg,#F7FAF7,#FFFFFF);border:1px solid #DDE6DF;border-radius:1.25rem;box-shadow:0 8px 26px rgba(15,23,42,.08)}.dark .profile-page-card{background:linear-gradient(135deg,#202820,#1E1E1E);border-color:#303A32;box-shadow:0 8px 26px rgba(0,0,0,.24)}.profile-stat-box{border:1px solid #DFE7E0;border-radius:.9rem;background:#F5F8F5;padding:.9rem 1rem}.dark .profile-stat-box{background:#242D25;border-color:#303A32}
+.profile-stat-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.75rem}.profile-stat-box{display:block;width:100%;text-align:left;cursor:pointer;transition:border-color .18s ease,box-shadow .18s ease,transform .18s ease}.profile-stat-box:hover{transform:translateY(-1px)}.profile-stat-box.is-active{border-color:#81B886;box-shadow:0 6px 18px rgba(46,125,50,.10)}.dark .profile-stat-box.is-active{border-color:#5C8662;box-shadow:0 6px 18px rgba(129,199,132,.08)}.profile-collapsible-section{border:1px solid #DFE7E0;border-radius:1.1rem;background:#fff;padding:1.15rem 1.2rem}.dark .profile-collapsible-section{border-color:#303A32;background:#1E1E1E}.profile-collapsible-header{display:flex;align-items:center;justify-content:space-between;gap:1rem}.profile-content-grid{grid-template-columns:repeat(3,minmax(0,1fr));max-height:none!important;overflow:visible!important;padding:.1rem 0 .2rem}.profile-content-grid>p{min-height:0}@media(min-width:640px){.profile-stat-grid{grid-template-columns:repeat(5,minmax(0,1fr))}}@media(max-width:639px){.profile-collapsible-section{padding:1rem}}.profile-section-title{font-size:.72rem;font-weight:900;letter-spacing:.11em;text-transform:uppercase;color:#2E7D32}.dark .profile-section-title{color:#81C784}@media(max-width:767px){body{overflow-x:hidden}.profile-page-avatar{width:64px;height:64px}}.profile-content-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.25rem;max-height:none;overflow:visible;padding:.1rem .15rem .35rem}.profile-content-card{min-width:0}.profile-content-grid::-webkit-scrollbar{width:10px}.profile-content-grid::-webkit-scrollbar-thumb{background:#B8C6BA;border-radius:999px}.dark .profile-content-grid::-webkit-scrollbar-thumb{background:#3F4A42}@media(max-width:1023px){.profile-content-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:767px){.profile-content-grid{grid-template-columns:1fr}}.profile-content-grid>p{min-height:4rem}
+<style id="fp-v114-profile-cards">
+.achievement-card{overflow:hidden;border:1px solid #D3DDD5;border-radius:1rem;background:#fff;box-shadow:0 5px 18px rgba(15,23,42,.09)}
+.dark .achievement-card{background:#1E1E1E;border-color:#333A34}
+.achievement-media{aspect-ratio:16/10;background:#F2F7F3;overflow:hidden}
+.dark .achievement-media{background:#242D25}
+.achievement-media img{width:100%;height:100%;object-fit:cover}
+.achievement-placeholder{height:100%;display:grid;place-items:center;font-size:2rem;font-weight:900;color:#2E7D32}
+.dark .achievement-placeholder{color:#81C784}
+.profile-reading-link{display:inline-flex!important;align-items:center;justify-content:center;gap:.35rem;padding:.55rem .8rem!important;border:1px solid #2E7D32;border-radius:.75rem;background:#F2F7F3;box-shadow:0 2px 8px rgba(46,125,50,.08);color:#1B5E20!important;text-decoration:none;min-height:40px}
+.profile-reading-link:hover{background:#E8F2E9;box-shadow:0 4px 12px rgba(46,125,50,.12)}
+.dark .profile-reading-link{border-color:#81C784;background:#243026;color:#81C784!important}
+.dark .profile-reading-link:hover{background:#2D382E}
+.profile-content-card>.achievement-card{height:100%}
+@media(max-width:767px){.profile-content-grid{gap:1rem}}
+</style><style id="fp-reading-credit-final">.credit-profile-link{color:#1B5E20;font-weight:800;text-decoration:underline;text-decoration-color:#B8D5BA;text-underline-offset:2px}.dark .credit-profile-link{color:#81C784;text-decoration-color:#4C7651}.reading-time{display:inline-flex;align-items:center;gap:.25rem;padding:.2rem .48rem;border-radius:999px;background:#F2F7F3;color:#1B5E20;font-weight:800;white-space:nowrap}.dark .reading-time{background:#242D25;color:#81C784}</style><style id="fp-v27-global-polish">
+/* v27 — acabamento visual global: proporção, conforto e acessibilidade */
+:root{
+  --fp-bg:#F6F8F6;
+  --fp-surface:#FFFFFF;
+  --fp-surface-soft:#F2F7F3;
+  --fp-line:#DDE5DE;
+  --fp-line-strong:#C9D5CC;
+  --fp-text:#1A1D1A;
+  --fp-muted:#667067;
+  --fp-green:#2E7D32;
+  --fp-green-deep:#1B5E20;
+  --fp-green-light:#81C784;
+}
+html{scroll-padding-top:1rem}
+body{background:var(--fp-bg);color:var(--fp-text);line-height:1.55;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.dark body{background:#111411;color:#E5EAE6}
+main{min-height:calc(100vh - 15rem)}
+button,.btn-primary,.btn-neutral,.btn-soft,.access-btn,a,input,select,textarea{transition:background-color .16s ease,border-color .16s ease,color .16s ease,box-shadow .16s ease,transform .16s ease}
+button:not(:disabled):hover,.btn-primary:not(:disabled):hover,.btn-neutral:not(:disabled):hover,.btn-soft:not(:disabled):hover{transform:translateY(-1px)}
+button:active,.btn-primary:active,.btn-neutral:active,.btn-soft:active{transform:translateY(0)}
+.btn-primary{min-height:44px;border-radius:.8rem!important;background:var(--fp-green);color:#fff;border:1px solid var(--fp-green);padding:.65rem 1rem;font-weight:800;box-shadow:0 4px 12px rgba(46,125,50,.12)}
+.dark .btn-primary{background:var(--fp-green-light);border-color:var(--fp-green-light);color:#121212}
+.btn-soft{min-height:44px;border-radius:.8rem!important;background:var(--fp-surface-soft);color:var(--fp-green-deep);border:1px solid #CFE0D1;padding:.65rem 1rem}
+.dark .btn-soft{background:#243026;color:var(--fp-green-light);border-color:#3A5140}
+.btn-neutral{min-height:44px;border-radius:.8rem!important;background:var(--fp-surface);color:var(--fp-text);border:1px solid var(--fp-line-strong);padding:.65rem 1rem}
+.dark .btn-neutral{background:#1E211F;color:#E2E7E3;border-color:#3B433D}
+.site-input,.about-search-input,.about-search-select{border-radius:.82rem!important;border-color:var(--fp-line-strong)!important;background:#fff!important;box-shadow:0 1px 1px rgba(15,23,42,.02)}
+.site-input:focus,.about-search-input:focus,.about-search-select:focus{box-shadow:0 0 0 4px rgba(129,199,132,.16)!important}
+.dark .site-input,.dark .about-search-input,.dark .about-search-select{background:#1D211E!important;border-color:#455048!important;color:#E5EAE6!important}
+.panel-surface,.news-card,.achievement-card,.creative-card,.school-notice-card,.comment-item,.comment-composer,.about-profile-card,.profile-page-card{border-radius:1.1rem!important}
+.panel-surface,.news-card,.achievement-card,.creative-card,.school-notice-card,.comment-item,.about-profile-card,.profile-page-card{box-shadow:0 8px 26px rgba(15,23,42,.07)!important}
+.dark .panel-surface,.dark .news-card,.dark .achievement-card,.dark .creative-card,.dark .school-notice-card,.dark .comment-item,.dark .about-profile-card,.dark .profile-page-card{box-shadow:0 8px 26px rgba(0,0,0,.22)!important}
+img{border-radius:inherit}
+.author-profile-link{min-height:32px;padding:.12rem .25rem;border-radius:999px}
+.author-profile-link:hover{background:#F2F7F3;color:var(--fp-green-deep)}
+.dark .author-profile-link:hover{background:#243026;color:var(--fp-green-light)}
+.author-profile-mini,.author-profile-mini img{width:30px!important;height:30px!important;min-width:30px!important;min-height:30px!important;max-width:none!important;max-height:none!important;border-radius:999px!important}
+.accessibility-bar{backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.access-btn{border-radius:.72rem!important}
+.access-btn:hover{background:#F2F7F3!important;color:var(--fp-green-deep)}
+.dark .access-btn:hover{background:#242D25!important;color:var(--fp-green-light)}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:#B9C7BC;border-radius:999px;border:3px solid transparent;background-clip:padding-box}
+.dark ::-webkit-scrollbar-thumb{background:#4D5A50;border-color:transparent}
+::selection{background:#CFE8D0;color:#153719}
+.dark ::selection{background:#355A3A;color:#EFF7F0}
+@media(max-width:767px){
+  main{min-height:calc(100vh - 11rem)}
+  h1.text-6xl{font-size:2.35rem!important;line-height:1.08!important}
+  h1.text-5xl{font-size:2.1rem!important;line-height:1.1!important}
+  h1.text-4xl{font-size:1.95rem!important;line-height:1.12!important}
+  h2.text-4xl{font-size:1.75rem!important}
+  h2.text-3xl{font-size:1.55rem!important}
+  .panel-surface,.news-card,.achievement-card,.creative-card,.school-notice-card{box-shadow:0 5px 18px rgba(15,23,42,.06)!important}
+  .dark .panel-surface,.dark .news-card,.dark .achievement-card,.dark .creative-card,.dark .school-notice-card{box-shadow:0 5px 18px rgba(0,0,0,.18)!important}
+}
+@media(min-width:768px) and (max-width:1199px){
+  main{padding-top:2.5rem!important;padding-bottom:4rem!important}
+}
+@media(prefers-reduced-motion:reduce){button,.btn-primary,.btn-neutral,.btn-soft,a{transition:none!important}button:hover,.btn-primary:hover,.btn-neutral:hover,.btn-soft:hover{transform:none!important}}
+</style>
+<style id="fp-v27-profile-polish">
+.profile-page-avatar{width:76px!important;height:76px!important;flex:0 0 76px!important;border-width:3px!important;box-shadow:0 6px 18px rgba(15,23,42,.10)}
+.profile-page-card{padding:1.4rem!important}
+.profile-stat-box{min-height:82px;display:flex;flex-direction:column;justify-content:center}
+@media(max-width:640px){.profile-page-avatar{width:62px!important;height:62px!important;flex-basis:62px!important}.profile-page-card{padding:1.05rem!important}.profile-stat-box{min-height:74px}}
+</style>
+
+<style id="fp-v83-elegant-polish">
+:root{--fp-bg:#F5F8F5;--fp-surface:#FFFFFF;--fp-line:#DCE5DE;--fp-line-soft:#E8EEE9}
+body{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body>header{box-shadow:0 1px 0 rgba(27,94,32,.05),0 5px 18px rgba(15,23,42,.025)}
+.dark body>header{box-shadow:0 1px 0 rgba(129,199,132,.08),0 5px 18px rgba(0,0,0,.12)}
+.hero-grid{background-image:none!important}
+.panel-surface,.news-card,.achievement-card,.creative-card,.school-notice-card,.comment-item,.comment-composer,.about-profile-card,.profile-page-card{border-color:var(--fp-line)!important;box-shadow:0 7px 22px rgba(15,23,42,.055)!important}
+.dark .panel-surface,.dark .news-card,.dark .achievement-card,.dark .creative-card,.dark .school-notice-card,.dark .comment-item,.dark .comment-composer,.dark .about-profile-card,.dark .profile-page-card{border-color:#303A32!important;box-shadow:0 7px 22px rgba(0,0,0,.17)!important}
+.btn-primary{box-shadow:0 4px 12px rgba(46,125,50,.09)!important}
+.btn-soft,.btn-neutral{box-shadow:0 2px 8px rgba(15,23,42,.025)!important}
+.site-input{box-shadow:0 1px 1px rgba(15,23,42,.018)!important}
+.site-input:focus{box-shadow:0 0 0 3px rgba(129,199,132,.17)!important}
+.accessibility-bar{box-shadow:0 6px 18px rgba(15,23,42,.10)!important}
+@media(max-width:767px){body>header{box-shadow:0 1px 0 rgba(27,94,32,.04),0 3px 12px rgba(15,23,42,.02)}}
+@media(prefers-reduced-motion:reduce){*{transition-duration:.01ms!important;animation-duration:.01ms!important}}
+</style>
+<style id="fp-v83-poll-polish">
+.news-poll .poll-options button{display:flex;align-items:center;gap:.65rem}
+.news-poll .poll-option-label{flex:1;min-width:0}
+.news-poll .poll-option-marker{width:1rem;height:1rem;flex:0 0 1rem;border:2px solid #9AA59D;border-radius:50%}
+.news-poll .poll-options button.active .poll-option-marker{border-color:#2E7D32;box-shadow:inset 0 0 0 3px #fff;background:#2E7D32}
+.news-poll .poll-vote-count{margin-left:auto;min-width:2rem;padding:.22rem .45rem;border:1px solid #D5DDD6;border-radius:999px;background:#F2F7F3;color:#1B5E20;text-align:center;font-size:.68rem;font-weight:900;line-height:1.2}
+.dark .news-poll .poll-option-marker{border-color:#69746D}
+.dark .news-poll .poll-options button.active .poll-option-marker{border-color:#81C784;background:#81C784;box-shadow:inset 0 0 0 3px #2D382E}
+.dark .news-poll .poll-vote-count{border-color:#394139;background:#202620;color:#81C784}
+</style>
+<link rel="icon" type="image/png" href="assets/branding/brasao-folha-paiquere.png">
+<style id="fp-v92-branding">
+.brand-mark{background:transparent!important;padding:0!important;width:3.2rem!important;height:3.2rem!important;border-radius:0!important;overflow:visible!important}
+.brand-mark img{width:100%!important;height:100%!important;object-fit:contain!important;border-radius:0!important;display:block!important}
+.footer-school-crest{background:#fff;box-shadow:0 4px 12px rgba(0,0,0,.18);display:block}
+</style>
+
+<style id="fp-v93-responsive-polish">
+/* v93 — somente acabamento responsivo solicitado */
+.brand-mark{width:3.8rem!important;height:3.8rem!important;flex:0 0 3.8rem!important}
+#speech-toggle{min-width:0!important;max-width:100%;flex:0 1 auto;min-height:44px;height:auto;white-space:nowrap!important;overflow:visible;line-height:1.2;display:inline-flex;align-items:center;justify-content:center;align-self:stretch;flex-direction:row}
+#speech-toggle #speech-label{min-width:0;white-space:nowrap!important;overflow:visible;text-align:center}
+@media(max-width:640px){
+  .brand-mark{width:3.5rem!important;height:3.5rem!important;flex-basis:3.5rem!important}
+  #speech-toggle{flex:1 1 100%;width:auto;padding:.7rem .9rem!important;gap:.4rem}
+}
+</style>
+<link rel="stylesheet" href="fp-v98-visual-polish.css">
+<style id="fp-v127-profile-socials">.profile-public-socials{display:flex;flex-wrap:wrap;gap:.55rem;margin-top:1rem}.profile-public-social-link{display:inline-flex;align-items:center;gap:.5rem;max-width:100%;padding:.55rem .75rem;border:1px solid #d5e2f5;border-radius:999px;background:#eff6ff;color:#1e3a8a;font-size:.8rem;font-weight:750;text-decoration:none;transition:background .16s ease,border-color .16s ease,transform .16s ease}.profile-public-social-link:hover{background:#e0edff;border-color:#b8cff0;transform:translateY(-1px)}.profile-public-social-link>span:first-child{display:inline-grid;place-items:center;min-width:1.35rem;height:1.35rem;border-radius:50%;background:rgba(37,99,235,.12);font-size:.85rem;font-weight:900}.profile-public-social-link>span:last-child{font-size:.72rem;opacity:.72}.dark .profile-public-social-link{background:#17243b;border-color:#2d4568;color:#bfdbfe}.dark .profile-public-social-link:hover{background:#1d3150;border-color:#46658e}</style>  <link rel="stylesheet" href="fp-v156-public-polish.css"><script defer src="pwa.js"></script>
+<link rel="stylesheet" href="fp-v153-public-refresh.css">
+<link rel="stylesheet" href="fp-v154-public-compact.css">
+  <link rel="stylesheet" href="fp-v157-polish.css">
+  <link rel="stylesheet" href="fp-v159-focused-polish.css">
+  <link rel="stylesheet" href="fp-v160-targeted-polish.css">
+  <link rel="stylesheet" href="fp-v161-polish.css">
+  <link rel="stylesheet" href="fp-v163-polish.css">
+  <link rel="stylesheet" href="fp-v164-polish.css">
+  <link rel="stylesheet" href="fp-v165-polish.css">
+  <link rel="stylesheet" href="fp-v166-public-mobile.css">
+  <link rel="stylesheet" href="fp-v167-public-mobile-polish.css">
+  <link rel="stylesheet" href="fp-v168-public-mobile-fixes.css">
+  <link rel="stylesheet" href="fp-v169-public-mobile-polish.css">
+<link rel="stylesheet" href="fp-v170-polish.css">
+<link rel="stylesheet" href="fp-v173-verified-fixes.css">
+<link rel="stylesheet" href="fp-v174-targeted-polish.css">
+<link rel="stylesheet" href="fp-v175-targeted-polish.css">
+<link rel="stylesheet" href="fp-v176-targeted-polish.css">
+<link rel="stylesheet" href="fp-v177-profile-visual-fix.css">
+  <link rel="stylesheet" href="fp-v181-interface-polish.css">
+  <link rel="stylesheet" href="fp-v182-profile-no-inner-scroll.css">
+</head>
+<body class="bg-[#F8F9FA] text-[#1A1D1A] dark:bg-[#121212] dark:text-[#E0E0E0]">
+<div id="fp-public-loading" class="fp-public-loading" role="status" aria-live="polite" aria-label="Carregando a Folha do Paiquerê"><img src="assets/branding/brasao-folha-paiquere.png" alt=""><span>Carregando a Folha do Paiquerê…</span></div><header class="fp-public-header sticky top-0 z-50 bg-white dark:bg-[#1E1E1E] border-b border-slate-200 dark:border-slate-800"><div class="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between gap-4"><a href="index.html" class="inline-flex items-center gap-2 font-extrabold"><span class="brand-mark"><img src="assets/branding/brasao-folha-paiquere.png" alt=""></span><span>Folha do Paiquerê</span></a><a href="noticias.html" class="text-sm font-bold text-[#2E7D32] dark:text-[#81C784]">Notícias</a></div></header><main class="max-w-7xl mx-auto px-4 sm:px-6 py-10" id="conteudo-principal"><div id="profile-page"></div></main><script src="firebase-config.js"></script><script src="cloudinary-config.js"></script><script type="module" src="firebase-client.js"></script><script defer src="notifications.js"></script><script defer src="app.js"></script><script defer src="fp-v166-public-mobile.js"></script>
+</body></html>

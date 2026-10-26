@@ -1,0 +1,35 @@
+{
+  "id": "./",
+  "name": "Folha do Paiquerê",
+  "short_name": "Folha Paiquerê",
+  "description": "Jornal escolar Folha do Paiquerê.",
+  "lang": "pt-BR",
+  "start_url": "./index.html?source=pwa",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": [
+    "standalone",
+    "minimal-ui"
+  ],
+  "orientation": "any",
+  "background_color": "#0B1730",
+  "theme_color": "#0B1730",
+  "categories": [
+    "education",
+    "news"
+  ],
+  "icons": [
+    {
+      "src": "./assets/branding/brasao-folha-paiquere-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./assets/branding/brasao-folha-paiquere-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

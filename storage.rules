@@ -1,0 +1,35 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    function signedIn() { return request.auth != null; }
+    function isImage() { return request.resource.contentType.matches('image/(jpeg|png|webp)'); }
+    function isVideo() { return request.resource.contentType.matches('video/.*'); }
+    function isDoc() { return request.resource.contentType.matches('application/pdf') || request.resource.contentType.matches('application/msword') || request.resource.contentType.matches('application/vnd.openxmlformats-officedocument.wordprocessingml.document') || request.resource.contentType.matches('text/plain'); }
+
+    match /users/{uid}/{allPaths=**} {
+      allow read: if true;
+      allow write: if signedIn() && request.auth.uid == uid
+        && isImage() && request.resource.size <= 2 * 1024 * 1024;
+    }
+
+    match /articles/{uid}/{allPaths=**} {
+      allow read: if true;
+      allow write: if signedIn() && request.auth.uid == uid
+        && (isImage() || isVideo()) && request.resource.size <= 8 * 1024 * 1024;
+    }
+
+    match /chat/{groupId}/{allPaths=**} {
+      allow read: if signedIn();
+      allow write: if signedIn()
+        && ((isImage() && request.resource.size <= 4 * 1024 * 1024)
+          || (isVideo() && request.resource.size <= 2.5 * 1024 * 1024));
+    }
+
+    match /suggestions/{id}/{allPaths=**} {
+      allow read: if signedIn();
+      allow write: if (signedIn() || request.resource != null)
+        && (isImage() || isDoc())
+        && request.resource.size <= 1.5 * 1024 * 1024;
+    }
+  }
+}

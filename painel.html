@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="pt-BR">
+<head>
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Folha do Paiquerê">
+<link rel="apple-touch-icon" href="assets/branding/brasao-folha-paiquere-192.png">
+<link rel="icon" type="image/png" href="assets/branding/brasao-folha-paiquere.png">
+
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="#10243e" name="theme-color"/>
+<title>Folha do Paiquerê</title>
+<script>
+    (() => {
+      try {
+        const savedTheme = localStorage.getItem("theme");
+        const systemDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        const theme = savedTheme === "dark" || savedTheme === "light" ? savedTheme : (systemDark ? "dark" : "light");
+        document.documentElement.classList.toggle("dark", theme === "dark");
+        const savedScale = Number(localStorage.getItem("fp-font-scale"));
+        if (Number.isFinite(savedScale) && savedScale >= -2 && savedScale <= 3) {
+          document.documentElement.dataset.fontScale = String(savedScale);
+          document.documentElement.style.fontSize = `${100 + savedScale * 10}%`;
+        }
+      } catch (_) {}
+    })();
+  </script>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            folha: {50:"#F2F7F3",100:"#E8F2E9",300:"#81C784",700:"#2E7D32",800:"#1B5E20"}
+          }
+        }
+      }
+    };
+  </script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>
+:root{--access-bar-height:56px}
+html{font-size:100%}
+html[data-font-scale="-2"]{font-size:80%}
+html[data-font-scale="-1"]{font-size:90%}
+html[data-font-scale="0"]{font-size:100%}
+html[data-font-scale="1"]{font-size:110%}
+html[data-font-scale="2"]{font-size:120%}
+html[data-font-scale="3"]{font-size:130%}
+*{box-sizing:border-box}
+body{margin:0;padding-top:0;font-family:Inter,system-ui,sans-serif;background:#F8F9FA;color:#1A1D1A}
+.dark body{background:#121212;color:#E0E0E0}
+:focus-visible{outline:3px solid #81C784;outline-offset:3px}
+.skip-link{position:fixed;top:.75rem;left:.75rem;z-index:10000;transform:translateY(-150%);background:#1B5E20;color:#fff;padding:.75rem 1rem;border-radius:.5rem;font-weight:700}
+.skip-link:focus{transform:translateY(0)}
+.accessibility-bar{position:fixed;right:1rem;bottom:1rem;top:auto;left:auto;width:auto;min-height:0;z-index:9999;background:#fff;border:1px solid #D5DDD6;border-radius:.9rem;box-shadow:0 8px 24px rgba(0,0,0,.14);padding:.4rem}
+.dark .accessibility-bar{position:fixed;right:1rem;bottom:1rem;top:auto;left:auto;width:auto;min-height:0;z-index:9999;background:#fff;border:1px solid #D5DDD6;border-radius:.9rem;box-shadow:0 8px 24px rgba(0,0,0,.14);padding:.4rem}
+.access-btn{min-width:2.35rem;height:2.35rem;display:inline-flex;align-items:center;justify-content:center;gap:.35rem;border:1px solid #B8C3BA;border-radius:.5rem;background:#fff;color:#1A1D1A;font-weight:700;white-space:nowrap;cursor:pointer}
+.access-btn:hover{background:#F2F7F3;border-color:#2E7D32;color:#1B5E20}
+.dark .access-btn{background:#242424;border-color:#4A4A4A;color:#E0E0E0}
+.dark .access-btn:hover{background:#2D382E;border-color:#81C784;color:#81C784}
+.brand-mark{width:2.75rem;height:2.75rem;border-radius:.75rem;display:grid;place-items:center;background:#2E7D32;color:#fff;flex:0 0 auto}
+.dark .brand-mark{background:#81C784;color:#121212}
+.panel-surface{background:#fff;border:1px solid #D3DCD5;border-radius:1rem;box-shadow:0 5px 16px rgba(15,23,42,.09)}
+.dark .panel-surface{background:#242424;border-color:#3A3A3A}
+.panel-input{width:100%;border:1px solid #B8C3BA;border-radius:.65rem;background:#fff;color:#1A1D1A;padding:.7rem .8rem}
+.dark .panel-input{background:#1E1E1E;border-color:#4A4A4A;color:#E0E0E0}
+.panel-input:focus{border-color:#2E7D32}
+.btn-primary{background:#2E7D32;color:#fff}
+.btn-primary:hover{background:#1B5E20}
+.dark .btn-primary{background:#81C784;color:#121212}
+.dark .btn-primary:hover{background:#A5D6A7}
+.btn-neutral{background:#2F3430;color:#fff}
+.btn-neutral:hover{background:#1A1D1A}
+.btn-soft{background:#F2F7F3;color:#1B5E20;border:1px solid #A9D4AB}
+.btn-soft:hover{background:#E8F2E9}
+.dark .btn-soft{background:#2D382E;color:#81C784;border-color:#355A38}
+.badge-pendente,.badge-ajustes,.status-pending,.status-adjust{background:#F3E9C7;color:#5E4E1A}.status-approved{background:#DCECDC;color:#1B5E20}
+.badge-aprovado{background:#DCECDC;color:#1B5E20}
+.badge-admin{background:#DCECDC;color:#1B5E20}
+.badge-editor{background:#E8F2E9;color:#1B5E20}
+.dark .badge-pendente,.dark .badge-ajustes{background:#4A4226;color:#F0D98A}
+.dark .badge-aprovado,.dark .badge-admin,.dark .badge-editor{background:#2D382E;color:#81C784}
+.tab-active{background:#2E7D32;color:#fff}
+.dark .tab-active{background:#81C784;color:#121212}
+.note{border-left:4px solid #2E7D32;background:#F2F7F3}
+.dark .note{border-left-color:#81C784;background:#242D25}
+@media(max-width:480px){.accessibility-bar{right:.55rem;bottom:.55rem;padding:.3rem}.access-btn{font-size:.72rem}
+
+  :root{--access-bar-height:52px}
+  .access-btn{min-width:2.15rem;width:2.15rem;height:2.15rem;padding:0}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{transition-duration:.01ms!important;animation-duration:.01ms!important;scroll-behavior:auto!important}
+}
+
+.poll-admin-count{white-space:nowrap}.news-poll{margin:2rem 0;padding:1.2rem;border:1px solid #D5DDD6;border-radius:1rem;background:#F8FAF8}.dark .news-poll{background:#1E241F;border-color:#3B463D}.news-poll h3{font-size:1.1rem;font-weight:800;margin:0}.poll-kind{font-size:.72rem;color:#69746D;margin:.35rem 0 .8rem}.poll-options{display:grid;gap:.55rem}.poll-options button{border:1px solid #C8D2CA;background:#fff;border-radius:.7rem;padding:.65rem .8rem;text-align:left;font-weight:700;cursor:pointer}.dark .poll-options button{background:#242424;color:#E0E0E0;border-color:#454A46}.poll-options button.active{background:#E8F2E9;border-color:#2E7D32;color:#1B5E20}.dark .poll-options button.active{background:#2D382E;color:#81C784}.poll-status{font-size:.75rem;font-weight:700;margin-top:.7rem;color:#1B5E20}.dark .poll-status{color:#81C784}
+</style>
+<style id="fp-v114-achievement-credit-polish">
+.credit-search-wrap{position:relative}.credit-search-wrap>span{position:absolute;left:.75rem;top:50%;transform:translateY(-50%);font-size:1.05rem;color:#657067;pointer-events:none}.credit-search{padding-left:2.1rem!important}.credit-options{display:grid;gap:.45rem;max-height:11rem;overflow:auto;padding:.55rem;border:1px solid #D9E2DA;border-radius:.85rem;background:#FAFCFA}.dark .credit-options{border-color:#303A32;background:#191D19}.credit-option{display:flex;align-items:center;gap:.6rem;padding:.55rem .6rem;border-radius:.65rem;cursor:pointer}.credit-option:hover{background:#F2F7F3}.dark .credit-option:hover{background:#242D25}.credit-option input{width:1rem;height:1rem;accent-color:#2E7D32}.credit-option-name{font-size:.82rem;font-weight:700;min-width:0}.credit-option-meta{font-size:.68rem;color:#758078;margin-left:auto}.credit-empty{padding:.7rem;text-align:center;font-size:.75rem;color:#7A857C}.credit-profile-link{color:#1B5E20;font-weight:800;text-decoration:none}.dark .credit-profile-link{color:#81C784}.credit-profile-link:hover{text-decoration:underline;text-underline-offset:2px}.credit-summary{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.45rem}.credit-chip{display:inline-flex;align-items:center;gap:.3rem;padding:.25rem .5rem;border-radius:999px;background:#E8F2E9;color:#1B5E20;font-size:.68rem;font-weight:800}.dark .credit-chip{background:#2D382E;color:#81C784}
+@media(max-width:767px){.credit-options{max-height:9.5rem}.credit-option{padding:.65rem .55rem;min-height:44px}}
+</style>
+<style>
+
+.dark 
+
+.dark 
+
+.dark 
+
+.dark 
+.dark 
+.dark 
+
+.dark .dark .dark .dark .dark 
+
+@media(max-width:640px){}
+
+.profile-avatar-preview{width:3.5rem;height:3.5rem;border-radius:50%;overflow:hidden;display:grid;place-items:center;background:#E8F2E9;color:#1B5E20;font-weight:900;font-size:1.1rem}.profile-image-preview{width:100%;height:100%;object-fit:cover}.profile-placeholder{font-weight:900}.profile-editor-hero{display:flex;align-items:center;gap:1rem;padding:1.25rem;background:linear-gradient(135deg,#F2F7F3,#FFFFFF);border-bottom:1px solid #E1E7E2}.dark .profile-editor-hero{background:linear-gradient(135deg,#202A21,#1E1E1E);border-color:#303A32}.profile-kicker{font-size:.68rem;font-weight:900;letter-spacing:.13em;text-transform:uppercase;color:#2E7D32}.dark .profile-kicker{color:#81C784}.profile-avatar-large{width:4rem;height:4rem;flex:0 0 4rem;border:3px solid #fff;box-shadow:0 4px 14px rgba(15,23,42,.12)}.dark .profile-avatar-large{border-color:#2A302B}.profile-editor-form{display:grid;gap:1rem;padding:1.25rem}.profile-field-card{padding:1rem;border:1px solid #E1E7E2;border-radius:1rem;background:#fff}.dark .profile-field-card{background:#1E1E1E;border-color:#303A32}.profile-field-footer{display:flex;justify-content:flex-end;margin-top:.45rem;color:#7A857C;font-size:.68rem}.profile-editor-actions{display:flex;align-items:center;gap:.7rem;flex-wrap:wrap}.dark @media(max-width:767px){.profile-editor-hero{align-items:flex-start}.profile-avatar-large{width:4.25rem;height:4.25rem;flex-basis:4.25rem}.profile-editor-form{padding:1rem}.student-nav,.#student-nav{scrollbar-width:none}}
+</style>
+<style id="fp-profile-polish-v2">
+.profile-editor-shell{border-radius:1.25rem}.profile-editor-hero{position:relative;overflow:hidden;padding:1.4rem 1.5rem;background:linear-gradient(135deg,#E8F2E9 0%,#FFFFFF 68%)}.profile-editor-hero::after{content:"";position:absolute;right:-3rem;top:-4rem;width:12rem;height:12rem;border-radius:999px;background:rgba(46,125,50,.08);pointer-events:none}.dark .profile-editor-hero{background:linear-gradient(135deg,#202A21 0%,#1E1E1E 68%)}.dark .profile-editor-hero::after{background:rgba(129,199,132,.07)}.profile-contribution-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.5rem}.profile-contribution-grid label{display:flex;align-items:center;gap:.5rem;min-height:44px;padding:.65rem .7rem;border:1px solid #D9E2DA;border-radius:.8rem;background:#FAFCFA;font-size:.76rem;font-weight:800;cursor:pointer}.dark .profile-contribution-grid label{border-color:#303A32;background:#191D19}.profile-contribution-grid input{accent-color:#2E7D32}.profile-contribution-grid label:has(input:checked){border-color:#81B886;background:#F2F7F3;color:#1B5E20}.dark .profile-contribution-grid label:has(input:checked){border-color:#5C8662;background:#243026;color:#81C784}@media(max-width:640px){.profile-contribution-grid{grid-template-columns:1fr}.profile-editor-hero{padding:1.15rem}.profile-avatar-large{width:4rem;height:4rem;flex-basis:4rem}}
+</style>
+<style id="fp-visual-density">.panel-surface,.achievement-card,.creative-card,.news-card,.mobile-block-card{box-shadow:0 5px 18px rgba(15,23,42,.10)!important}.dark .panel-surface,.dark .achievement-card,.dark .creative-card,.dark .news-card,.dark .mobile-block-card{box-shadow:0 5px 18px rgba(0,0,0,.24)!important}*,*::before,*::after{box-sizing:border-box}img,video{max-width:100%}button,input,select,textarea{font:inherit}button,a,input,select,textarea{outline-color:#2E7D32}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid rgba(46,125,50,.32);outline-offset:2px}.site-input::placeholder{color:#667067;opacity:1}.dark .site-input::placeholder{color:#AAB4AC;opacity:1}.site-input{min-height:44px}.panel-surface{overflow-wrap:anywhere}.table-wrap,table{max-width:100%}@media(max-width:767px){body{overflow-x:hidden}.max-w-7xl,.max-w-\[1500px\]{width:100%}main{padding-left:1rem!important;padding-right:1rem!important}.site-input{font-size:16px}.accessibility-bar{max-width:calc(100vw - 1rem)}button,.access-btn{min-height:44px}.news-poll{padding:1rem;margin:1.5rem 0}.poll-options button{padding:.8rem .75rem}.poll-footer{display:grid!important;grid-template-columns:1fr;gap:.75rem}.poll-submit{width:100%}}@media(min-width:768px) and (max-width:1279px){main{padding-left:1.25rem!important;padding-right:1.25rem!important}}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+.dark button:focus-visible,.dark a:focus-visible,.dark input:focus-visible,.dark select:focus-visible,.dark textarea:focus-visible{outline-color:#81C784}
+</style>
+<style id="fp-moderation-grid-v46">.moderation-card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;max-height:calc(2 * 23rem + 1rem);overflow-y:auto;padding:.1rem .15rem .35rem;scrollbar-gutter:stable}.moderation-card-grid::-webkit-scrollbar{width:10px}.moderation-card-grid::-webkit-scrollbar-thumb{background:#B8C6BA;border-radius:999px}.dark .moderation-card-grid::-webkit-scrollbar-thumb{background:#3F4A42}@media(max-width:1023px){.moderation-card-grid{grid-template-columns:repeat(2,minmax(0,1fr));max-height:calc(2 * 25rem + 1rem)}}@media(max-width:767px){.moderation-card-grid{grid-template-columns:1fr;max-height:44rem}}</style><style id="fp-v27-global-polish">
+/* v27 — acabamento visual global: proporção, conforto e acessibilidade */
+:root{
+  --fp-bg:#F6F8F6;
+  --fp-surface:#FFFFFF;
+  --fp-surface-soft:#F2F7F3;
+  --fp-line:#DDE5DE;
+  --fp-line-strong:#C9D5CC;
+  --fp-text:#1A1D1A;
+  --fp-muted:#667067;
+  --fp-green:#2E7D32;
+  --fp-green-deep:#1B5E20;
+  --fp-green-light:#81C784;
+}
+html{scroll-padding-top:1rem}
+body{background:var(--fp-bg);color:var(--fp-text);line-height:1.55;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.dark body{background:#111411;color:#E5EAE6}
+main{min-height:calc(100vh - 15rem)}
+button,.btn-primary,.btn-neutral,.btn-soft,.access-btn,a,input,select,textarea{transition:background-color .16s ease,border-color .16s ease,color .16s ease,box-shadow .16s ease,transform .16s ease}
+button:not(:disabled):hover,.btn-primary:not(:disabled):hover,.btn-neutral:not(:disabled):hover,.btn-soft:not(:disabled):hover{transform:translateY(-1px)}
+button:active,.btn-primary:active,.btn-neutral:active,.btn-soft:active{transform:translateY(0)}
+.btn-primary{min-height:44px;border-radius:.8rem!important;background:var(--fp-green);color:#fff;border:1px solid var(--fp-green);padding:.65rem 1rem;font-weight:800;box-shadow:0 4px 12px rgba(46,125,50,.12)}
+.dark .btn-primary{background:var(--fp-green-light);border-color:var(--fp-green-light);color:#121212}
+.btn-soft{min-height:44px;border-radius:.8rem!important;background:var(--fp-surface-soft);color:var(--fp-green-deep);border:1px solid #CFE0D1;padding:.65rem 1rem}
+.dark .btn-soft{background:#243026;color:var(--fp-green-light);border-color:#3A5140}
+.btn-neutral{min-height:44px;border-radius:.8rem!important;background:var(--fp-surface);color:var(--fp-text);border:1px solid var(--fp-line-strong);padding:.65rem 1rem}
+.dark .btn-neutral{background:#1E211F;color:#E2E7E3;border-color:#3B433D}
+.site-input,.about-search-input,.about-search-select{border-radius:.82rem!important;border-color:var(--fp-line-strong)!important;background:#fff!important;box-shadow:0 1px 1px rgba(15,23,42,.02)}
+.site-input:focus,.about-search-input:focus,.about-search-select:focus{box-shadow:0 0 0 4px rgba(129,199,132,.16)!important}
+.dark .site-input,.dark .about-search-input,.dark .about-search-select{background:#1D211E!important;border-color:#455048!important;color:#E5EAE6!important}
+.panel-surface,.news-card,.achievement-card,.creative-card,.school-notice-card,.comment-item,.comment-composer,.about-profile-card,.profile-page-card{border-radius:1.1rem!important}
+.panel-surface,.news-card,.achievement-card,.creative-card,.school-notice-card,.comment-item,.about-profile-card,.profile-page-card{box-shadow:0 8px 26px rgba(15,23,42,.07)!important}
+.dark .panel-surface,.dark .news-card,.dark .achievement-card,.dark .creative-card,.dark .school-notice-card,.dark .comment-item,.dark .about-profile-card,.dark .profile-page-card{box-shadow:0 8px 26px rgba(0,0,0,.22)!important}
+img{border-radius:inherit}
+.author-profile-link{min-height:32px;padding:.12rem .25rem;border-radius:999px}
+.author-profile-link:hover{background:#F2F7F3;color:var(--fp-green-deep)}
+.dark .author-profile-link:hover{background:#243026;color:var(--fp-green-light)}
+.author-profile-mini,.author-profile-mini img{width:30px!important;height:30px!important;min-width:30px!important;min-height:30px!important;max-width:none!important;max-height:none!important;border-radius:999px!important}
+.accessibility-bar{backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.access-btn{border-radius:.72rem!important}
+.access-btn:hover{background:#F2F7F3!important;color:var(--fp-green-deep)}
+.dark .access-btn:hover{background:#242D25!important;color:var(--fp-green-light)}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:#B9C7BC;border-radius:999px;border:3px solid transparent;background-clip:padding-box}
+.dark ::-webkit-scrollbar-thumb{background:#4D5A50;border-color:transparent}
+::selection{background:#CFE8D0;color:#153719}
+.dark ::selection{background:#355A3A;color:#EFF7F0}
+@media(max-width:767px){
+  main{min-height:calc(100vh - 11rem)}
+  h1.text-6xl{font-size:2.35rem!important;line-height:1.08!important}
+  h1.text-5xl{font-size:2.1rem!important;line-height:1.1!important}
+  h1.text-4xl{font-size:1.95rem!important;line-height:1.12!important}
+  h2.text-4xl{font-size:1.75rem!important}
+  h2.text-3xl{font-size:1.55rem!important}
+  .panel-surface,.news-card,.achievement-card,.creative-card,.school-notice-card{box-shadow:0 5px 18px rgba(15,23,42,.06)!important}
+  .dark .panel-surface,.dark .news-card,.dark .achievement-card,.dark .creative-card,.dark .school-notice-card{box-shadow:0 5px 18px rgba(0,0,0,.18)!important}
+}
+@media(min-width:768px) and (max-width:1199px){
+  main{padding-top:2.5rem!important;padding-bottom:4rem!important}
+}
+@media(prefers-reduced-motion:reduce){button,.btn-primary,.btn-neutral,.btn-soft,a{transition:none!important}button:hover,.btn-primary:hover,.btn-neutral:hover,.btn-soft:hover{transform:none!important}}
+</style>
+<style id="fp-v83-elegant-polish">
+:root{--fp-bg:#F5F8F5;--fp-surface:#FFFFFF;--fp-line:#DCE5DE;--fp-line-soft:#E8EEE9}
+body{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body>header{box-shadow:0 1px 0 rgba(27,94,32,.05),0 5px 18px rgba(15,23,42,.025)}
+.dark body>header{box-shadow:0 1px 0 rgba(129,199,132,.08),0 5px 18px rgba(0,0,0,.12)}
+.hero-grid{background-image:none!important}
+.panel-surface,.news-card,.achievement-card,.creative-card,.school-notice-card,.comment-item,.comment-composer,.about-profile-card,.profile-page-card{border-color:var(--fp-line)!important;box-shadow:0 7px 22px rgba(15,23,42,.055)!important}
+.dark .panel-surface,.dark .news-card,.dark .achievement-card,.dark .creative-card,.dark .school-notice-card,.dark .comment-item,.dark .comment-composer,.dark .about-profile-card,.dark .profile-page-card{border-color:#303A32!important;box-shadow:0 7px 22px rgba(0,0,0,.17)!important}
+.btn-primary{box-shadow:0 4px 12px rgba(46,125,50,.09)!important}
+.btn-soft,.btn-neutral{box-shadow:0 2px 8px rgba(15,23,42,.025)!important}
+.site-input{box-shadow:0 1px 1px rgba(15,23,42,.018)!important}
+.site-input:focus{box-shadow:0 0 0 3px rgba(129,199,132,.17)!important}
+.accessibility-bar{box-shadow:0 6px 18px rgba(15,23,42,.10)!important}
+@media(max-width:767px){body>header{box-shadow:0 1px 0 rgba(27,94,32,.04),0 3px 12px rgba(15,23,42,.02)}}
+@media(prefers-reduced-motion:reduce){*{transition-duration:.01ms!important;animation-duration:.01ms!important}}
+</style>
+<style id="fp-v83-poll-polish">
+.news-poll .poll-options button{display:flex;align-items:center;gap:.65rem}
+.news-poll .poll-option-label{flex:1;min-width:0}
+.news-poll .poll-option-marker{width:1rem;height:1rem;flex:0 0 1rem;border:2px solid #9AA59D;border-radius:50%}
+.news-poll .poll-options button.active .poll-option-marker{border-color:#2E7D32;box-shadow:inset 0 0 0 3px #fff;background:#2E7D32}
+.news-poll .poll-vote-count{margin-left:auto;min-width:2rem;padding:.22rem .45rem;border:1px solid #D5DDD6;border-radius:999px;background:#F2F7F3;color:#1B5E20;text-align:center;font-size:.68rem;font-weight:900;line-height:1.2}
+.dark .news-poll .poll-option-marker{border-color:#69746D}
+.dark .news-poll .poll-options button.active .poll-option-marker{border-color:#81C784;background:#81C784;box-shadow:inset 0 0 0 3px #2D382E}
+.dark .news-poll .poll-vote-count{border-color:#394139;background:#202620;color:#81C784}
+</style>
+<link rel="icon" type="image/png" href="assets/branding/brasao-folha-paiquere.png">
+<style id="fp-v92-branding">
+.brand-mark{background:transparent!important;padding:0!important;width:3.2rem!important;height:3.2rem!important;border-radius:0!important;overflow:visible!important}
+.brand-mark img{width:100%!important;height:100%!important;object-fit:contain!important;border-radius:0!important;display:block!important}
+.footer-school-crest{background:#fff;box-shadow:0 4px 12px rgba(0,0,0,.18);display:block}
+</style>
+
+<style id="fp-v93-responsive-polish">
+/* v93 — somente acabamento responsivo solicitado */
+.brand-mark{width:3.8rem!important;height:3.8rem!important;flex:0 0 3.8rem!important}
+#speech-toggle{min-width:0!important;max-width:100%;flex:0 1 auto;min-height:44px;height:auto;white-space:nowrap!important;overflow:visible;line-height:1.2;display:inline-flex;align-items:center;justify-content:center;align-self:stretch;flex-direction:row}
+#speech-toggle #speech-label{min-width:0;white-space:nowrap!important;overflow:visible;text-align:center}
+@media(max-width:640px){
+  .brand-mark{width:3.5rem!important;height:3.5rem!important;flex-basis:3.5rem!important}
+  #speech-toggle{flex:1 1 100%;width:auto;padding:.7rem .9rem!important;gap:.4rem}
+}
+</style>
+<link rel="stylesheet" href="fp-v98-visual-polish.css">
+<link rel="stylesheet" href="fp-student-shell-v126.css">
+  <link rel="stylesheet" href="fp-editorial-v135.css">
+  <link rel="stylesheet" href="fp-editorial-v136.css">
+  <link rel="stylesheet" href="fp-editorial-v137.css">
+  <link rel="stylesheet" href="fp-editorial-v138.css">
+  <link rel="stylesheet" href="fp-editorial-v139.css">
+  <link rel="stylesheet" href="fp-polish-v141.css">
+  <link rel="stylesheet" href="fp-v147-compact-mobile.css">
+  <link rel="stylesheet" href="fp-v148-polish.css">
+  <link rel="stylesheet" href="fp-v149-focused-polish.css">
+  <link rel="stylesheet" href="fp-v150-polish.css">
+  <link rel="stylesheet" href="fp-v151-mobile-fixes.css">
+  <link rel="stylesheet" href="fp-v152-onboarding-pwa.css">
+  <script defer src="pwa.js"></script>
+
+<link rel="stylesheet" href="fp-v157-polish.css">
+  <link rel="stylesheet" href="fp-v159-focused-polish.css">
+  <link rel="stylesheet" href="fp-v160-targeted-polish.css">
+  <link rel="stylesheet" href="fp-v161-polish.css">
+<link rel="stylesheet" href="fp-v168-auth-loading.css">
+  <link rel="stylesheet" href="fp-v181-interface-polish.css">
+<link rel="stylesheet" href="fp-v184-role-navigation-fix.css">
+<body class="antialiased fp-student-shell">
+<div id="fp-auth-loading" class="fp-auth-loading" data-auth-loading-mode="panel"  role="status" aria-live="polite" aria-busy="true" aria-label="Carregando a Área do Estudante"><div class="fp-auth-loading-card"><img src="assets/branding/brasao-folha-paiquere.png" alt="Brasão da Folha do Paiquerê"><p class="fp-auth-loading-message" data-auth-loading-message>Carregando sua Área do Estudante…</p><span class="fp-auth-loading-indicator" aria-hidden="true"><span></span><span></span><span></span></span></div></div>
+<a class="skip-link" href="#conteudo-principal">Pular para o conteúdo principal</a>
+<header class="fp-mobile-topbar" aria-label="Navegação compacta da Área do Estudante">
+  <details class="fp-mobile-settings" id="fp-mobile-settings">
+    <summary aria-label="Abrir configurações" title="Configurações">
+      <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h0a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v0a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"/></svg>
+    </summary>
+    <div class="fp-mobile-settings-popover" role="group" aria-label="Opções da conta e aparência">
+      <a href="index.html" class="fp-mobile-settings-item"><span aria-hidden="true">↗</span> Voltar ao jornal</a>
+      <button type="button" class="fp-mobile-settings-item" data-mobile-logout><span aria-hidden="true">⇥</span> Sair da conta</button>
+      <button type="button" class="fp-mobile-settings-item" data-mobile-open-tab="sobre-interno"><span aria-hidden="true">ⓘ</span> Sobre</button>
+      <button type="button" class="fp-mobile-settings-item fp-pwa-install-menu-item" data-pwa-install="settings"><span aria-hidden="true">↓</span> Baixar site</button>
+      <button type="button" class="fp-mobile-settings-item fp-mobile-theme-option" data-mobile-theme-toggle><span class="fp-mobile-theme-symbol" id="fp-mobile-theme-symbol" aria-hidden="true">☾</span><span id="fp-mobile-theme-label">Modo escuro</span></button>
+      <div class="fp-mobile-font-row" role="group" aria-label="Controles de tamanho da fonte">
+        <button type="button" data-mobile-font-increase aria-label="Aumentar fonte" title="Aumentar fonte">A+</button>
+        <button type="button" data-mobile-font-decrease aria-label="Diminuir fonte" title="Diminuir fonte">A−</button>
+      </div>
+    </div>
+  </details>
+  <a href="index.html" class="fp-mobile-brand" aria-label="Folha do Paiquerê — voltar ao jornal">
+    <img src="assets/branding/brasao-folha-paiquere.png" alt="Folha do Paiquerê">
+  </a>
+  <button type="button" class="fp-mobile-bell" id="fp-mobile-notifications-button" aria-label="Abrir notificações" aria-haspopup="dialog" aria-controls="fp-mobile-notifications-dialog">
+    <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/></svg>
+    <span class="fp-mobile-notification-badge hidden" id="fp-mobile-notification-badge" aria-label="Notificações não lidas">0</span>
+  </button>
+</header>
+<aside class="fp-sidebar" aria-label="Navegação da Área do Estudante">
+  <a class="fp-sidebar-brand" href="index.html" aria-label="Folha do Paiquerê — voltar ao jornal">
+    <img src="assets/branding/brasao-folha-paiquere.png" alt="" class="fp-sidebar-logo">
+    <span class="fp-brand-copy"><strong>Folha do Paiquerê</strong><span>JORNAL ESCOLAR</span></span>
+  </a>
+
+  <nav aria-label="Seções da Área do Estudante" class="fp-sidebar-nav" id="student-nav" role="tablist" aria-orientation="vertical">
+    <button type="button" class="fp-nav-item" data-tab="perfil" aria-selected="false" title="Meu perfil">
+      <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c.7-3.4 3.2-5.2 7-5.2s6.3 1.8 7 5.2"/></svg><span class="fp-nav-label">Meu perfil</span>
+    </button>
+    <button type="button" class="fp-nav-item" data-tab="materias" aria-selected="false" title="Minhas matérias">
+      <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.5h8l4 4V20a1.5 1.5 0 0 1-1.5 1.5h-10A1.5 1.5 0 0 1 5 20V5a1.5 1.5 0 0 1 1-1.5Z"/><path d="M14 3.5V8h4M8 12h8M8 16h8"/></svg><span class="fp-nav-label">Minhas matérias</span>
+    </button>
+    <span class="fp-nav-divider" data-editor-min="editor" aria-hidden="true"></span>
+    <button type="button" class="fp-nav-item" data-editor-min="editor" data-tab="moderar" aria-selected="false" title="Mesa do editor">
+      <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4.5h8M9 3h6v3H9z"/><rect x="5" y="4.5" width="14" height="17" rx="2"/><path d="m8.5 13 2.2 2.2 4.8-5"/></svg><span class="fp-nav-label">Mesa do editor</span>
+    </button>
+    <button type="button" class="fp-nav-item" data-editor-min="editor" data-tab="pautas" aria-selected="false" title="Ler pautas">
+      <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11.5a7.5 7.5 0 0 1-7.5 7.5H8l-4 2v-5.2A7.5 7.5 0 1 1 20 11.5Z"/><path d="M8 10h8M8 13.5h5"/></svg><span class="fp-nav-label">Ler pautas</span>
+    </button>
+    <button type="button" class="fp-nav-item" data-chief-only="true" data-tab="conquistas" aria-selected="false" title="Postar conquista">
+      <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4h8v5.5a4 4 0 0 1-8 0V4Z"/><path d="M8 6H4v2a4 4 0 0 0 4 4M16 6h4v2a4 4 0 0 1-4 4M12 13.5V18m-4 3h8m-7-3h6"/></svg><span class="fp-nav-label">Postar conquista</span>
+    </button>
+    <button type="button" class="fp-nav-item" data-chief-only="true" data-tab="avisos" aria-selected="false" title="Postar aviso">
+      <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14V9a1 1 0 0 1 1-1h3l9-4v15l-9-4H5a1 1 0 0 1-1-1Z"/><path d="m8 15 1.5 5h3L11 16M20 9l1.5-1M20 14l1.5 1"/></svg><span class="fp-nav-label">Postar aviso</span>
+    </button>
+    <button type="button" class="fp-nav-item" data-chief-only="true" data-tab="usuarios" aria-selected="false" title="Equipe e acessos">
+      <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 20v-1.7a3.3 3.3 0 0 0-3.3-3.3H6.3A3.3 3.3 0 0 0 3 18.3V20"/><circle cx="9.5" cy="7" r="3.5"/><path d="M17 11a3.5 3.5 0 0 0 0-7M17 15h.7a3.3 3.3 0 0 1 3.3 3.3V20"/></svg><span class="fp-nav-label">Equipe e acessos</span>
+    </button>
+    <button type="button" class="fp-nav-item" data-tab="sobre-interno" aria-selected="false" title="Sobre">
+      <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.5h.01"/></svg><span class="fp-nav-label">Sobre</span>
+    </button>
+    <div class="fp-sidebar-access-tools" role="group" aria-label="Controles rápidos de aparência e leitura">
+      <button type="button" class="fp-sidebar-tool fp-theme-toggle" id="theme-toggle" aria-label="Ativar modo escuro" title="Alternar modo claro/escuro">
+        <span id="theme-icon" aria-hidden="true">☾</span><span class="sr-only" id="theme-label">Modo escuro</span>
+      </button>
+      <button type="button" class="fp-sidebar-tool" id="font-increase" aria-label="Aumentar tamanho da fonte" title="Aumentar fonte">A+</button>
+      <button type="button" class="fp-sidebar-tool" id="font-decrease" aria-label="Diminuir tamanho da fonte" title="Diminuir fonte">A−</button>
+    </div>
+  </nav>
+
+  <div class="fp-sidebar-account">
+    <details class="fp-account-menu" id="account-menu">
+      <summary class="fp-account-summary" aria-label="Abrir opções da conta">
+        <span class="fp-account-avatar" id="sidebar-avatar" aria-hidden="true">?</span>
+        <span class="fp-account-copy"><strong id="session-name">Conta</strong><span class="fp-account-meta"><span id="session-role">Estudante</span><span class="fp-account-meta-dot" aria-hidden="true">•</span><span id="session-profile-year">Série pendente</span></span></span>
+        <svg class="fp-account-chevron" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7 10 5 5 5-5"/></svg>
+      </summary>
+      <div class="fp-account-dropdown" role="group" aria-label="Opções da conta">
+        <a href="index.html" class="fp-account-menu-item"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m3 10 9-7 9 7M5 9v11h14V9M9 20v-6h6v6"/></svg><span>Voltar ao Jornal</span></a>
+        <button type="button" class="fp-account-menu-item fp-account-logout" id="logout-btn"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 17l5-5-5-5M15 12H3"/><path d="M12 3h6a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-6"/></svg><span>Sair da conta</span></button>
+      </div>
+    </details>
+    <span id="session-email" class="sr-only"></span>
+  </div>
+</aside>
+
+<main class="fp-workspace-main" id="conteudo-principal">
+  <div class="fp-workspace-content">
+    <div id="protected-content">
+      <section class="hidden fp-mobile-home" data-panel="mobile-home" aria-labelledby="fp-mobile-home-title">
+        <section class="fp-mobile-welcome" aria-labelledby="fp-mobile-home-title">
+          <div class="fp-mobile-welcome-copy">
+            <p class="fp-mobile-welcome-kicker">SEU ESPAÇO NO JORNAL</p>
+            <h1 id="fp-mobile-home-title">Olá, <span id="fp-mobile-greeting-name">estudante</span>!</h1>
+            <p>Bem-vindo(a) de volta ao seu espaço na Folha do Paiquerê</p>
+          </div>
+        </section>
+        <section class="fp-mobile-quick-section" aria-labelledby="fp-mobile-quick-title">
+          <h2 id="fp-mobile-quick-title">Acesso rápido</h2>
+          <div class="fp-mobile-quick-grid" id="fp-mobile-quick-access"></div>
+        </section>
+        <section class="fp-mobile-latest-section" aria-labelledby="fp-mobile-latest-title">
+          <div class="fp-mobile-section-heading"><h2 id="fp-mobile-latest-title">Últimas notícias</h2><button type="button" id="fp-mobile-news-toggle" aria-expanded="false">Ver todas</button></div>
+          <div class="fp-mobile-news-list" id="fp-mobile-news-list" aria-live="polite"></div>
+        </section>
+      </section>
+      <section class="hidden fp-student-about-panel" data-panel="sobre-interno" aria-labelledby="student-about-title">
+        <header class="student-about-hero">
+          <div class="student-about-hero-copy">
+            <p class="student-about-eyebrow">IDENTIDADE · RESPONSABILIDADE · COMUNIDADE</p>
+            <h1 id="student-about-title">Sobre a Folha do Paiquerê</h1>
+            <p>Um jornal escolar feito para dar espaço às vozes dos estudantes, valorizar histórias locais e fortalecer a participação da comunidade escolar.</p>
+          </div>
+          <div class="student-about-monogram" aria-hidden="true">FP</div>
+        </header>
+
+        <div class="student-about-grid">
+          <article class="student-about-card student-about-mission">
+            <span class="student-about-card-index">01 · MISSÃO E PROPÓSITO</span>
+            <div class="student-about-card-heading"><span class="student-about-icon" aria-hidden="true">✳</span><h2>Conhecimento que nasce perto de nós.</h2></div>
+            <p>A Folha do Paiquerê é um espaço de comunicação e criação no qual os estudantes podem compartilhar ideias, relatar acontecimentos e registrar experiências importantes da escola e de sua comunidade.</p>
+            <p>Seu propósito é incentivar a escrita, valorizar a produção de conteúdos locais, desenvolver a autonomia e promover uma participação ativa, responsável e colaborativa.</p>
+          </article>
+
+          <article class="student-about-card">
+            <span class="student-about-card-index">02 · DIRETRIZES EDITORIAIS</span>
+            <div class="student-about-card-heading"><span class="student-about-icon" aria-hidden="true">✓</span><h2>Publicar com cuidado e respeito.</h2></div>
+            <ul class="student-about-guidelines">
+              <li><strong>Veracidade:</strong> conferir informações, buscar fontes adequadas e corrigir erros identificados.</li>
+              <li><strong>Respeito:</strong> tratar as pessoas com dignidade, respeitar a diversidade e evitar discriminação ou ataques pessoais.</li>
+              <li><strong>Responsabilidade:</strong> proteger dados pessoais e evitar publicar informações privadas sem autorização adequada.</li>
+              <li><strong>Relevância:</strong> priorizar assuntos de interesse escolar, educativo, cultural e comunitário, com clareza e contexto.</li>
+              <li><strong>Curadoria:</strong> os conteúdos enviados passam pela redação, que pode solicitar ajustes, editar a apresentação ou não publicar materiais que não atendam às diretrizes.</li>
+            </ul>
+          </article>
+
+          <article class="student-about-card">
+            <span class="student-about-card-index">03 · FERRAMENTAS E TECNOLOGIAS</span>
+            <div class="student-about-card-heading"><span class="student-about-icon" aria-hidden="true">⌘</span><h2>Uma plataforma digital para o jornal.</h2></div>
+            <p>A plataforma combina tecnologias web e serviços de nuvem para organizar matérias, perfis, conteúdos editoriais e arquivos de mídia.</p>
+            <div class="student-about-tech-list" aria-label="Tecnologias utilizadas">
+              <span>HTML</span><span>CSS</span><span>JavaScript</span><span>Tailwind CSS</span><span>Firebase Authentication</span><span>Cloud Firestore</span><span>Cloudinary</span><span>Service Worker</span>
+            </div>
+            <p class="student-about-note">A Folha do Paiquerê pode ser instalada como aplicativo web quando o navegador oferece suporte. Algumas funções e conteúdos continuam dependendo da conexão com a internet.</p>
+          </article>
+
+          <section class="student-about-credits" aria-labelledby="student-about-credits-title">
+            <div class="student-about-credits-heading"><p class="student-about-eyebrow">RECONHECIMENTO</p><h2 id="student-about-credits-title">Créditos e agradecimentos</h2><p>Uma iniciativa construída com colaboração, orientação e dedicação.</p></div>
+            <div class="student-about-credit-grid">
+              <article class="student-about-credit-item"><span class="student-about-credit-mark" aria-hidden="true">◎</span><div><p>Orientação institucional</p><h3>Professores orientadores, direção escolar e apoios pedagógicos</h3><span>Agradecimento à orientação institucional e ao apoio pedagógico que acompanham a iniciativa.</span></div></article>
+              <article class="student-about-credit-item student-about-credit-developer"><span class="student-about-credit-mark" aria-hidden="true">⌘</span><div><p>Idealização e desenvolvimento técnico</p><h3>Maicon Sandriel Ojeda da Rocha</h3><span>Responsável pela idealização e pela construção da arquitetura digital da plataforma Folha do Paiquerê.</span></div></article>
+            </div>
+          </section>
+        </div>
+        <section class="fp-pwa-install-card" data-pwa-install-card aria-label="Instalar a Folha do Paiquerê">
+          <div class="fp-pwa-install-brand"><img src="assets/branding/brasao-folha-paiquere.png" alt="" loading="lazy"><div><h2>Tenha a Folha do Paiquerê no seu dispositivo</h2><p>Adicione o jornal à tela inicial para abrir como um aplicativo, em retrato ou paisagem.</p></div></div>
+          <button type="button" class="fp-pwa-install-button" data-pwa-install="about"><span aria-hidden="true">↓</span> Baixar site</button>
+        </section>
+      </section>
+<section class="hidden profile-dashboard-section" data-panel="perfil" aria-labelledby="perfil-painel-title">
+  <form class="profile-dashboard" id="profile-form" novalidate>
+    <div class="profile-dashboard-top">
+      <section class="profile-card profile-identity-card" aria-labelledby="perfil-painel-title">
+        <div class="profile-identity-backdrop" id="profile-identity-backdrop" aria-hidden="true"></div>
+        <div class="profile-identity-main">
+          <div class="profile-avatar-column">
+            <button class="profile-avatar-trigger" id="profile-avatar-trigger" type="button" aria-label="Foto de perfil. Ative a edição para alterar a foto." disabled>
+              <span class="profile-avatar-preview profile-avatar-large" id="profile-avatar-preview">?</span>
+              <span class="profile-avatar-edit-indicator" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m14 5 5 5M4 20l4.5-1 11-11a2.1 2.1 0 0 0-3-3l-11 11L4 20Z"/></svg></span>
+            </button>
+            <input accept="image/png,image/jpeg,image/webp" class="sr-only" id="profile-image" type="file" aria-label="Escolher uma nova foto de perfil" tabindex="-1"/>
+            <button class="hidden profile-remove-avatar" id="profile-remove-avatar" type="button">Remover foto</button>
+            <p class="profile-avatar-hint sr-only" id="profile-avatar-hint">Foto do perfil</p>
+          </div>
+          <div class="profile-identity-copy">
+            <h2 id="perfil-painel-title" class="sr-only profile-section-title">Meu perfil</h2>
+            <h3 class="profile-display-name" id="profile-display-name">Conta</h3>
+            <div class="profile-school-year-block">
+              <p class="profile-read-value" id="profile-school-year-display">Ano escolar não informado</p>
+              <div class="profile-school-year-controls">
+                <select class="site-input profile-edit-control hidden" id="profile-school-year" aria-label="Selecionar ano escolar">
+                  <option value="">Selecione seu ano escolar</option>
+                  <option value="6º ano do Ensino Fundamental II">6º ano do Ensino Fundamental II</option>
+                  <option value="7º ano do Ensino Fundamental II">7º ano do Ensino Fundamental II</option>
+                  <option value="8º ano do Ensino Fundamental II">8º ano do Ensino Fundamental II</option>
+                  <option value="9º ano do Ensino Fundamental II">9º ano do Ensino Fundamental II</option>
+                  <option value="1ª série do Ensino Médio">1ª série do Ensino Médio</option>
+                  <option value="2ª série do Ensino Médio">2ª série do Ensino Médio</option>
+                  <option value="3ª série do Ensino Médio">3ª série do Ensino Médio</option>
+                </select>
+                <div class="hidden profile-edit-control profile-position-inline" id="profile-contributions-options" data-chief-position-control>
+                  <label class="sr-only" for="profile-assigned-title">Posição escolar (somente Coordenação Editorial)</label>
+                  <select class="site-input profile-assigned-title-input" id="profile-assigned-title" aria-label="Selecionar posição escolar (somente Coordenação Editorial)">
+                    <option value="">Sem posição escolar</option>
+                    <option value="Estudante">Estudante</option>
+                    <option value="Professor(a)">Professor(a)</option>
+                    <option value="Diretor(a)">Diretor(a)</option>
+                    <option value="Secretário(a)">Secretário(a)</option>
+                    <option value="Pedagogo(a)">Pedagogo(a)</option>
+                    <option value="Secretário(a) e Pedagogo(a)" data-legacy-position hidden>Secretário(a) e Pedagogo(a) — valor antigo; escolha uma opção</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <span class="profile-role-badge role-student" id="profile-role-badge">Estudante</span>
+            <div class="profile-identity-links">
+              <span class="profile-editing-note hidden" id="profile-editing-note">Editando perfil</span>
+            </div>
+          </div>
+        </div>
+        <div class="profile-identity-actions">
+          <button class="hidden profile-edit-button" id="profile-edit-button" type="button"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m14 5 5 5M4 20l4.5-1 11-11a2.1 2.1 0 0 0-3-3l-11 11L4 20Z"/></svg><span>Editar perfil</span></button>
+          <button class="hidden profile-save-button" id="profile-save-button" type="submit"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3h12l4 4v14H3V3h2Z"/><path d="M7 3v6h10V3M7 21v-7h10v7"/></svg><span>Salvar alterações</span></button>
+          <button class="hidden profile-cancel-button" id="profile-cancel-button" type="button"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m18 6-12 12M6 6l12 12"/></svg><span>Cancelar</span></button>
+        </div>
+        <p class="profile-status" id="profile-status" aria-live="polite"></p>
+      </section>
+      <section class="profile-card profile-background-card hidden" aria-labelledby="profile-background-title">
+        <div class="profile-card-heading"><div><p class="profile-kicker" aria-hidden="true">Identidade pública</p><h3 id="profile-background-title">Fundo do perfil público</h3></div><button type="button" class="profile-save-button profile-edit-control hidden" id="profile-background-save" aria-label="Salvar imagem e recorte do fundo">Salvar fundo</button></div>
+        <label class="profile-background-input-label" for="profile-background-url">Link da imagem de fundo</label>
+        <input class="site-input profile-edit-control hidden" id="profile-background-url" type="text" inputmode="url" maxlength="1200" placeholder="https://… ou &lt;img src=&quot;https://…&quot;&gt;" autocomplete="off">
+        <small class="profile-background-help">Cole o endereço da imagem. Use “Recortar” para ajustar como ela aparece no card de computador e no perfil de celular.</small>
+        <div class="profile-background-crop-grid profile-edit-control hidden" id="profile-background-crop-controls">
+          <section class="profile-background-crop-option" aria-labelledby="profile-background-desktop-title"><h4 id="profile-background-desktop-title">Fundo do card</h4><div id="profile-background-crop-preview-desktop" class="profile-background-crop-preview" role="img" aria-label="Prévia do fundo do card em computador"></div><button type="button" class="btn-soft profile-background-crop-open" data-profile-background-crop-open="desktop">Recortar</button></section>
+          <section class="profile-background-crop-option" aria-labelledby="profile-background-mobile-title"><h4 id="profile-background-mobile-title">Fundo do perfil</h4><div id="profile-background-crop-preview-mobile" class="profile-background-crop-preview is-mobile-preview" role="img" aria-label="Prévia do fundo do perfil em celular"></div><button type="button" class="btn-soft profile-background-crop-open" data-profile-background-crop-open="mobile">Recortar</button></section>
+        </div>
+        <input id="profile-background-desktop-x" type="hidden" value="50"><input id="profile-background-desktop-y" type="hidden" value="50"><input id="profile-background-mobile-x" type="hidden" value="50"><input id="profile-background-mobile-y" type="hidden" value="50">
+        <div id="profile-background-cropper" class="profile-background-cropper hidden" aria-hidden="true"><div class="profile-background-cropper-heading"><strong id="profile-background-cropper-title">Recortar fundo</strong><button type="button" class="profile-background-cropper-close" id="profile-background-cropper-close" aria-label="Fechar recorte">×</button></div><p class="profile-background-cropper-help">Arraste a imagem dentro do quadro para escolher o enquadramento.</p><div id="profile-background-crop-stage" class="profile-background-crop-stage" role="img" tabindex="0" aria-label="Arraste para ajustar o enquadramento da imagem"></div><div class="profile-background-cropper-actions"><button type="button" class="btn-soft" id="profile-background-crop-cancel">Cancelar</button><button type="button" class="btn-primary" id="profile-background-crop-apply">Aplicar recorte</button></div></div>
+        <p class="profile-background-status" id="profile-background-status" aria-live="polite"></p>
+      </section>
+
+      <section class="profile-card profile-summary-card" aria-labelledby="profile-summary-title">
+        <div class="profile-card-heading"><div><p class="profile-kicker" aria-hidden="true">Sua trajetória</p><h3 class="sr-only" id="profile-summary-title">Sua trajetória</h3></div><span class="profile-summary-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V5M4 19h16M7 15l4-4 3 2 5-6"/></svg></span></div>
+        <div class="profile-summary-grid">
+          <div class="profile-summary-item">
+            <span class="profile-summary-icon icon-blue" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg></span>
+            <div class="profile-summary-copy"><span class="profile-summary-label">Ano de ingresso</span><strong class="profile-summary-value" id="profile-year-display">Não informado</strong><input class="site-input profile-edit-control hidden" id="profile-year" type="number" inputmode="numeric" min="1900" max="2100" placeholder="Ex.: 2026" aria-label="Ano de ingresso no jornal"/></div>
+          </div>
+          <div class="profile-summary-item">
+            <span class="profile-summary-icon icon-teal" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.5-3.6 2.7-5.5 6.5-5.5 2 0 3.6.6 4.7 1.7M16 11a3.2 3.2 0 1 0-2.3-5.4M15 15.5c3.6 0 5.6 1.7 6.2 4.5"/></svg></span>
+            <div class="profile-summary-copy"><span class="profile-summary-label">Colaborações</span><strong class="profile-summary-number" id="profile-total-contributions">—</strong></div>
+          </div>
+          <div class="profile-summary-item profile-summary-achievements-item">
+            <span class="profile-summary-icon icon-gold" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4h8v5a4 4 0 0 1-8 0V4ZM8 6H4v2a4 4 0 0 0 4 4M16 6h4v2a4 4 0 0 1-4 4M12 13v5m-4 3h8"/></svg></span>
+            <div class="profile-summary-copy"><span class="profile-summary-label">Conquistas</span><strong class="profile-summary-number" id="profile-total-achievements">—</strong></div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div class="profile-dashboard-middle">
+      <section class="profile-card profile-bio-card" aria-labelledby="profile-bio-title">
+        <div class="profile-card-heading"><div><p class="profile-kicker" aria-hidden="true">Apresentação</p><h3 class="sr-only" id="profile-bio-title">Apresentação</h3></div><span class="profile-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v17H6.5A2.5 2.5 0 0 0 4 22V5.5Z"/><path d="M4 6h13M8 10h8M8 13.5h8"/></svg></span></div>
+        <p class="profile-bio-display" id="profile-bio-display">Ainda não há uma biografia cadastrada.</p>
+        <textarea class="site-input profile-edit-control hidden profile-bio-input" id="profile-bio" rows="4" placeholder="Conte um pouco sobre você, seus interesses e sua trajetória no jornal." aria-describedby="profile-bio-counter"></textarea>
+        <div class="profile-field-footer hidden profile-edit-control" id="profile-bio-counter">0/600 palavras</div>
+      </section>
+
+      <section class="profile-card profile-social-card" aria-labelledby="profile-social-title">
+        <div class="profile-card-heading"><div><p class="profile-kicker" aria-hidden="true">Conecte-se</p><h3 id="profile-social-title">Campo de Redes</h3></div><span class="profile-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></span></div>
+        <p class="profile-card-subtitle" id="profile-social-subtitle">Até três redes ou sites que você queira compartilhar.</p>
+        <div class="profile-social-grid" id="profile-social-grid" aria-live="polite">
+          <button class="profile-social-slot" type="button" data-social-slot="0" aria-label="Adicionar primeira rede social"><span class="profile-social-slot-icon">+</span><span>Adicionar</span></button>
+          <button class="profile-social-slot" type="button" data-social-slot="1" aria-label="Adicionar segunda rede social"><span class="profile-social-slot-icon">+</span><span>Adicionar</span></button>
+          <button class="profile-social-slot" type="button" data-social-slot="2" aria-label="Adicionar terceira rede social"><span class="profile-social-slot-icon">+</span><span>Adicionar</span></button>
+        </div>
+        <p class="profile-social-help hidden profile-edit-control" id="profile-social-help">Selecione um quadrado para adicionar ou editar uma rede.</p>
+      </section>
+    </div>
+
+    <div class="profile-dashboard-bottom">
+      <section class="profile-card profile-contributions-card" aria-labelledby="profile-contributions-title">
+        <div class="profile-card-heading"><div><p class="profile-kicker" aria-hidden="true">Participação no jornal</p><h3 class="sr-only" id="profile-contributions-title">Participação no jornal</h3></div><span class="profile-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4zM8 8h8M8 12h8M8 16h5"/></svg></span></div>
+        <div class="profile-contributions-list" id="profile-contributions-list">
+          <a class="profile-contribution-row" data-contribution-kind="diagramming" href="perfil.html"><span class="profile-contribution-icon">▤</span><span class="profile-contribution-label">Matérias diagramadas</span><strong>—</strong><span class="profile-contribution-arrow">↗</span></a>
+          <a class="profile-contribution-row" data-contribution-kind="research" href="perfil.html"><span class="profile-contribution-icon">⌕</span><span class="profile-contribution-label">Pesquisas feitas</span><strong>—</strong><span class="profile-contribution-arrow">↗</span></a>
+          <a class="profile-contribution-row" data-contribution-kind="text" href="perfil.html"><span class="profile-contribution-icon">¶</span><span class="profile-contribution-label">Textos desenvolvidos</span><strong>—</strong><span class="profile-contribution-arrow">↗</span></a>
+          <a class="profile-contribution-row" data-contribution-kind="image" href="perfil.html"><span class="profile-contribution-icon">▧</span><span class="profile-contribution-label">Imagens fornecidas</span><strong>—</strong><span class="profile-contribution-arrow">↗</span></a>
+        </div>
+      </section>
+
+      <section class="profile-card profile-achievements-card" aria-labelledby="profile-achievements-title">
+        <div class="profile-card-heading"><div><p class="profile-kicker" aria-hidden="true">Reconhecimentos</p><h3 class="sr-only" id="profile-achievements-title">Reconhecimentos</h3></div><a class="profile-see-all" id="profile-achievements-all" href="perfil.html#profile-section-achievements">Ver todas <span aria-hidden="true">↗</span></a></div>
+        <div class="profile-achievements-list" id="profile-achievements-list"><p class="profile-empty-value">Carregando conquistas…</p></div>
+      </section>
+    </div>
+  </form>
+
+  <div class="profile-social-modal hidden" id="profile-social-modal" role="dialog" aria-modal="true" aria-labelledby="profile-social-modal-title" aria-hidden="true">
+    <div class="profile-social-dialog">
+      <div class="profile-social-dialog-heading"><div><p class="profile-kicker">Perfil público</p><h3 id="profile-social-modal-title">Adicionar rede</h3></div><button type="button" class="profile-social-close" id="profile-social-close" aria-label="Fechar janela">×</button></div>
+      <label for="profile-social-url">Link do perfil</label><input class="site-input" id="profile-social-url" type="url" inputmode="url" maxlength="500" placeholder="https://…" autocomplete="url"/>
+      <label for="profile-social-icon">Imagem do ícone (opcional)</label><input class="site-input" id="profile-social-icon" type="text" maxlength="800" placeholder="URL HTTPS ou &lt;img src=&quot;https://…&quot;&gt;" autocomplete="off"/><small class="text-xs text-slate-500 dark:text-slate-400">Aceitamos o endereço da imagem ou apenas a tag img com src. O HTML não será executado; a imagem preencherá o quadrado sem margens internas.</small>
+      <div class="profile-social-preview"><span id="profile-social-preview-icon" class="profile-social-slot-icon">↗</span><span><strong id="profile-social-preview-label">Prévia da rede</strong><small id="profile-social-preview-host">O ícone é reconhecido pelo nome ou endereço.</small></span></div>
+      <p class="profile-social-modal-status" id="profile-social-modal-status" aria-live="polite"></p>
+      <div class="profile-social-dialog-actions"><button type="button" class="profile-social-delete hidden" id="profile-social-delete">Remover rede</button><span class="profile-social-action-spacer"></span><button type="button" class="profile-cancel-button" id="profile-social-cancel">Cancelar</button><button type="button" class="profile-save-button" id="profile-social-save">Salvar rede</button></div>
+    </div>
+  </div>
+</section>
+<section class="hidden my-articles-page" data-panel="materias" aria-labelledby="my-articles-heading">
+  <div class="fp-compact-articles-heading">
+    <div><p class="fp-compact-eyebrow">ÁREA DO ESTUDANTE</p><h2 id="fp-compact-articles-title">Minhas matérias</h2></div>
+    <button type="button" class="fp-compact-new-article" data-mobile-new-article aria-label="Criar nova matéria" title="Criar nova matéria">+</button>
+  </div>
+  <div class="my-articles-hero">
+    <img class="my-articles-hero-image" src="assets/editorial/Gemini_01.jpg" alt="Espaço de redação escolar com mesas de trabalho e plantas" loading="eager">
+    <div class="my-articles-hero-shade" aria-hidden="true"></div>
+    <div class="my-articles-hero-content">
+      <h2 id="my-articles-heading">Palavras que Marcam</h2>
+      <p>Grandes histórias começam com boas perguntas</p>
+      <button class="my-articles-hero-cta fp-new-article" id="new-article-btn" type="button" title="Criar nova matéria" aria-label="Criar nova matéria">
+        <span aria-hidden="true" class="fp-new-article-plus">+</span><span class="fp-new-article-label">Criar nova matéria</span>
+      </button>
+    </div>
+  </div>
+  <section class="my-articles-management panel-surface" aria-label="Gerenciamento das minhas matérias">
+    <div class="my-articles-status-filters" role="group" aria-label="Filtrar matérias pelo estado">
+      <button type="button" class="my-articles-filter filter-all" data-article-status-filter="Todas" aria-pressed="true"><span>Todos</span></button>
+      <button type="button" class="my-articles-filter filter-draft" data-article-status-filter="Rascunho" aria-pressed="false"><span aria-hidden="true" class="my-articles-filter-icon">✎</span><span>Rascunho</span></button>
+      <button type="button" class="my-articles-filter filter-review" data-article-status-filter="Pendente" aria-pressed="false"><span aria-hidden="true" class="my-articles-filter-icon">◷</span><span>Em análise</span></button>
+      <button type="button" class="my-articles-filter filter-adjust" data-article-status-filter="Ajustes" aria-pressed="false"><span aria-hidden="true" class="my-articles-filter-icon">↻</span><span>Necessita ajustes</span></button>
+      <button type="button" class="my-articles-filter filter-published" data-article-status-filter="Aprovado" aria-pressed="false"><span aria-hidden="true" class="my-articles-filter-icon">✓</span><span>Publicado</span></button>
+    </div>
+    <div class="my-articles-toolbar">
+      <div class="my-articles-search-wrap">
+        <label class="sr-only" for="my-articles-search">Pesquisar matérias</label>
+        <span aria-hidden="true" class="my-articles-search-icon">⌕</span>
+        <input class="site-input" id="my-articles-search" type="search" placeholder="Buscar por título, subtítulo, tema ou estado…" autocomplete="off">
+      </div>
+      <div class="my-articles-sort-wrap">
+        <label for="my-articles-sort">Ordenar por</label>
+        <select class="site-input" id="my-articles-sort" aria-label="Ordenar minhas matérias">
+          <option value="newest">Mais recente</option>
+          <option value="oldest">Menos recente</option>
+          <option value="alpha">Ordem alfabética</option>
+        </select>
+      </div>
+    </div>
+    <div class="my-articles-results-card">
+      <div class="my-articles-list" id="my-articles" aria-live="polite" aria-relevant="additions text"></div>
+    </div>
+    <div id="my-articles-pagination" class="my-articles-pagination fp-table-footer"><p>Mostrando 0–0 de 0 matérias</p></div>
+  </section>
+</section>
+<section class="hidden mt-7 fp-management-section" data-panel="moderar">
+  <div class="fp-compact-articles-heading fp-compact-moderation-heading">
+    <div><p class="fp-compact-eyebrow">ÁREA EDITORIAL</p><h2 id="fp-compact-moderation-title">Mesa do editor</h2></div>
+  </div>
+  <header class="fp-management-heading"><h2 class="fp-v141-section-title">Mesa do editor</h2><p>Revise, ajuste e publique matérias da comunidade escolar.</p></header>
+  <section class="panel-surface fp-management-card fp-moderation-manager">
+    <nav id="moderation-status-tabs" class="fp-moderation-tabs" aria-label="Filtrar matérias por estado">
+      <button type="button" data-moderation-filter="Todos" aria-pressed="false">Todos <span data-moderation-count="Todos">0</span></button>
+      <button type="button" data-moderation-filter="Rascunho" aria-pressed="false">Rascunho <span data-moderation-count="Rascunho">0</span></button>
+      <button type="button" data-moderation-filter="Pendente" aria-pressed="true" class="is-active">Em análise <span data-moderation-count="Pendente">0</span></button>
+      <button type="button" data-moderation-filter="Ajustes" aria-pressed="false">Necessita ajustes <span data-moderation-count="Ajustes">0</span></button>
+      <button type="button" data-moderation-filter="Aprovado" aria-pressed="false">Publicado <span data-moderation-count="Aprovado">0</span></button>
+    </nav>
+    <div class="fp-management-controls fp-moderation-controls">
+      <div class="fp-management-search"><label class="sr-only" for="moderation-author-search">Pesquisar na mesa do editor</label><span aria-hidden="true">⌕</span><input class="site-input" id="moderation-author-search" type="search" placeholder="Título, autor, e-mail ou categoria…" autocomplete="off"></div>
+      <div class="fp-management-select"><label class="sr-only" for="moderation-sort">Ordenar matérias</label><select class="site-input" id="moderation-sort"><option value="newest">Mais recentes</option><option value="oldest">Menos recentes</option><option value="alpha">Ordem alfabética</option></select></div>
+    </div>
+    <div class="fp-moderation-results-card"><div class="fp-moderation-card-heading"><h3 id="moderation-results-title">Matérias em análise</h3><p>Abra o conteúdo para revisar ou use as ações de cada matéria.</p></div><div class="fp-moderation-list" id="moderation-list" aria-live="polite"></div></div>
+    <div id="moderation-pagination" class="fp-table-footer fp-moderation-pagination"><p>Mostrando 0–0 de 0 matérias</p></div>
+  </section>
+</section>
+<section class="hidden mt-7 fp-team-section" data-panel="usuarios" data-chief-only="true" aria-labelledby="team-access-heading">
+  <header class="fp-team-page-heading fp-subpage-heading">
+    <h2 id="team-access-heading" class="fp-v141-section-title">Equipe e acessos</h2>
+    <p>Gerencie contas, funções e acessos da equipe.</p>
+    <button type="button" class="fp-mobile-section-back" data-mobile-back-home aria-label="Voltar ao início">← Voltar</button>
+  </header>
+  <section class="panel-surface fp-team-main-card" aria-label="Gerenciamento de contas da equipe">
+    <div class="fp-team-tabs" role="tablist" aria-label="Estado das contas">
+      <button type="button" class="fp-team-tab is-active" data-team-status-tab="active" role="tab" aria-selected="true">Contas ativas <span id="team-active-count">0</span></button>
+      <button type="button" class="fp-team-tab" data-team-status-tab="inactive" role="tab" aria-selected="false">Contas desativas <span id="team-inactive-count">0</span></button>
+    </div>
+    <div class="fp-team-toolbar">
+      <label class="fp-team-search-wrap"><span aria-hidden="true">⌕</span><span class="sr-only">Pesquisar contas por função, nome, e-mail ou estado</span><input class="site-input" id="team-users-search" type="search" placeholder="Nome, conta, função ou status…" autocomplete="off"></label>
+      <label class="fp-team-select-wrap"><span class="sr-only">Filtrar por papel</span><select class="site-input" id="team-users-role-filter"><option value="all">Todos os papéis</option><option value="Estudante">Estudantes</option><option value="Editor">Editor</option><option value="Editor-Chefe">Editor-Chefe</option></select></label>
+      <label class="fp-team-select-wrap fp-team-sort-wrap"><span class="sr-only">Ordenar acessos</span><select class="site-input" id="team-users-sort"><option value="default">Ordem padrão</option><option value="alpha">Ordem alfabética</option></select></label>
+      <button type="button" class="fp-team-new-access" id="team-new-access-open">+ Novo acesso</button>
+    </div>
+    <div class="fp-team-table-view" data-team-view="active" role="tabpanel">
+      <div class="fp-team-table-wrap"><table class="fp-team-table"><thead><tr><th scope="col">Usuário</th><th scope="col">Função</th><th scope="col">Permissão de alteração</th><th scope="col" class="fp-team-actions-heading">Ações</th></tr></thead><tbody id="users-list"></tbody></table></div>
+      <div id="team-active-pagination" class="fp-table-footer fp-team-pagination"><p>Mostrando 0–0 de 0 acessos</p></div>
+    </div>
+    <div class="fp-team-table-view hidden" data-team-view="inactive" role="tabpanel" hidden>
+      <div class="fp-team-table-wrap"><table class="fp-team-table"><thead><tr><th scope="col">Usuário</th><th scope="col">Função</th><th scope="col">Permissão de alteração</th><th scope="col" class="fp-team-actions-heading">Ações</th></tr></thead><tbody id="revoked-users-list"></tbody></table></div>
+      <div id="team-inactive-pagination" class="fp-table-footer fp-team-pagination"><p>Mostrando 0–0 de 0 acessos</p></div>
+    </div>
+  </section>
+
+  <div id="team-new-access-modal" class="fp-detail-modal hidden" role="dialog" aria-modal="true" aria-labelledby="team-new-access-title" aria-hidden="true">
+    <section class="fp-detail-dialog fp-team-modal-dialog" role="document">
+      <header class="fp-team-modal-intro"><p class="fp-section-eyebrow">EQUIPE E ACESSOS</p><h3 id="team-new-access-title">Registrar acesso</h3><p>Insira os dados do estudante ou colaborador para conceder acesso às ferramentas do jornal e autorizar a gestão do perfil.</p></header>
+      <form id="user-form" class="fp-team-new-access-form">
+        <button type="button" class="fp-detail-close fp-team-modal-close" id="team-new-access-close" aria-label="Fechar cadastro de acesso">×</button>
+        <div class="fp-team-form-field"><label for="new-user-name">Nome do usuário <span class="fp-required-mark">*</span></label><input class="site-input" id="new-user-name" required maxlength="120" autocomplete="name" placeholder="Nome completo"></div>
+        <div class="fp-team-form-field"><label for="new-user-email">Endereço da conta <span class="fp-required-mark">*</span></label><input class="site-input" id="new-user-email" required type="email" autocomplete="email" placeholder="nome@escola.pr.gov.br ou nome@gmail.com"></div>
+        <div class="fp-team-form-field"><label for="new-user-password">Senha de acesso <span class="fp-required-mark">*</span></label><input class="site-input" id="new-user-password" required minlength="6" type="password" autocomplete="new-password" placeholder="Mínimo de 6 caracteres"></div>
+        <div class="fp-team-form-field"><label for="new-user-role">Título <span class="fp-required-mark">*</span></label><select class="site-input" id="new-user-role" required><option value="Estudante">Estudante</option><option value="Editor">Editor</option><option value="Editor-Chefe">Editor-Chefe</option></select></div>
+        <div class="fp-team-form-actions"><button type="submit" id="new-user-submit" class="btn-primary">Cadastrar acesso</button><button type="button" id="team-new-access-cancel" class="btn-soft">Cancelar</button></div>
+        <p id="team-new-access-status" class="fp-form-status" aria-live="polite"></p>
+      </form>
+    </section>
+  </div>
+
+  <div id="team-delete-access-modal" class="fp-detail-modal hidden" role="dialog" aria-modal="true" aria-labelledby="team-delete-access-title" aria-hidden="true">
+    <section class="fp-detail-dialog fp-team-delete-dialog" role="document">
+      <header class="fp-team-delete-header"><h3 id="team-delete-access-title">Revogar acesso e remover perfil</h3><button type="button" class="fp-detail-close" id="team-delete-access-close" aria-label="Fechar confirmação">×</button></header>
+      <p class="fp-team-delete-question"><strong>Confirma a revogação do acesso e a remoção do perfil público?</strong></p>
+      <p class="fp-team-delete-description">O acesso ao portal será revogado, os dados pessoais do perfil serão limpos e o perfil público será removido. Para continuar no plano gratuito Spark, a conta ainda permanecerá no Firebase Authentication e deverá ser excluída manualmente em Authentication → Users. Matérias, conquistas, pautas e outros conteúdos compartilhados serão preservados.</p>
+      <p id="team-delete-access-status" class="fp-form-status" aria-live="polite"></p>
+      <div class="fp-team-delete-actions"><button type="button" id="team-delete-access-confirm" class="fp-team-danger-button">Revogar e remover perfil</button><button type="button" id="team-delete-access-cancel" class="btn-soft">Cancelar</button></div>
+    </section>
+  </div>
+</section>
+<section class="hidden mt-7 fp-management-section" data-panel="avisos">
+  <header class="fp-management-heading fp-subpage-heading"><h2 class="fp-v141-section-title">Postar aviso</h2><p>Publique e gerencie avisos para a comunidade escolar.</p><button type="button" class="fp-mobile-section-back" data-mobile-back-home aria-label="Voltar ao início">← Voltar</button></header>
+  <section class="panel-surface fp-management-card fp-notice-list-card fp-notice-list-card-full">
+    <div class="fp-management-card-heading fp-notice-list-heading"><div><h3>Avisos cadastrados</h3><p>Pesquise, controle a visibilidade e ajuste os avisos existentes.</p></div></div>
+    <p class="fp-form-status fp-notice-page-status" id="school-notice-page-status" aria-live="polite"></p>
+    <div class="fp-management-controls fp-notice-controls"><div class="fp-management-search"><label class="sr-only" for="school-notice-search">Pesquisar avisos</label><span aria-hidden="true">⌕</span><input class="site-input" id="school-notice-search" type="search" placeholder="Título, data ou visibilidade…" autocomplete="off"></div><div class="fp-management-select"><label class="sr-only" for="school-notice-filter">Filtrar avisos</label><select class="site-input" id="school-notice-filter"><option value="recent">Mais recentes</option><option value="oldest">Menos recentes</option><option value="visible">Visíveis</option><option value="hidden">Ocultos</option></select></div><button type="button" id="school-notice-new" class="fp-new-notice-button">+ Novo aviso</button></div>
+    <div id="school-notice-admin-list" class="fp-management-table-host" aria-live="polite"></div>
+  </section>
+  <div id="school-notice-form-modal" class="fp-notice-form-modal hidden" role="dialog" aria-modal="true" aria-labelledby="notice-form-title" aria-hidden="true">
+    <section class="fp-notice-form-dialog" role="document">
+      <header class="fp-notice-modal-heading"><div><p class="fp-section-eyebrow">PUBLICAÇÃO</p><h3 id="notice-form-title">Novo aviso</h3><p>Preencha as informações que serão exibidas à comunidade.</p></div><button type="button" class="fp-detail-close" data-notice-form-close aria-label="Fechar formulário de aviso">×</button></header>
+      <form class="fp-notice-form" id="school-notice-form">
+        <div class="fp-notice-form-core">
+          <div class="fp-notice-main-fields">
+            <div><label for="school-notice-title">Título <span class="fp-required-mark">*</span></label><input class="site-input" id="school-notice-title" maxlength="140" required placeholder="Título do aviso"></div>
+            <div><label for="school-notice-summary">Resumo para o card <span class="fp-optional-label">(opcional)</span></label><textarea class="site-input" id="school-notice-summary" maxlength="500" rows="3" placeholder="Resumo curto mostrado no cartão público"></textarea></div>
+          </div>
+          <div class="fp-notice-content-field"><label for="school-notice-details">Conteúdo <span class="fp-required-mark">*</span></label><textarea class="site-input" id="school-notice-details" maxlength="2500" rows="7" required placeholder="Escreva o aviso completo…"></textarea></div>
+        </div>
+        <div class="fp-notice-form-settings">
+          <div class="fp-notice-image-field"><label>Imagem <span class="fp-optional-label">(opcional)</span></label><div class="fp-notice-image-preview-shell"><img id="school-notice-image-preview" class="hidden fp-notice-image-preview" alt="Prévia da imagem do aviso"><span id="school-notice-image-placeholder">A imagem escolhida aparecerá aqui.</span></div><div class="fp-notice-image-actions"><button class="fp-image-select-btn" id="school-notice-image-select" type="button" aria-controls="school-notice-image">Selecionar imagem</button><button class="fp-image-select-btn" id="school-notice-image-crop" type="button" disabled aria-controls="fp-admin-image-crop-modal">Recortar imagem</button><span class="fp-optional-label">PNG, JPG ou WebP</span></div><input accept="image/png,image/jpeg,image/webp" class="sr-only" id="school-notice-image" type="file" aria-label="Selecionar imagem para o aviso"><label class="fp-image-url-label" for="school-notice-image-url">Ou cole o link da imagem</label><input class="site-input" id="school-notice-image-url" maxlength="1000" placeholder="https://…" type="url"></div>
+          <fieldset class="fp-notice-period"><legend>Período de exibição</legend><div class="fp-notice-period-grid"><div><label for="school-notice-duration">Duração <span class="fp-required-mark">*</span></label><input class="site-input" id="school-notice-duration" type="number" min="1" max="3650" step="1" value="7" required aria-label="Quantidade de tempo para exibir o aviso"></div><div><label for="school-notice-duration-unit">Unidade <span class="fp-required-mark">*</span></label><select class="site-input" id="school-notice-duration-unit"><option value="minutes">Minutos</option><option value="hours">Horas</option><option value="days" selected>Dias</option><option value="unlimited">Ilimitado (sem expiração)</option></select></div></div><p id="school-notice-duration-help" class="fp-form-help">O aviso sai da página inicial automaticamente quando o prazo terminar.</p></fieldset>
+        </div>
+        <div class="fp-notice-form-actions"><button class="btn-primary" id="school-notice-save" type="submit">Salvar</button><button class="btn-soft" id="school-notice-cancel" type="button">Cancelar</button></div><p class="fp-form-status" id="school-notice-status" aria-live="polite"></p>
+      </form>
+    </section>
+  </div>
+</section>
+<section class="hidden mt-7 fp-management-section" data-panel="pautas">
+  <header class="fp-management-heading fp-subpage-heading"><h2 class="fp-v141-section-title">Ler pautas</h2><p>Consulte e organize as sugestões enviadas pela comunidade.</p><button type="button" class="fp-mobile-section-back" data-mobile-back-home aria-label="Voltar ao início">← Voltar</button></header>
+  <section class="panel-surface fp-management-card fp-pautas-card">
+    <nav id="pauta-status-tabs" class="fp-pauta-status-tabs" aria-label="Filtrar pautas por status">
+      <button type="button" data-pauta-filter="Todas" aria-pressed="true" class="is-active">Todas <span data-pauta-count="all">0</span></button>
+      <button type="button" data-pauta-filter="Pendente" aria-pressed="false">Pendentes <span data-pauta-count="pending">0</span></button>
+      <button type="button" data-pauta-filter="Em análise" aria-pressed="false">Em análise <span data-pauta-count="review">0</span></button>
+      <button type="button" data-pauta-filter="Concluída" aria-pressed="false">Concluídas <span data-pauta-count="complete">0</span></button>
+      <button type="button" data-pauta-filter="Rejeitada" aria-pressed="false">Rejeitadas <span data-pauta-count="rejected">0</span></button>
+    </nav>
+    <div class="fp-management-controls fp-pauta-controls"><div class="fp-management-search"><label class="sr-only" for="suggestions-search">Pesquisar pautas</label><span aria-hidden="true">⌕</span><input class="site-input" id="suggestions-search" type="search" placeholder="Título, autor, conteúdo ou data…" autocomplete="off"></div><div class="fp-management-select"><label class="sr-only" for="suggestions-sort">Ordenar pautas por data</label><select class="site-input" id="suggestions-sort"><option value="recent">Mais recente</option><option value="oldest">Menos recente</option></select></div></div>
+    <div id="suggestions-list" class="fp-management-table-host" aria-live="polite"></div>
+    <div id="suggestions-pagination" class="fp-table-footer fp-pauta-pagination"><p>Mostrando 0–0 de 0 pautas</p></div>
+  </section>
+  <div id="pauta-detail-modal" class="fp-detail-modal hidden" role="dialog" aria-modal="true" aria-labelledby="pauta-detail-title"><div class="fp-detail-dialog"><div class="fp-detail-header"><div><p class="fp-section-eyebrow">DETALHES DA PAUTA</p><h2 id="pauta-detail-title" class="fp-detail-title"></h2></div><button type="button" class="fp-detail-close" data-pauta-detail-close aria-label="Fechar detalhes da pauta">×</button></div><div class="fp-detail-meta-row"><span>Autor: <strong id="pauta-detail-author"></strong></span><span>Data: <strong id="pauta-detail-date"></strong></span><span id="pauta-detail-status" class="fp-pauta-detail-status" data-status="Pendente">Pendente</span></div><div id="pauta-detail-content" class="fp-detail-content"></div><div id="pauta-detail-attachments" class="fp-detail-attachments"></div><div class="fp-detail-actions"><button type="button" class="btn-neutral" data-pauta-detail-close>Fechar</button></div></div></div>
+</section>
+<section class="hidden mt-7 fp-management-section" data-panel="conquistas">
+  <header class="fp-management-heading fp-subpage-heading"><h2 class="fp-v141-section-title">Postar conquista</h2><p>Conheça e celebre as conquistas dos nossos estudantes e equipes.</p><button type="button" class="fp-mobile-section-back" data-mobile-back-home aria-label="Voltar ao início">← Voltar</button></header>
+  <section class="panel-surface fp-management-card fp-achievement-manager">
+    <div class="fp-achievement-toolbar">
+      <div class="fp-management-search"><label class="sr-only" for="achievement-admin-search">Pesquisar conquistas</label><span aria-hidden="true">⌕</span><input class="site-input" id="achievement-admin-search" type="search" placeholder="Título, categoria, ano, aluno ou equipe…" autocomplete="off"></div>
+      <div class="fp-management-select"><label class="sr-only" for="achievement-admin-sort">Ordenar conquistas</label><select class="site-input" id="achievement-admin-sort"><option value="recent">Mais recentes</option><option value="oldest">Menos recentes</option><option value="alpha">Ordem alfabética</option></select></div>
+      <button type="button" id="achievement-new" class="fp-new-notice-button">+ Nova conquista</button>
+    </div>
+    <p class="fp-form-status fp-achievement-page-status" id="achievement-admin-status" aria-live="polite"></p>
+    <div class="fp-achievement-list" id="achievement-admin-list" aria-live="polite"></div>
+    <div class="fp-table-footer fp-achievement-pagination" id="achievement-admin-pagination"><p>Mostrando 0–0 de 0 conquistas</p></div>
+  </section>
+</section>
+<div aria-hidden="true" aria-labelledby="achievement-form-title" aria-modal="true" class="fp-achievement-modal hidden" id="achievement-form-modal" role="dialog">
+  <section class="fp-achievement-dialog" role="document">
+    <header class="fp-achievement-modal-heading"><div><p class="fp-section-eyebrow">RECONHECIMENTO</p><h2 id="achievement-form-title">Publicação</h2><p>Preencha as informações que serão exibidas à comunidade.</p></div><button type="button" class="fp-detail-close" data-achievement-close aria-label="Fechar publicação">×</button></header>
+    <form class="fp-achievement-form" id="achievement-form">
+      <div class="fp-achievement-fields">
+        <div class="fp-achievement-field-column fp-achievement-left-fields">
+          <div><label for="achievement-title">Título <span class="fp-required-mark">*</span></label><input class="site-input" id="achievement-title" maxlength="180" required placeholder="Título da conquista"></div>
+          <div><label for="achievement-description">Resumo <span class="fp-optional-label">(opcional)</span></label><textarea class="site-input" id="achievement-description" maxlength="600" rows="3" placeholder="Resumo curto apresentado no mural"></textarea></div>
+          <div><label for="achievement-name">Nome do aluno ou equipe <span class="fp-required-mark">*</span></label><input class="site-input" id="achievement-name" maxlength="180" required placeholder="Nome do participante ou equipe"></div>
+          <div class="profile-field-card fp-achievement-credit-card"><div><label class="block text-sm font-bold" for="achievement-credit-search">Perfil dos participantes</label><p class="mt-1 text-xs text-slate-500 dark:text-slate-400">Selecione perfis vinculados ou informe nomes adicionais.</p></div><div class="credit-search-wrap mt-3"><span aria-hidden="true">⌕</span><input class="site-input credit-search" id="achievement-credit-search" placeholder="Buscar aluno ou responsável…" autocomplete="off"></div><div class="credit-options mt-2" id="achievement-credit-options" role="group" aria-label="Perfis dos participantes"></div><input class="site-input mt-2" id="achievement-credit-other" maxlength="240" placeholder="Outros participantes (separe por vírgula)"></div>
+        </div>
+        <div class="fp-achievement-field-column fp-achievement-right-fields">
+          <div class="fp-achievement-content-field"><label for="achievement-details">Conteúdo <span class="fp-required-mark">*</span></label><textarea class="site-input" id="achievement-details" rows="10" required placeholder="Conte a história completa dessa conquista…"></textarea></div>
+          <div><label for="achievement-type-other">Categoria <span class="fp-required-mark">*</span></label><textarea class="site-input" id="achievement-type-other" maxlength="360" rows="3" required placeholder="Uma categoria por linha"></textarea><p class="fp-achievement-field-help">Digite até três categorias, separadas por quebras de linha.</p></div>
+          <div><label for="achievement-date">Data da conquista</label><input class="site-input" id="achievement-date" type="date" required aria-describedby="achievement-date-help"><p id="achievement-date-help" class="fp-form-help">A data será exibida como DD/MM/AAAA; os filtros continuam agrupados por ano.</p><input id="achievement-year" type="hidden" value=""></div>
+        </div>
+      </div>
+      <div class="fp-achievement-image-field"><div><label for="achievement-image-url">Imagem <span class="fp-optional-label">(opcional)</span></label><p class="fp-achievement-field-help">PNG, JPG ou WebP. A imagem existente é mantida ao ajustar se você não escolher outra.</p></div><div class="fp-achievement-image-actions"><button class="fp-image-select-btn" id="achievement-image-select" type="button" aria-controls="achievement-image">Selecionar imagem</button><button class="fp-image-select-btn" id="achievement-image-crop" type="button" disabled aria-controls="fp-admin-image-crop-modal">Recortar imagem</button><span class="fp-optional-label">PNG, JPG ou WebP</span></div><input accept="image/png,image/jpeg,image/webp" class="sr-only" id="achievement-image" type="file" aria-label="Selecionar imagem para a conquista"><label class="fp-image-url-label" for="achievement-image-url">Ou cole o link da imagem</label><input class="site-input" id="achievement-image-url" maxlength="1000" placeholder="https://…" type="url" inputmode="url"><div id="achievement-image-preview-shell" class="fp-admin-achievement-image-preview-shell hidden"><img id="achievement-image-preview" class="hidden fp-achievement-image-preview" alt="Prévia da imagem da conquista"></div></div>
+      <p class="fp-form-status" id="achievement-status" aria-live="polite"></p>
+      <div class="fp-achievement-form-actions"><button class="btn-primary" id="achievement-save-button" type="submit">Publicar no mural</button><button class="btn-soft" id="achievement-cancel-edit" type="button">Cancelar</button></div>
+    </form>
+  </section>
+</div>
+<div id="achievement-view-modal" class="fp-detail-modal hidden" role="dialog" aria-modal="true" aria-labelledby="achievement-view-title"><div class="fp-detail-dialog fp-achievement-view-dialog"><header class="fp-detail-header"><div><p class="fp-section-eyebrow">MURAL DE CONQUISTAS</p><h2 id="achievement-view-title" class="fp-detail-title"></h2></div><button type="button" class="fp-detail-close" data-achievement-view-close aria-label="Fechar conquista">×</button></header><div class="fp-achievement-view-meta"><span id="achievement-view-person"></span><span id="achievement-view-category"></span><span id="achievement-view-year"></span></div><img id="achievement-view-image" class="hidden fp-achievement-view-image" alt="Imagem da conquista"><p id="achievement-view-summary" class="fp-detail-summary hidden"></p><div id="achievement-view-content" class="fp-detail-content"></div><p id="achievement-view-participants" class="fp-achievement-view-participants"></p><div class="fp-detail-actions"><button type="button" data-achievement-view-close>Fechar</button></div></div></div>
+<div aria-hidden="true" aria-labelledby="access-adjust-title" aria-modal="true" class="hidden fixed inset-0 z-[10030] bg-black/60 p-4" id="access-adjust-modal" role="dialog"><div class="min-h-full flex items-center justify-center"><div class="w-full max-w-xl max-h-[92vh] overflow-y-auto rounded-2xl bg-white p-6 shadow-2xl dark:bg-[#242424]"><div class="flex items-start justify-between gap-4"><div><p class="text-[11px] font-extrabold uppercase tracking-wide text-[#2E7D32] dark:text-[#81C784]">Gestão de acesso</p><h2 class="mt-1 text-xl font-extrabold" id="access-adjust-title">Ajustar acesso</h2><p class="mt-2 text-sm text-slate-600 dark:text-slate-400">Altere os dados do acesso existente e salve a atualização no Firebase.</p></div><button class="btn-neutral rounded-lg px-3 py-2 text-sm font-bold" id="access-adjust-close" type="button">Fechar</button></div><form class="mt-6 space-y-4" id="access-adjust-form"><div><label class="block text-sm font-bold">Identificador atual</label><p class="mt-2 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm font-semibold break-all dark:border-slate-700 dark:bg-[#1E1E1E]" id="access-adjust-current-label"></p></div><div><label class="block text-sm font-bold" for="access-adjust-name">Nome</label><input class="site-input mt-2" id="access-adjust-name" required></div><div><label class="block text-sm font-bold" for="access-adjust-email">Novo identificador de login</label><input class="site-input mt-2" id="access-adjust-email" type="email" autocomplete="username" placeholder="nome@escola.pr.gov.br ou nome@gmail.com" required></div><div><label class="block text-sm font-bold" for="access-adjust-current-password">Senha atual</label><input class="site-input mt-2" id="access-adjust-current-password" type="password" autocomplete="current-password" placeholder="Digite a senha atual deste acesso" required><p class="mt-1 text-xs text-slate-500">A senha atual é usada para confirmar a conta antes de aplicar as alterações.</p></div><div><label class="block text-sm font-bold" for="access-adjust-new-password">Nova senha</label><input class="site-input mt-2" id="access-adjust-new-password" type="password" minlength="6" autocomplete="new-password" placeholder="Deixe vazio para manter a senha atual"></div><div class="flex flex-col-reverse sm:flex-row sm:justify-end gap-2"><button class="btn-neutral rounded-lg px-4 py-2.5 text-sm font-bold" id="access-adjust-cancel" type="button">Cancelar</button><button class="btn-primary rounded-lg px-4 py-2.5 text-sm font-bold" id="access-adjust-save" type="submit">Salvar alterações</button></div><p class="text-xs text-slate-500" id="access-adjust-status" aria-live="polite"></p></form></div></div></div>
+<div aria-hidden="true" aria-labelledby="preview-title" aria-modal="true" class="hidden fixed inset-0 z-[10020] bg-black/60 p-4" id="preview-modal" role="dialog"><div class="min-h-full flex items-center justify-center"><div class="w-full max-w-3xl max-h-[90vh] overflow-y-auto rounded-2xl bg-white p-6 dark:bg-[#242424]"><div class="flex items-center justify-between gap-3"><h2 class="text-xl font-extrabold" id="preview-title">Pré-visualização</h2><button class="btn-neutral rounded-lg px-3 py-2 text-sm font-bold" id="close-preview" type="button">Fechar</button></div><div class="mt-5" id="preview-content"></div></div></div></div>
+
+<div id="fp-admin-image-crop-modal" class="fp-admin-image-crop-modal hidden" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="fp-admin-image-crop-title">
+  <section class="fp-admin-image-crop-dialog">
+    <header class="fp-admin-image-crop-heading">
+      <div><p class="fp-section-eyebrow">AJUSTE DA IMAGEM</p><h2 id="fp-admin-image-crop-title">Recortar imagem</h2><p>Arraste o quadro para posicioná-lo e use os cantos para ajustar. A proporção final será 16:9.</p></div>
+      <button type="button" class="fp-admin-image-crop-close" id="fp-admin-image-crop-close" aria-label="Fechar recorte">×</button>
+    </header>
+    <div id="fp-admin-image-crop-stage" class="fp-admin-image-crop-stage" aria-label="Área para ajustar o recorte">
+      <img id="fp-admin-image-crop-source" alt="Imagem original para recorte" draggable="false">
+      <div id="fp-admin-image-crop-selection" class="fp-admin-image-crop-selection" tabindex="0" role="group" aria-label="Área selecionada; arraste para mover">
+        <button type="button" data-admin-crop-handle="nw" aria-label="Redimensionar pelo canto superior esquerdo"></button>
+        <button type="button" data-admin-crop-handle="ne" aria-label="Redimensionar pelo canto superior direito"></button>
+        <button type="button" data-admin-crop-handle="sw" aria-label="Redimensionar pelo canto inferior esquerdo"></button>
+        <button type="button" data-admin-crop-handle="se" aria-label="Redimensionar pelo canto inferior direito"></button>
+      </div>
+    </div>
+    <p id="fp-admin-image-crop-status" class="fp-admin-image-crop-status" aria-live="polite">Carregando imagem…</p>
+    <footer class="fp-admin-image-crop-actions">
+      <button type="button" class="btn-soft" id="fp-admin-image-crop-reset">Restaurar enquadramento</button>
+      <div><button type="button" class="btn-soft" id="fp-admin-image-crop-cancel">Cancelar</button><button type="button" class="btn-primary" id="fp-admin-image-crop-apply" disabled>Aplicar recorte</button></div>
+    </footer>
+  </section>
+</div>
+</main>
+<nav class="fp-mobile-bottom-nav" id="fp-mobile-bottom-nav" aria-label="Navegação principal da Área do Estudante"></nav>
+<div class="fp-welcome-overlay hidden" id="fp-welcome-onboarding" aria-hidden="true">
+  <section class="fp-welcome-dialog" role="dialog" aria-modal="true" aria-labelledby="fp-welcome-title" aria-describedby="fp-welcome-intro">
+    <div class="fp-welcome-brand-row"><img src="assets/branding/brasao-folha-paiquere.png" alt="" width="58" height="58"><div><p class="fp-welcome-eyebrow">BOAS-VINDAS À COMUNIDADE</p><span>Folha do Paiquerê</span></div></div>
+    <div class="fp-welcome-progress" id="fp-welcome-progress" aria-label="Progresso da apresentação"></div>
+    <p class="fp-welcome-step-count" id="fp-welcome-step-count">Etapa 1 de 5</p>
+    <div class="fp-welcome-step-content" id="fp-welcome-step-content">
+      <h2 id="fp-welcome-title">Bem-vindo à Folha do Paiquerê!</h2>
+      <p id="fp-welcome-intro">Sua voz e suas ideias agora fazem parte da história da nossa comunidade escolar.</p>
+    </div>
+    <label class="fp-welcome-agreement hidden" id="fp-welcome-agreement-wrap" for="fp-welcome-agreement">
+      <input type="checkbox" id="fp-welcome-agreement">
+      <span>Estou de acordo com as diretrizes editoriais e de convivência da Folha do Paiquerê.</span>
+    </label>
+    <p class="fp-welcome-status" id="fp-welcome-status" aria-live="polite"></p>
+    <div class="fp-welcome-actions"><button type="button" class="fp-welcome-next" id="fp-welcome-next">Próximo</button></div>
+  </section>
+</div>
+<div class="fp-mobile-notifications-dialog hidden" id="fp-mobile-notifications-dialog" aria-hidden="true">
+  <button type="button" class="fp-mobile-notifications-scrim" data-mobile-notifications-close aria-label="Fechar notificações"></button>
+  <section class="fp-mobile-notifications-card" role="dialog" aria-modal="true" aria-labelledby="fp-mobile-notifications-title">
+    <header><div><p class="fp-mobile-notification-eyebrow">CENTRAL DE ATIVIDADES</p><h2 id="fp-mobile-notifications-title">Notificações</h2></div><div class="fp-mobile-notification-header-actions"><button type="button" id="fp-mobile-notifications-mute" class="fp-mobile-notifications-mute" aria-pressed="true"><span aria-hidden="true">◉</span><span data-mobile-notifications-mute-label>Desativar notificações</span></button><button type="button" class="fp-mobile-notifications-close" data-mobile-notifications-close aria-label="Fechar notificações">×</button></div></header>
+    <div class="fp-mobile-notification-list" id="fp-mobile-notification-list" aria-live="polite"></div>
+  </section>
+</div>
+<div aria-live="polite" class="sr-only" id="accessibility-status"></div>
+
+<script src="firebase-config.js"></script><script src="cloudinary-config.js"></script><script type="module" src="firebase-client.js"></script><script defer src="notifications.js"></script><script defer="" src="storage.js"></script>
+<script defer src="fp-v168-auth-loading.js"></script><script defer="" src="portal.js"></script>
+<link rel="stylesheet" href="fp-v170-polish.css">
+<link rel="stylesheet" href="fp-v173-verified-fixes.css">
+</body>
+</html>
