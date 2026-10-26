@@ -1,0 +1,222 @@
+/* Folha do Paiquerê v174 — targeted polish. Loaded after v173; deliberately scoped. */
+
+/* A) Mobile article: keep the related-story rail horizontal without enlarging the page viewport. */
+@media (max-width: 767px) {
+  html:has(body.fp-public-mobile-shell #single-container),
+  body.fp-public-mobile-shell:has(#single-container) {
+    max-width: 100% !important;
+    overflow-x: clip !important;
+  }
+  body.fp-public-mobile-shell #conteudo-principal:has(#single-container),
+  body.fp-public-mobile-shell #single-container,
+  body.fp-public-mobile-shell #single-container .fp-article-page,
+  body.fp-public-mobile-shell #single-container .fp-article-related,
+  body.fp-public-mobile-shell #single-container .fp-article-related-heading,
+  body.fp-public-mobile-shell #single-container .fp-article-related-grid {
+    box-sizing: border-box !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+  }
+  body.fp-public-mobile-shell #conteudo-principal:has(#single-container) {
+    width: 100% !important;
+    overflow-x: clip !important;
+  }
+  body.fp-public-mobile-shell #single-container .fp-article-related {
+    width: 100% !important;
+    overflow: hidden !important;
+  }
+  body.fp-public-mobile-shell #single-container .fp-article-related-grid {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    width: 100% !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    overscroll-behavior-x: contain !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+  body.fp-public-mobile-shell #single-container .fp-article-related-grid > * {
+    flex: 0 0 min(76vw, 18.5rem) !important;
+    width: min(76vw, 18.5rem) !important;
+    max-width: min(76vw, 18.5rem) !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+}
+
+/* B) Achievements: chips on mobile, native select on desktop. app.js remains the source of years. */
+#achievement-public-year.fp-achievement-year-select { display: block !important; }
+#achievement-year-chips { display: none !important; }
+@media (max-width: 767px) {
+  #achievement-public-year.fp-achievement-year-select { display: none !important; }
+  #achievement-year-chips {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    gap: .45rem !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    padding: .25rem .05rem .55rem !important;
+    white-space: nowrap !important;
+    overscroll-behavior-x: contain !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+  #achievement-year-chips .achievement-year-chip { flex: 0 0 auto !important; white-space: nowrap !important; }
+}
+@media (min-width: 768px) {
+  #achievement-public-year.fp-achievement-year-select { display: block !important; }
+  #achievement-year-chips { display: none !important; }
+}
+
+/* C) Public profile: keep the avatar frame truly circular and center its image. */
+.fp-public-profile-page .fp-profile-avatar-overlap {
+  box-sizing: border-box !important;
+  aspect-ratio: 1 / 1 !important;
+  border-radius: 50% !important;
+  overflow: hidden !important;
+  display: grid !important;
+  place-items: center !important;
+  flex: none !important;
+  margin-inline: auto !important;
+}
+.fp-public-profile-page .fp-profile-avatar-overlap > .fp-profile-large-avatar {
+  display: block !important;
+  box-sizing: border-box !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  aspect-ratio: 1 / 1 !important;
+  flex: none !important;
+  border-radius: 50% !important;
+  object-fit: cover !important;
+  object-position: 50% 50% !important;
+  overflow: hidden !important;
+}
+.fp-public-profile-page .fp-profile-avatar-overlap > .fp-profile-avatar-placeholder {
+  display: grid !important;
+  place-items: center !important;
+  text-align: center !important;
+}
+@media (min-width: 1051px) {
+  .fp-public-profile-page .fp-profile-avatar-overlap { width: 9.4rem !important; height: 9.4rem !important; }
+}
+@media (min-width: 768px) and (max-width: 1050px) {
+  .fp-public-profile-page .fp-profile-avatar-overlap { width: 8.2rem !important; height: 8.2rem !important; }
+}
+@media (max-width: 767px) {
+  .fp-public-profile-page .fp-profile-avatar-overlap { width: 7.25rem !important; height: 7.25rem !important; }
+}
+
+/* D) Activity filter results only: one card per row on mobile, two on desktop. Do not touch the two rails. */
+.fp-public-profile-page .fp-profile-filter-results:not([hidden]) .fp-profile-filter-grid {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: .85rem !important;
+  align-items: start !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  overflow: visible !important;
+}
+.fp-public-profile-page .fp-profile-filter-results .fp-profile-filter-card,
+.fp-public-profile-page .fp-profile-filter-results .fp-profile-filter-card > .fp-public-article-card,
+.fp-public-profile-page .fp-profile-filter-results .fp-profile-filter-card .fp-profile-achievement-card {
+  box-sizing: border-box !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  overflow: visible !important;
+  align-self: start !important;
+}
+@media (max-width: 767px) {
+  .fp-public-profile-page .fp-profile-filter-results:not([hidden]) .fp-profile-filter-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: .85rem !important;
+  }
+  .fp-public-profile-page .fp-profile-filter-results .fp-profile-filter-card .fp-public-article-body {
+    padding: 1rem !important;
+  }
+  .fp-public-profile-page .fp-profile-filter-results .fp-profile-filter-card .fp-public-article-title {
+    font-size: 1rem !important;
+    line-height: 1.45 !important;
+  }
+  .fp-public-profile-page .fp-profile-filter-results .fp-profile-filter-card .fp-public-article-summary {
+    font-size: .875rem !important;
+    line-height: 1.55 !important;
+  }
+}
+
+/* E) Desktop profile: remove the clipped nested-height shell. Internal horizontal rails stay scrollable. */
+@media (min-width: 900px) {
+  body.fp-profile-scroll-shell {
+    height: auto !important;
+    min-height: 100dvh !important;
+    max-height: none !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+  }
+  body.fp-profile-scroll-shell #conteudo-principal {
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    overflow: visible !important;
+    box-sizing: border-box !important;
+    padding-bottom: clamp(1.5rem, 3dvh, 2.5rem) !important;
+  }
+  body.fp-profile-scroll-shell #profile-page,
+  body.fp-profile-scroll-shell .fp-public-profile-page {
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+  body.fp-profile-scroll-shell .fp-public-profile-page {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+  body.fp-profile-scroll-shell .fp-public-profile-layout {
+    display: grid !important;
+    grid-template-columns: minmax(285px, 40%) minmax(0, 1fr) !important;
+    grid-template-rows: auto !important;
+    flex: 0 0 auto !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    overflow: visible !important;
+    align-items: start !important;
+  }
+  body.fp-profile-scroll-shell .fp-profile-sidebar,
+  body.fp-profile-scroll-shell .fp-profile-main {
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    overflow: visible !important;
+    overscroll-behavior: auto !important;
+  }
+  body.fp-profile-scroll-shell .fp-profile-main {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    align-content: start !important;
+    gap: 1rem !important;
+    padding-bottom: 1.5rem !important;
+  }
+  body.fp-profile-scroll-shell .fp-profile-identity-card {
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+  body.fp-profile-scroll-shell #profile-default-content,
+  body.fp-profile-scroll-shell .fp-profile-filter-results:not([hidden]) {
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+}

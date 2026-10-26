@@ -1,0 +1,46 @@
+/* v132 — ajustes cirúrgicos: capa expandida, controles compactos, painel horizontal centralizado. */
+#editor-cover-credits-grid .editor-cover-picker-row{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:.65rem!important;align-items:stretch!important}
+#editor-cover-credits-grid .editor-cover-preview-slot{width:100%;min-height:13rem!important;min-width:0}
+#editor-cover-credits-grid .editor-cover-empty,#editor-cover-credits-grid .editor-cover-preview{width:100%;min-height:13rem!important;border-radius:1rem!important;overflow:hidden}
+#editor-cover-credits-grid .editor-cover-empty{border:1px dashed var(--editor-line-strong);background:var(--editor-surface-soft)}
+#editor-cover-credits-grid #cover-preview-image{display:block;width:100%;height:100%;min-height:13rem;max-height:18rem;object-fit:cover}
+#editor-cover-credits-grid .editor-cover-picker-actions{display:flex!important;flex-direction:row!important;justify-content:flex-start!important;align-items:center!important;flex-wrap:wrap;gap:.55rem!important;min-width:0}
+#editor-cover-credits-grid .editor-cover-picker-actions button{width:auto!important;min-width:9rem;max-width:14rem;flex:0 1 auto}
+#editor-cover-credits-grid .editor-cover-picker-actions .editor-cover-hint{flex:1 1 100%;margin:0;color:var(--editor-muted);font-size:.7rem;line-height:1.45}
+.editor-multiline-other{min-height:5.2rem!important;resize:vertical!important;white-space:pre-wrap!important;line-height:1.5!important}
+#editor-insert-dock{left:50%!important;right:auto!important;bottom:.85rem!important;top:auto!important;transform:translateX(-50%);width:min(720px,calc(100vw - 290px))!important;max-width:calc(100vw - 1.2rem)!important;padding:.32rem!important;border-radius:1rem!important;z-index:10020}
+#editor-insert-dock .editor-insert-dock-row{display:flex;align-items:center;gap:.25rem;min-width:0}
+#editor-insert-dock .editor-insert-dock-body{flex:1 1 auto;min-width:0;padding:.1rem!important}
+#editor-insert-dock #desktop-insert-section{display:block!important;width:100%;margin:0!important;padding:0!important;border:0!important;background:transparent!important;box-shadow:none!important}
+#editor-insert-dock #insert-title{display:none!important}
+#editor-insert-dock #desktop-insert-section .mt-3.grid{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:.42rem!important;margin:0!important}
+#editor-insert-dock #desktop-insert-section button{display:flex;align-items:center;justify-content:center;min-width:0;min-height:2.55rem;padding:.45rem .5rem!important;border:1px solid var(--editor-line)!important;border-radius:.7rem!important;background:var(--editor-blue-pale)!important;color:var(--editor-blue)!important;font-size:.76rem!important;font-weight:850!important;line-height:1.1!important;white-space:nowrap!important;box-shadow:none!important}
+#editor-insert-dock #desktop-insert-section button:hover{background:var(--editor-blue)!important;color:#fff!important;border-color:var(--editor-blue)!important}
+#editor-insert-dock-toggle{display:grid!important;place-items:center;flex:0 0 2.15rem!important;width:2.15rem!important;min-height:2.15rem!important;height:2.15rem!important;padding:0!important;border:1px solid var(--editor-line)!important;border-radius:.68rem!important;background:var(--editor-surface-soft)!important;color:var(--editor-text)!important;font-size:1rem!important;font-weight:850!important;line-height:1!important}
+#editor-insert-dock:not(.is-expanded) .editor-insert-dock-body{display:none!important}
+#editor-insert-dock:not(.is-expanded){width:auto!important;min-width:2.8rem!important}
+#editor-insert-dock:not(.is-expanded) .editor-insert-dock-row{justify-content:flex-end}
+#editor-insert-dock #desktop-insert-section input[type=file]{display:none!important}
+#editor-preview-body{display:block!important}
+#editor-preview-panel.editor-preview-hidden #editor-preview-body,#editor-preview-panel.editor-preview-is-collapsed #editor-preview-body{display:block!important}
+#editor-preview-toggle{display:none!important}
+.editor-inline-toolbar [data-block-format="unlink"]{color:#B45360!important}
+.editor-inline-toolbar [data-block-format="unlink"]:hover{background:#FCE8EB!important;border-color:#F2C5CC!important}
+.dark .editor-inline-toolbar [data-block-format="unlink"]{color:#FFA6B0!important}
+.dark .editor-inline-toolbar [data-block-format="unlink"]:hover{background:#42212B!important;border-color:#74404B!important}
+.editor-rich-text .editor-rich-line{min-height:1.35em;white-space:pre-wrap}
+@media(max-width:1023px){
+  #editor-insert-dock{left:calc(50% + 1.5rem)!important;width:min(690px,calc(100vw - 5.6rem))!important;bottom:.65rem!important}
+  #editor-cover-credits-grid .editor-cover-preview-slot,#editor-cover-credits-grid .editor-cover-empty,#editor-cover-credits-grid .editor-cover-preview{min-height:11rem!important}
+  #editor-cover-credits-grid #cover-preview-image{min-height:11rem}
+}
+@media(max-width:640px){
+  #editor-insert-dock{left:calc(50% + 1.45rem)!important;bottom:.45rem!important;width:calc(100vw - 5.1rem)!important;max-width:calc(100vw - 5.1rem)!important;padding:.22rem!important;border-radius:.8rem!important}
+  #editor-insert-dock #desktop-insert-section .mt-3.grid{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:.2rem!important}
+  #editor-insert-dock #desktop-insert-section button{min-height:2.25rem;font-size:.66rem!important;padding:.35rem .1rem!important;border-radius:.55rem!important}
+  #editor-insert-dock-toggle{flex-basis:1.8rem!important;width:1.8rem!important;height:1.8rem!important;min-height:1.8rem!important;font-size:.9rem!important}
+  #editor-cover-credits-grid .editor-cover-preview-slot,#editor-cover-credits-grid .editor-cover-empty,#editor-cover-credits-grid .editor-cover-preview{min-height:9rem!important}
+  #editor-cover-credits-grid #cover-preview-image{min-height:9rem;max-height:13rem}
+  #editor-cover-credits-grid .editor-cover-picker-actions button{min-width:7.8rem;max-width:none;flex:1 1 7.8rem}
+  .editor-rich-text{white-space:pre-wrap!important}
+}

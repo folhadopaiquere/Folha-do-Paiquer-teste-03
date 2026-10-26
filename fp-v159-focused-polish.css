@@ -1,0 +1,59 @@
+/* v159 focused fixes: no changes to editorial or account permissions. */
+
+/* Community cards are whole-card links and reuse each profile's personalized wallpaper. */
+.fp-community-profile-card {
+  position:relative!important;display:flex!important;flex-direction:column;gap:.75rem;min-width:0;overflow:hidden;isolation:isolate;
+  color:var(--fp-polish-text)!important;text-decoration:none!important;cursor:pointer;
+  background:var(--fp-polish-surface)!important;transition:border-color .16s ease,transform .16s ease,box-shadow .16s ease;
+}
+.fp-community-card-wallpaper {
+  position:absolute;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(135deg,rgba(255,255,255,.82),rgba(245,249,255,.93)),var(--fp-community-wallpaper-image,none);
+  background-size:cover;background-position:var(--fp-community-wallpaper-position,50% 50%);background-repeat:no-repeat;
+}
+.dark .fp-community-card-wallpaper {
+  background-image:linear-gradient(135deg,rgba(9,18,31,.78),rgba(13,27,46,.92)),var(--fp-community-wallpaper-image,none);
+}
+.fp-community-profile-card>:not(.fp-community-card-wallpaper) {position:relative;z-index:1;}
+.fp-community-profile-card:hover {transform:translateY(-2px);border-color:var(--fp-polish-focus)!important;box-shadow:0 14px 32px rgba(20,49,86,.12)!important;}
+.fp-community-profile-card:focus-visible {outline:3px solid var(--fp-polish-focus);outline-offset:3px;}
+.fp-community-profile-card .fp-community-identity-copy,.fp-community-profile-card .fp-community-role-line {min-width:0;}
+.fp-community-profile-card .fp-community-role-line {overflow-wrap:anywhere;}
+.fp-community-profile-card .fp-community-stats {margin-top:.15rem;}
+@media(max-width:767px) {
+  .fp-community-card-wallpaper {background-position:var(--fp-community-wallpaper-position-mobile,var(--fp-community-wallpaper-position,50% 50%));}
+}
+
+/* The school year and Chief-only school-position selector share the identity area. */
+.profile-school-year-controls {display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;max-width:100%;}
+.profile-school-year-controls>#profile-school-year,.profile-position-inline {min-width:0;max-width:100%;}
+.profile-school-year-controls>#profile-school-year {flex:1 1 15rem;}
+.profile-position-inline {flex:1 1 11rem;}
+.profile-position-inline select {width:100%;max-width:100%;}
+.profile-school-year-block .profile-read-value {font-weight:750;}
+.profile-background-card .profile-background-help {display:block;margin-top:.45rem;color:var(--fp-polish-muted);line-height:1.5;}
+.profile-background-crop-grid {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.8rem;margin-top:1rem;}
+.profile-background-crop-option {display:flex;flex-direction:column;align-items:stretch;gap:.55rem;min-width:0;padding:.85rem;border:1px solid var(--fp-polish-line);border-radius:.9rem;background:var(--fp-polish-surface-soft);}
+.profile-background-crop-option h4 {margin:0;color:var(--fp-polish-text);font-weight:850;font-size:.84rem;}
+.profile-background-crop-preview {width:100%;height:6.5rem;border:1px solid var(--fp-polish-line);border-radius:.65rem;background-color:var(--fp-polish-surface);background-size:cover;background-position:50% 50%;background-repeat:no-repeat;}
+.profile-background-crop-preview.is-mobile-preview {width:min(100%,5.25rem);height:7rem;margin-inline:auto;}
+.profile-background-crop-open {align-self:flex-start;min-height:2.5rem;}
+.profile-background-cropper {margin-top:1rem;padding:1rem;border:1px solid var(--fp-polish-focus);border-radius:1rem;background:var(--fp-polish-surface);box-shadow:0 12px 35px rgba(15,35,60,.12);}
+.profile-background-cropper[aria-hidden="true"] {display:none!important;}
+.profile-background-cropper-heading {display:flex;align-items:center;justify-content:space-between;gap:1rem;color:var(--fp-polish-text);}
+.profile-background-cropper-close {width:2.25rem;height:2.25rem;border:1px solid var(--fp-polish-line);border-radius:.65rem;background:var(--fp-polish-surface-soft);font-size:1.4rem;line-height:1;color:var(--fp-polish-text);}
+.profile-background-cropper-help {margin:.45rem 0 .75rem;color:var(--fp-polish-muted);font-size:.83rem;}
+.profile-background-crop-stage {width:100%;aspect-ratio:16/5;min-height:9rem;max-height:54vh;border:2px solid var(--fp-polish-focus);border-radius:.8rem;background-color:var(--fp-polish-surface-soft);background-size:cover;background-position:50% 50%;background-repeat:no-repeat;cursor:grab;touch-action:none;user-select:none;outline:none;}
+.profile-background-crop-stage:active {cursor:grabbing;}
+.profile-background-crop-stage.is-mobile-crop {width:min(100%,17rem);aspect-ratio:4/5;min-height:16rem;max-height:48vh;margin-inline:auto;}
+.profile-background-cropper-actions {display:flex;justify-content:flex-end;gap:.6rem;flex-wrap:wrap;margin-top:.8rem;}
+@media(max-width:640px) {
+  .profile-background-crop-grid {grid-template-columns:repeat(2,minmax(0,1fr));gap:.55rem;}
+  .profile-background-crop-option {padding:.65rem;}
+  .profile-background-crop-preview {height:5.5rem;}
+  .profile-background-crop-preview.is-mobile-preview {height:6.5rem;}
+  .profile-background-crop-stage {aspect-ratio:4/3;min-height:12rem;}
+  .profile-school-year-controls>#profile-school-year,.profile-position-inline {flex-basis:100%;width:100%;}
+}
+
+@media(min-width:901px) { body.fp-student-shell .profile-summary-grid {grid-template-columns:repeat(3,minmax(0,1fr));} }

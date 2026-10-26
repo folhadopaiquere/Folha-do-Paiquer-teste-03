@@ -1,0 +1,296 @@
+/* Folha do Paiquerê v165 — correções direcionadas do perfil público e da prévia do editor.
+   A folha é carregada por último nas duas páginas afetadas. */
+
+/* 1) Perfil público: o contêiner precisa ter uma altura definida abaixo do cabeçalho fixo;
+   a grade interna usa uma linha flexível real e a coluna direita é a única dona da rolagem. */
+@media (min-width: 900px) {
+  body.fp-profile-scroll-shell {
+    height: 100dvh !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
+  }
+
+  body.fp-profile-scroll-shell #conteudo-principal {
+    /* Cabeçalho permanece no fluxo; o perfil usa aproximadamente 95% da tela total. */
+    height: calc(95dvh - 4.6rem) !important;
+    max-height: calc(95dvh - 4.6rem) !important;
+    min-height: 0 !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+    padding: clamp(.55rem, 1.1dvh, .9rem) clamp(.8rem, 2vw, 1.5rem) !important;
+  }
+
+  body.fp-profile-scroll-shell #profile-page,
+  body.fp-profile-scroll-shell .fp-public-profile-page {
+    height: 100% !important;
+    min-height: 0 !important;
+    max-height: 100% !important;
+    overflow: hidden !important;
+  }
+
+  body.fp-profile-scroll-shell .fp-public-profile-page {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  body.fp-profile-scroll-shell .fp-profile-topbar {
+    flex: 0 0 auto !important;
+  }
+
+  body.fp-profile-scroll-shell .fp-public-profile-layout {
+    display: grid !important;
+    grid-template-rows: minmax(0, 1fr) !important;
+    flex: 1 1 0% !important;
+    min-height: 0 !important;
+    max-height: 100% !important;
+    height: auto !important;
+    overflow: hidden !important;
+    align-items: stretch !important;
+  }
+
+  body.fp-profile-scroll-shell .fp-profile-sidebar {
+    height: 100% !important;
+    min-height: 0 !important;
+    max-height: 100% !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    overscroll-behavior-y: contain !important;
+  }
+
+  body.fp-profile-scroll-shell .fp-profile-main {
+    display: flex !important;
+    flex-direction: column !important;
+    height: 100% !important;
+    min-height: 0 !important;
+    max-height: 100% !important;
+    flex: 1 1 auto !important;
+    align-self: stretch !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    overscroll-behavior-y: contain !important;
+    scrollbar-gutter: stable !important;
+    padding-bottom: clamp(1.25rem, 3dvh, 2rem) !important;
+  }
+
+  /* Prevent nested flex/grid children from collapsing the content that the right pane scrolls. */
+  body.fp-profile-scroll-shell .fp-profile-main > * {
+    flex: 0 0 auto !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+
+  body.fp-profile-scroll-shell #profile-default-content,
+  body.fp-profile-scroll-shell .fp-profile-main > .fp-profile-filter-results:not([hidden]) {
+    flex: 0 0 auto !important;
+    height: auto !important;
+    min-height: max-content !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+
+  body.fp-profile-scroll-shell #profile-default-content {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 1rem !important;
+  }
+
+  body.fp-profile-scroll-shell #profile-default-content > .fp-profile-module {
+    flex: 0 0 auto !important;
+    height: auto !important;
+    min-height: max-content !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+
+  body.fp-profile-scroll-shell .fp-profile-filter-grid {
+    grid-auto-rows: auto !important;
+    align-content: start !important;
+    align-items: start !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+
+  body.fp-profile-scroll-shell .fp-profile-filter-card,
+  body.fp-profile-scroll-shell .fp-profile-filter-card > .fp-public-article-card,
+  body.fp-profile-scroll-shell .fp-profile-filter-card .fp-profile-achievement-card {
+    flex: 0 0 auto !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    overflow: visible !important;
+    align-self: start !important;
+  }
+
+  body.fp-profile-scroll-shell .fp-profile-carousel-wrap,
+  body.fp-profile-scroll-shell .fp-profile-carousel-viewport,
+  body.fp-profile-scroll-shell .fp-profile-carousel-track,
+  body.fp-profile-scroll-shell .fp-profile-carousel-item {
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+  }
+
+  body.fp-profile-scroll-shell .fp-profile-carousel-viewport {
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+  }
+
+  /* Keep inactive filters truly absent, even if an older display rule is more general. */
+  body.fp-profile-scroll-shell .fp-profile-filter-results[hidden],
+  body.fp-profile-scroll-shell #profile-default-content[hidden] {
+    display: none !important;
+  }
+}
+
+/* 2) Editor: keep the live preview fixed at the right edge throughout the page scroll.
+   The available editor area (after the fixed navigation rail and page paddings) is split 65/35. */
+body.fp-editor-workspace #conteudo-principal {
+  container-type: inline-size !important;
+  container-name: editor-available !important;
+}
+
+@media (min-width: 1100px) {
+  body.fp-editor-workspace #editor-layout-grid {
+    display: grid !important;
+    grid-template-columns: minmax(0, 65fr) minmax(0, 35fr) !important;
+    grid-auto-flow: row !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    gap: 1rem !important;
+    align-items: start !important;
+  }
+
+  body.fp-editor-workspace #editor-meta-panel {
+    grid-column: 1 !important;
+    grid-row: 1 !important;
+    position: relative !important;
+    inset: auto !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+
+  body.fp-editor-workspace #editor-preview-column {
+    grid-column: 2 !important;
+    grid-row: 1 !important;
+    position: fixed !important;
+    top: 5dvh !important;
+    right: clamp(1.25rem, 3vw, 3.75rem) !important;
+    bottom: auto !important;
+    left: auto !important;
+    width: calc(35cqw - .35rem) !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    height: 90dvh !important;
+    min-height: 0 !important;
+    max-height: 90dvh !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    align-self: auto !important;
+    z-index: 70 !important;
+  }
+
+  body.fp-editor-workspace #editor-preview-panel {
+    position: relative !important;
+    inset: auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    max-height: 100% !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+  }
+
+  body.fp-editor-workspace #editor-preview-body {
+    display: flex !important;
+    flex: 1 1 auto !important;
+    flex-direction: column !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
+  }
+
+  body.fp-editor-workspace #editor-live-preview {
+    flex: 1 1 auto !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    max-width: 100% !important;
+    max-height: none !important;
+    overflow: auto !important;
+    overscroll-behavior: contain !important;
+  }
+}
+
+/* Fallback for browsers without container-query units: derive the preview from usable width. */
+@supports not (width: 1cqw) {
+  @media (min-width: 1100px) {
+    body.fp-editor-workspace #editor-layout-grid {
+      grid-template-columns: minmax(0, calc(100% - 35vw + 6.5rem)) minmax(0, calc(35vw - 7.5rem)) !important;
+    }
+    body.fp-editor-workspace #editor-preview-column {
+      width: calc(35vw - 7.5rem) !important;
+    }
+  }
+}
+
+/* At compact widths retain the existing single-column editor. The mobile layout is not redesigned. */
+@media (max-width: 1099px) {
+  body.fp-editor-workspace #editor-layout-grid {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    width: 100% !important;
+    gap: clamp(.8rem, 1.25vw, 1.2rem) !important;
+  }
+
+  body.fp-editor-workspace #editor-meta-panel {
+    grid-column: 1 !important;
+    grid-row: 1 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    position: relative !important;
+    inset: auto !important;
+  }
+
+  body.fp-editor-workspace #editor-preview-column {
+    grid-column: 1 !important;
+    grid-row: 2 !important;
+    position: relative !important;
+    inset: auto !important;
+    width: 100% !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+
+  body.fp-editor-workspace #editor-preview-panel {
+    position: relative !important;
+    width: 100% !important;
+    height: auto !important;
+    max-height: none !important;
+  }
+
+  body.fp-editor-workspace #editor-preview-body {
+    display: block !important;
+    overflow: visible !important;
+  }
+
+  body.fp-editor-workspace #editor-live-preview {
+    min-height: 16rem !important;
+    max-height: 70dvh !important;
+    overflow: auto !important;
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "name": "folha-do-paiquere-functions",
+  "private": true,
+  "description": "Funções seguras de administração do Folha do Paiquerê",
+  "main": "index.js",
+  "engines": {
+    "node": "22"
+  },
+  "dependencies": {
+    "firebase-admin": "^14.2.0",
+    "firebase-functions": "^7.4.0"
+  }
+}

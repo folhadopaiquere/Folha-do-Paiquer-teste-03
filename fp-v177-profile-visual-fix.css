@@ -1,0 +1,30 @@
+/* Folha do Paiquerê v177 — correção estritamente visual do perfil público desktop.
+   Causa identificada na v176: .fp-profile-topbar continuava fora da grade de duas
+   colunas, mas recebeu fundo, borda e desfoque em toda a largura do perfil, formando
+   uma faixa transversal sobre o fundo personalizado e o painel de conteúdo.
+   Mantemos o sticky; removemos apenas a faixa e limitamos a área do botão à coluna esquerda. */
+@media (min-width: 900px) {
+  body.fp-profile-scroll-shell .fp-profile-topbar {
+    width: calc(40% - .15rem) !important;
+    max-width: calc(40% - .15rem) !important;
+    align-self: flex-start !important;
+    box-sizing: border-box !important;
+    background: transparent !important;
+    background-image: none !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+
+  /* Supersede the more-specific dark-mode background from v176 as well. */
+  .dark body.fp-profile-scroll-shell .fp-profile-topbar,
+  body.dark.fp-profile-scroll-shell .fp-profile-topbar {
+    background: transparent !important;
+    background-image: none !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+}

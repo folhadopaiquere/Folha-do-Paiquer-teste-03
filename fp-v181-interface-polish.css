@@ -1,0 +1,74 @@
+/* v181: polimento contido; preserva os tamanhos, margens e a paleta principal existentes. */
+:where(a, button, input, select, textarea, [role="button"], [tabindex]:not([tabindex="-1"])) {
+  -webkit-tap-highlight-color: rgba(72, 123, 185, 0.14);
+}
+:where(a, button, input, select, textarea, [role="button"], [tabindex]:not([tabindex="-1"])):focus-visible {
+  outline: 3px solid #4F86C6;
+  outline-offset: 2px;
+}
+html.dark :where(a, button, input, select, textarea, [role="button"], [tabindex]:not([tabindex="-1"])):focus-visible,
+.dark :where(a, button, input, select, textarea, [role="button"], [tabindex]:not([tabindex="-1"])):focus-visible {
+  outline-color: #A8CCFA;
+}
+
+/* Dialog shared by the public area and the student/editorial area. */
+.fp-pwa-help-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 30000;
+  display: none;
+  place-items: center;
+  overflow-y: auto;
+  padding: max(.75rem, env(safe-area-inset-top)) max(.75rem, env(safe-area-inset-right)) max(.75rem, env(safe-area-inset-bottom)) max(.75rem, env(safe-area-inset-left));
+  background: rgba(5, 12, 24, .70);
+  -webkit-backdrop-filter: blur(7px);
+  backdrop-filter: blur(7px);
+}
+.fp-pwa-help-overlay.is-visible { display: grid; }
+.fp-pwa-help-dialog {
+  box-sizing: border-box;
+  width: min(100%, 28rem);
+  max-height: min(90vh, 44rem);
+  max-height: min(90dvh, 44rem);
+  overflow: auto;
+  border: 1px solid #D4DFEC;
+  border-radius: 1.25rem;
+  padding: clamp(1rem, 4vw, 1.5rem);
+  background: linear-gradient(180deg, #FFFFFF 0%, #F5F8FC 100%);
+  color: #15243A;
+  text-align: center;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, .28);
+}
+.fp-pwa-help-dialog img { display: block; width: 3.625rem; height: 3.625rem; object-fit: contain; margin: 0 auto .7rem; }
+.fp-pwa-help-dialog h2 { margin: .4rem 0 .6rem; font-size: 1.2rem; line-height: 1.35; font-weight: 850; }
+.fp-pwa-help-dialog p { margin: .5rem 0 1.1rem; color: #465B75; font-size: .94rem; line-height: 1.6; overflow-wrap: anywhere; }
+.fp-pwa-help-dialog .fp-pwa-install-button { min-height: 2.75rem; max-width: 100%; border: 1px solid #214B7B; border-radius: .85rem; padding: .7rem 1.15rem; background: #173A64; color: #FFFFFF; font: inherit; font-weight: 800; cursor: pointer; }
+.fp-pwa-help-dialog .fp-pwa-install-button:hover { background: #24558B; }
+.fp-pwa-status {
+  position: fixed;
+  z-index: 30001;
+  left: 50%;
+  bottom: calc(1rem + env(safe-area-inset-bottom));
+  box-sizing: border-box;
+  width: min(calc(100% - 2rem), 36rem);
+  transform: translate(-50%, 1rem);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  padding: .85rem 1rem;
+  border: 1px solid #D1DDEC;
+  border-radius: .9rem;
+  background: #FFFFFF;
+  color: #18304F;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, .18);
+  font-size: .9rem;
+  font-weight: 700;
+  line-height: 1.45;
+  transition: opacity .18s ease, transform .18s ease, visibility .18s ease;
+}
+.fp-pwa-status.is-visible { opacity: 1; visibility: visible; transform: translate(-50%, 0); }
+.dark .fp-pwa-help-dialog, html.dark .fp-pwa-help-dialog { border-color: #31445E; background: linear-gradient(180deg, #111E32 0%, #0B1423 100%); color: #F2F6FD; }
+.dark .fp-pwa-help-dialog p, html.dark .fp-pwa-help-dialog p { color: #C4D1E2; }
+.dark .fp-pwa-help-dialog .fp-pwa-install-button, html.dark .fp-pwa-help-dialog .fp-pwa-install-button { border-color: #A8CCFA; background: #A8CCFA; color: #0A1B32; }
+.dark .fp-pwa-status, html.dark .fp-pwa-status { border-color: #304A68; background: #102038; color: #F3F7FD; }
+@media (prefers-reduced-motion: reduce) { .fp-pwa-status { transition: none; } }

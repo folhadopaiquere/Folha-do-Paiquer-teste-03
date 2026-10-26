@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="pt-BR">
+<head>
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Folha do Paiquerê">
+<link rel="apple-touch-icon" href="assets/branding/brasao-folha-paiquere-192.png">
+<link rel="icon" type="image/png" href="assets/branding/brasao-folha-paiquere.png">
+
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="#10243E" name="theme-color"/>
+<title>Folha do Paiquerê</title>
+<script>
+    (() => {
+      try {
+        const savedTheme = localStorage.getItem("theme");
+        const systemDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        const theme = savedTheme === "dark" || savedTheme === "light" ? savedTheme : (systemDark ? "dark" : "light");
+        document.documentElement.classList.toggle("dark", theme === "dark");
+        const savedScale = Number(localStorage.getItem("fp-font-scale"));
+        if (Number.isFinite(savedScale) && savedScale >= -2 && savedScale <= 3) {
+          document.documentElement.dataset.fontScale = String(savedScale);
+          document.documentElement.style.fontSize = `${100 + savedScale * 10}%`;
+        }
+      } catch (_) {}
+    })();
+  </script>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            folha: {50:"#F2F7F3",100:"#E8F2E9",300:"#81C784",700:"#2E7D32",800:"#1B5E20"}
+          }
+        }
+      }
+    };
+  </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=Lato:wght@400;700;900&amp;family=Merriweather:wght@400;700;900&amp;family=Montserrat:wght@400;600;700;800&amp;family=Nunito:wght@400;600;700;800&amp;family=Open+Sans:wght@400;600;700;800&amp;family=Oswald:wght@400;500;600;700&amp;family=Playfair+Display:wght@400;600;700;800&amp;family=Raleway:wght@400;600;700;800&amp;family=Roboto:wght@400;500;700;900&amp;family=Source+Sans+3:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>
+:root{--access-bar-height:56px}
+html{font-size:100%}
+html[data-font-scale="-2"]{font-size:80%}
+html[data-font-scale="-1"]{font-size:90%}
+html[data-font-scale="0"]{font-size:100%}
+html[data-font-scale="1"]{font-size:110%}
+html[data-font-scale="2"]{font-size:120%}
+html[data-font-scale="3"]{font-size:130%}
+*{box-sizing:border-box}
+body{margin:0;padding-top:0;font-family:Inter,system-ui,sans-serif;background:#F8F9FA;color:#1A1D1A}
+.dark body{background:#121212;color:#E0E0E0}
+:focus-visible{outline:3px solid #81C784;outline-offset:3px}
+.skip-link{position:fixed;top:.75rem;left:.75rem;z-index:10000;transform:translateY(-150%);background:#1B5E20;color:#fff;padding:.75rem 1rem;border-radius:.5rem;font-weight:700}
+.skip-link:focus{transform:translateY(0)}
+.accessibility-bar{position:fixed;right:1rem;bottom:1rem;top:auto;left:auto;width:auto;min-height:0;z-index:9999;background:#fff;border:1px solid #D5DDD6;border-radius:.9rem;box-shadow:0 8px 24px rgba(0,0,0,.14);padding:.4rem}
+.dark .accessibility-bar{position:fixed;right:1rem;bottom:1rem;top:auto;left:auto;width:auto;min-height:0;z-index:9999;background:#fff;border:1px solid #D5DDD6;border-radius:.9rem;box-shadow:0 8px 24px rgba(0,0,0,.14);padding:.4rem}
+.access-btn{min-width:2.35rem;height:2.35rem;display:inline-flex;align-items:center;justify-content:center;gap:.35rem;border:1px solid #B8C3BA;border-radius:.5rem;background:#fff;color:#1A1D1A;font-weight:700;white-space:nowrap;cursor:pointer}
+.access-btn:hover{background:#F2F7F3;border-color:#2E7D32;color:#1B5E20}
+.dark .access-btn{background:#242424;border-color:#4A4A4A;color:#E0E0E0}
+.dark .access-btn:hover{background:#2D382E;border-color:#81C784;color:#81C784}
+.brand-mark{width:2.75rem;height:2.75rem;border-radius:.75rem;display:grid;place-items:center;background:#2E7D32;color:#fff;flex:0 0 auto}
+.dark .brand-mark{background:#81C784;color:#121212}
+.panel-surface{background:#fff;border:1px solid #D3DCD5;border-radius:1rem;box-shadow:0 5px 16px rgba(15,23,42,.09)}
+.dark .panel-surface{background:#242424;border-color:#3A3A3A}
+.panel-input{width:100%;border:1px solid #B8C3BA;border-radius:.65rem;background:#fff;color:#1A1D1A;padding:.7rem .8rem}
+.dark .panel-input{background:#1E1E1E;border-color:#4A4A4A;color:#E0E0E0}
+.panel-input:focus{border-color:#2E7D32}
+.btn-primary{background:#2E7D32;color:#fff}
+.btn-primary:hover{background:#1B5E20}
+.dark .btn-primary{background:#81C784;color:#121212}
+.dark .btn-primary:hover{background:#A5D6A7}
+.btn-neutral{background:#2F3430;color:#fff}
+.btn-neutral:hover{background:#1A1D1A}
+.btn-soft{background:#F2F7F3;color:#1B5E20;border:1px solid #A9D4AB}
+.btn-soft:hover{background:#E8F2E9}
+.dark .btn-soft{background:#2D382E;color:#81C784;border-color:#355A38}
+.badge-pendente,.badge-ajustes{background:#F3E9C7;color:#5E4E1A}
+.badge-aprovado{background:#DCECDC;color:#1B5E20}
+.badge-admin{background:#DCECDC;color:#1B5E20}
+.badge-editor{background:#E8F2E9;color:#1B5E20}
+.dark .badge-pendente,.dark .badge-ajustes{background:#4A4226;color:#F0D98A}
+.dark .badge-aprovado,.dark .badge-admin,.dark .badge-editor{background:#2D382E;color:#81C784}
+.tab-active{background:#2E7D32;color:#fff}
+.dark .tab-active{background:#81C784;color:#121212}
+.note{border-left:4px solid #2E7D32;background:#F2F7F3}
+.dark .note{border-left-color:#81C784;background:#242D25}
+@media(max-width:480px){.accessibility-bar{right:.55rem;bottom:.55rem;padding:.3rem}.access-btn{font-size:.72rem}
+
+  :root{--access-bar-height:52px}
+  .access-btn{min-width:2.15rem;width:2.15rem;height:2.15rem;padding:0}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{transition-duration:.01ms!important;animation-duration:.01ms!important;scroll-behavior:auto!important}
+}
+.site-preview-mobile{max-width:390px!important}.preview-site-article{font-family:Inter,system-ui,sans-serif}.preview-site-article .preview-body{max-width:760px;margin:0 auto;padding:2rem 1.25rem}.preview-site-article img{max-width:100%;height:auto}.preview-site-article .preview-title{font-weight:800;line-height:1.05;font-size:clamp(2rem,5vw,4rem)}.preview-site-article .preview-subtitle{font-size:1.08rem;line-height:1.7}.preview-site-article .preview-block{margin-top:1.4rem;line-height:1.75;white-space:pre-wrap}.preview-site-article .preview-video{aspect-ratio:16/9;background:#111;border-radius:1rem;overflow:hidden;margin-top:1.5rem}.preview-site-article .preview-video iframe{width:100%;height:100%;border:0}.format-disabled{opacity:.45;filter:saturate(.4)}
+.preview-site{font-family:Inter,system-ui,sans-serif;background:#fff;color:#1A1D1A;min-height:100%}
+.preview-site-header{min-height:72px;display:flex;align-items:center;justify-content:space-between;gap:18px;padding:14px 24px;border-bottom:1px solid #E2E8E3;background:#fff}
+.preview-site-brand{display:flex;align-items:center;gap:10px}.preview-site-brand strong{display:block;font-size:16px;color:#1B5E20}.preview-site-brand small{display:block;font-size:11px;color:#64706A}.preview-site-mark{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;background:#2E7D32;color:#fff}.preview-site-header nav{display:flex;gap:18px;font-size:12px;font-weight:700;color:#4F5B53}.preview-login{font-size:11px;font-weight:800;background:#2E7D32;color:#fff;border-radius:8px;padding:9px 12px}.preview-site-main{background:#F8F9FA;padding:34px 18px 50px}.preview-site-article{max-width:900px;margin:0 auto;background:#fff;border:1px solid #E2E8E3;border-radius:18px;overflow:hidden}.preview-body{max-width:780px;margin:0 auto;padding:38px 28px 50px}.preview-category{display:inline-flex;border-radius:999px;background:#E8F2E9;color:#1B5E20;padding:6px 10px;font-size:11px;font-weight:800}.preview-title{margin:18px 0 0;font-weight:800;line-height:1.06;font-size:clamp(2rem,5vw,4rem)}.preview-subtitle{margin-top:16px;font-size:1.08rem;line-height:1.7;color:#5D6861}.preview-cover{display:block;width:100%;max-height:440px;object-fit:cover;border-radius:14px;margin-top:24px}.preview-meta{margin-top:18px;font-size:13px;color:#6B756E}.preview-content{margin-top:28px}.preview-block{margin:20px 0;line-height:1.8;font-size:1rem;color:#354039;white-space:pre-wrap}.preview-content img{display:block;max-width:100%;height:auto;margin:24px auto}.preview-video{aspect-ratio:16/9;background:#111;border-radius:14px;overflow:hidden;margin-top:28px}.preview-video iframe{width:100%;height:100%;border:0}.empty-preview{color:#758078;border:1px dashed #B8C3BA;padding:18px;border-radius:12px}.preview-site-footer{display:flex;justify-content:space-between;gap:20px;padding:22px 24px;background:#1E1E1E;color:#fff;font-size:11px}.preview-site-footer strong{display:block}.preview-site-footer small{display:block;margin-top:3px;color:#81C784}
+.dark .preview-site{background:#121212;color:#E0E0E0}.dark .preview-site-header{background:#1E1E1E;border-color:#333}.dark .preview-site-brand strong{color:#81C784}.dark .preview-site-brand small,.dark .preview-site-header nav{color:#AAB3AD}.dark .preview-site-main{background:#121212}.dark .preview-site-article{background:#1E1E1E;border-color:#333}.dark .preview-subtitle,.dark .preview-block{color:#CBD2CD}.dark .preview-meta{color:#9AA39D}
+@media(max-width:767px){.preview-site-header{padding:12px 14px}.preview-site-header nav{display:none}.preview-login{display:none}.preview-site-main{padding:14px 8px 30px}.preview-body{padding:26px 18px 36px}.preview-title{font-size:2rem}.preview-subtitle{font-size:1rem}.preview-site-footer{padding:18px 14px}.preview-site-footer>div:last-child{display:none}}
+.mobile-editor-canvas{box-shadow:0 10px 30px rgba(0,0,0,.12)}
+@media(max-width:767px){
+  body.mobile-editor-mode #conteudo-principal{padding-left:.5rem;padding-right:.5rem}
+  body.mobile-editor-mode aside{max-height:none;overflow:visible;position:static}
+  body.mobile-editor-mode .canvas-wrap{margin-left:0;margin-right:0;background:#eef2ef}
+  body.mobile-editor-mode #canvas-shell{width:100%;display:flex;justify-content:center}
+  body.mobile-editor-mode #news-canvas{display:block;touch-action:none}.canvas-container{touch-action:none}
+}
+.mobile-editor-canvas{box-shadow:0 10px 30px rgba(0,0,0,.12)}
+@media(max-width:767px){
+  body.mobile-editor-mode #conteudo-principal{padding-left:.5rem;padding-right:.5rem}
+  body.mobile-editor-mode .grid.xl\:grid-cols-\[310px_minmax\(0\,1fr\)\]{display:block}
+  body.mobile-editor-mode aside{max-height:none;overflow:visible;position:static}
+  body.mobile-editor-mode .canvas-wrap{margin-left:0;margin-right:0;background:#eef2ef}
+  body.mobile-editor-mode #canvas-shell{width:100%;display:flex;justify-content:center}
+  body.mobile-editor-mode #news-canvas{display:block;touch-action:none}.canvas-container{touch-action:none}
+  body.mobile-editor-mode .xl\:hidden{position:static}
+}
+.dark .article-editor-text span,.dark .preview-text-title span,.dark .preview-text-subtitle span,.dark .preview-text-body span{color:#FFFFFF !important}.article-editor-text span,.preview-text-title span,.preview-text-subtitle span,.preview-text-body span{color:#1A1D1A}
+.news-poll{margin:2rem 0;padding:1.35rem;border:1px solid #D5DDD6;border-radius:1.15rem;background:#fff;box-shadow:0 8px 24px rgba(0,0,0,.05)}.dark .news-poll{background:#1E241F;border-color:#3B463D}.poll-heading{display:flex;align-items:center;gap:.5rem;margin-bottom:.65rem}.poll-badge{font-size:.65rem;font-weight:900;letter-spacing:.08em;border-radius:999px;padding:.28rem .5rem;background:#E8F2E9;color:#1B5E20}.poll-kind{font-size:.72rem;color:#69746D}.news-poll h3{font-size:1.18rem;line-height:1.4;font-weight:800;margin:0}.poll-help{font-size:.78rem;color:#6B756E;margin:.45rem 0 1rem}.poll-options{display:grid;gap:.55rem}.poll-options button{width:100%;display:flex;align-items:center;gap:.7rem;border:1px solid #C8D2CA;background:#fff;color:#1A1D1A;border-radius:.8rem;padding:.78rem .85rem;text-align:left;font-weight:700;cursor:pointer;transition:.15s}.poll-options button:hover{border-color:#81C784;background:#F8FBF8}.poll-options button.active{background:#E8F2E9;border-color:#2E7D32;color:#1B5E20}.poll-option-marker{width:1rem;height:1rem;border:2px solid #9AA59D;border-radius:50%;flex:0 0 1rem}.poll-options button.active .poll-option-marker{border-color:#2E7D32;box-shadow:inset 0 0 0 3px #fff;background:#2E7D32}.dark .poll-options button{background:#242424;color:#E0E0E0;border-color:#454A46}.dark .poll-options button:hover{background:#2A332B}.dark .poll-options button.active{background:#2D382E;color:#81C784;border-color:#81C784}.dark .poll-options button.active .poll-option-marker{border-color:#81C784;background:#81C784;box-shadow:inset 0 0 0 3px #2D382E}.poll-status{font-size:.75rem;font-weight:700;margin-top:.8rem;color:#1B5E20}.dark .poll-status{color:#81C784}.poll-editor-preview{padding:1rem;border:1px dashed #A9D4AB;border-radius:1rem;background:#F8FBF8}.dark .poll-editor-preview{background:#1E241F;border-color:#355A38}.poll-editor-preview .news-poll{margin:0;box-shadow:none}
+.btn-soft.active{background:#DCECDC;border-color:#2E7D32;color:#1B5E20}.dark .btn-soft.active{background:#2D382E;border-color:#81C784;color:#81C784}
+
+/* v18: editor mobile em blocos e sombras mais definidas */
+.shadow-accessible,.panel-surface,.achievement-card,.creative-card{box-shadow:0 5px 18px rgba(15,23,42,.10)!important}
+.dark .shadow-accessible,.dark .panel-surface,.dark .achievement-card,.dark .creative-card{box-shadow:0 6px 20px rgba(0,0,0,.24)!important}
+@media(max-width:767px){
+  #mobile-block-editor{display:block}
+  #canvas-shell,.canvas-wrap{display:none!important}
+  .mobile-block-card{border:1px solid #CDD8CF;border-radius:1rem;background:#fff;padding:.85rem;box-shadow:0 5px 16px rgba(15,23,42,.10)}
+  .dark .mobile-block-card{background:#1E1E1E;border-color:#394139;box-shadow:0 4px 16px rgba(0,0,0,.22)}
+  .mobile-block-handle{font-size:.7rem;font-weight:900;text-transform:uppercase;letter-spacing:.08em;color:#2E7D32}
+  .dark .mobile-block-handle{color:#81C784}
+  .mobile-block-card textarea,.mobile-block-card input,.mobile-block-card select{width:100%;margin-top:.55rem}
+  .mobile-block-actions{display:flex;gap:.45rem;margin-top:.65rem}
+  .mobile-block-actions button{flex:1}
+}
+.quick-mobile-tools{display:none!important}
+</style><style id="fp-visual-density">.panel-surface,.achievement-card,.creative-card,.news-card,.mobile-block-card{box-shadow:0 5px 18px rgba(15,23,42,.10)!important}.dark .panel-surface,.dark .achievement-card,.dark .creative-card,.dark .news-card,.dark .mobile-block-card{box-shadow:0 5px 18px rgba(0,0,0,.24)!important}</style>
+<script defer="" src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script defer="" src="supabase-config.js"></script>
+<style id="fp-final-polish">
+html{scroll-behavior:smooth}*,*::before,*::after{box-sizing:border-box}img,video{max-width:100%}button,input,select,textarea{font:inherit}button,a,input,select,textarea{outline-color:#2E7D32}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid rgba(46,125,50,.32);outline-offset:2px}.site-input::placeholder{color:#667067;opacity:1}.dark .site-input::placeholder{color:#AAB4AC;opacity:1}.site-input{min-height:44px}.panel-surface{overflow-wrap:anywhere}.table-wrap,table{max-width:100%}@media(max-width:767px){body{overflow-x:hidden}.max-w-7xl,.max-w-\[1500px\]{width:100%}main{padding-left:1rem!important;padding-right:1rem!important}.site-input{font-size:16px}.accessibility-bar{max-width:calc(100vw - 1rem)}button,.access-btn{min-height:44px}news-poll{padding:1rem;margin:1.5rem 0}.poll-options button{padding:.8rem .75rem}.poll-footer{display:grid!important;grid-template-columns:1fr;gap:.75rem}.poll-submit{width:100%}}@media(min-width:768px) and (max-width:1279px){main{padding-left:1.25rem!important;padding-right:1.25rem!important}}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+.dark button:focus-visible,.dark a:focus-visible,.dark input:focus-visible,.dark select:focus-visible,.dark textarea:focus-visible{outline-color:#81C784}
+</style>
+
+<style id="fp-mobile-editor-order">@media(max-width:767px){.editor-page-grid{display:flex!important;flex-direction:column!important}.editor-page-grid>section{display:contents}.editor-page-grid>aside{order:3}.editor-page-grid>section{order:1}.editor-page-grid #mobile-block-editor{order:1}.editor-page-grid .canvas-wrap{order:2}}</style>
+<style id="fp-credit-mobile-final">
+.credit-search-wrap{position:relative}.credit-search-wrap>span{position:absolute;left:.75rem;top:50%;transform:translateY(-50%);font-size:1.05rem;color:#657067;pointer-events:none}.credit-search{padding-left:2.1rem!important}.credit-options{display:grid;gap:.45rem;max-height:11rem;overflow:auto;padding:.55rem;border:1px solid #D9E2DA;border-radius:.85rem;background:#FAFCFA}.dark .credit-options{border-color:#303A32;background:#191D19}.credit-option{display:flex;align-items:center;gap:.6rem;padding:.55rem .6rem;border-radius:.65rem;cursor:pointer}.credit-option:hover{background:#F2F7F3}.dark .credit-option:hover{background:#242D25}.credit-option input{width:1rem;height:1rem;accent-color:#2E7D32}.credit-option-name{font-size:.82rem;font-weight:700}.credit-option-meta{font-size:.68rem;color:#758078;margin-left:auto}.credit-option-other{border-top:1px solid #D9E2DA;margin-top:.2rem;padding-top:.65rem}.dark .credit-option-other{border-color:#303A32}.credit-empty{padding:.7rem;text-align:center;font-size:.75rem;color:#7A857C}.credit-summary{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.45rem}.credit-chip{display:inline-flex;align-items:center;gap:.3rem;padding:.25rem .5rem;border-radius:999px;background:#E8F2E9;color:#1B5E20;font-size:.68rem;font-weight:800}.dark .credit-chip{background:#2D382E;color:#81C784}@media(max-width:767px){main>.grid{display:flex!important;flex-direction:column!important}main>.grid>aside{order:2}main>.grid>section{order:1;display:flex;flex-direction:column}main>.grid>section>#mobile-block-editor{order:1}main>.grid>section>.canvas-wrap{order:2}.credit-options{max-height:9.5rem}.credit-option{padding:.65rem .55rem;min-height:44px}}
+</style><style id="fp-v27-global-polish">
+/* v27 — acabamento visual global: proporção, conforto e acessibilidade */
+:root{
+  --fp-bg:#F6F8F6;
+  --fp-surface:#FFFFFF;
+  --fp-surface-soft:#F2F7F3;
+  --fp-line:#DDE5DE;
+  --fp-line-strong:#C9D5CC;
+  --fp-text:#1A1D1A;
+  --fp-muted:#667067;
+  --fp-green:#2E7D32;
+  --fp-green-deep:#1B5E20;
+  --fp-green-light:#81C784;
+}
+html{scroll-padding-top:1rem}
+body{background:var(--fp-bg);color:var(--fp-text);line-height:1.55;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.dark body{background:#111411;color:#E5EAE6}
+main{min-height:calc(100vh - 15rem)}
+button,.btn-primary,.btn-neutral,.btn-soft,.access-btn,a,input,select,textarea{transition:background-color .16s ease,border-color .16s ease,color .16s ease,box-shadow .16s ease,transform .16s ease}
+button:not(:disabled):hover,.btn-primary:not(:disabled):hover,.btn-neutral:not(:disabled):hover,.btn-soft:not(:disabled):hover{transform:translateY(-1px)}
+button:active,.btn-primary:active,.btn-neutral:active,.btn-soft:active{transform:translateY(0)}
+.btn-primary{min-height:44px;border-radius:.8rem!important;background:var(--fp-green);color:#fff;border:1px solid var(--fp-green);padding:.65rem 1rem;font-weight:800;box-shadow:0 4px 12px rgba(46,125,50,.12)}
+.dark .btn-primary{background:var(--fp-green-light);border-color:var(--fp-green-light);color:#121212}
+.btn-soft{min-height:44px;border-radius:.8rem!important;background:var(--fp-surface-soft);color:var(--fp-green-deep);border:1px solid #CFE0D1;padding:.65rem 1rem}
+.dark .btn-soft{background:#243026;color:var(--fp-green-light);border-color:#3A5140}
+.btn-neutral{min-height:44px;border-radius:.8rem!important;background:var(--fp-surface);color:var(--fp-text);border:1px solid var(--fp-line-strong);padding:.65rem 1rem}
+.dark .btn-neutral{background:#1E211F;color:#E2E7E3;border-color:#3B433D}
+.site-input,.about-search-input,.about-search-select{border-radius:.82rem!important;border-color:var(--fp-line-strong)!important;background:#fff!important;box-shadow:0 1px 1px rgba(15,23,42,.02)}
+.site-input:focus,.about-search-input:focus,.about-search-select:focus{box-shadow:0 0 0 4px rgba(129,199,132,.16)!important}
+.dark .site-input,.dark .about-search-input,.dark .about-search-select{background:#1D211E!important;border-color:#455048!important;color:#E5EAE6!important}
+.panel-surface,.news-card,.achievement-card,.creative-card,.school-notice-card,.comment-item,.comment-composer,.about-profile-card,.profile-page-card{border-radius:1.1rem!important}
+.panel-surface,.news-card,.achievement-card,.creative-card,.school-notice-card,.comment-item,.about-profile-card,.profile-page-card{box-shadow:0 8px 26px rgba(15,23,42,.07)!important}
+.dark .panel-surface,.dark .news-card,.dark .achievement-card,.dark .creative-card,.dark .school-notice-card,.dark .comment-item,.dark .about-profile-card,.dark .profile-page-card{box-shadow:0 8px 26px rgba(0,0,0,.22)!important}
+img{border-radius:inherit}
+.author-profile-link{min-height:32px;padding:.12rem .25rem;border-radius:999px}
+.author-profile-link:hover{background:#F2F7F3;color:var(--fp-green-deep)}
+.dark .author-profile-link:hover{background:#243026;color:var(--fp-green-light)}
+.author-profile-mini,.author-profile-mini img{width:30px!important;height:30px!important;min-width:30px!important;min-height:30px!important;max-width:none!important;max-height:none!important;border-radius:999px!important}
+.accessibility-bar{backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.access-btn{border-radius:.72rem!important}
+.access-btn:hover{background:#F2F7F3!important;color:var(--fp-green-deep)}
+.dark .access-btn:hover{background:#242D25!important;color:var(--fp-green-light)}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:#B9C7BC;border-radius:999px;border:3px solid transparent;background-clip:padding-box}
+.dark ::-webkit-scrollbar-thumb{background:#4D5A50;border-color:transparent}
+::selection{background:#CFE8D0;color:#153719}
+.dark ::selection{background:#355A3A;color:#EFF7F0}
+@media(max-width:767px){
+  main{min-height:calc(100vh - 11rem)}
+  h1.text-6xl{font-size:2.35rem!important;line-height:1.08!important}
+  h1.text-5xl{font-size:2.1rem!important;line-height:1.1!important}
+  h1.text-4xl{font-size:1.95rem!important;line-height:1.12!important}
+  h2.text-4xl{font-size:1.75rem!important}
+  h2.text-3xl{font-size:1.55rem!important}
+  .panel-surface,.news-card,.achievement-card,.creative-card,.school-notice-card{box-shadow:0 5px 18px rgba(15,23,42,.06)!important}
+  .dark .panel-surface,.dark .news-card,.dark .achievement-card,.dark .creative-card,.dark .school-notice-card{box-shadow:0 5px 18px rgba(0,0,0,.18)!important}
+}
+@media(min-width:768px) and (max-width:1199px){
+  main{padding-top:2.5rem!important;padding-bottom:4rem!important}
+}
+@media(prefers-reduced-motion:reduce){button,.btn-primary,.btn-neutral,.btn-soft,a{transition:none!important}button:hover,.btn-primary:hover,.btn-neutral:hover,.btn-soft:hover{transform:none!important}}
+</style>
+<style id="fp-v83-elegant-polish">
+:root{--fp-bg:#F5F8F5;--fp-surface:#FFFFFF;--fp-line:#DCE5DE;--fp-line-soft:#E8EEE9}
+body{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body>header{box-shadow:0 1px 0 rgba(27,94,32,.05),0 5px 18px rgba(15,23,42,.025)}
+.dark body>header{box-shadow:0 1px 0 rgba(129,199,132,.08),0 5px 18px rgba(0,0,0,.12)}
+.hero-grid{background-image:none!important}
+.panel-surface,.news-card,.achievement-card,.creative-card,.school-notice-card,.comment-item,.comment-composer,.about-profile-card,.profile-page-card{border-color:var(--fp-line)!important;box-shadow:0 7px 22px rgba(15,23,42,.055)!important}
+.dark .panel-surface,.dark .news-card,.dark .achievement-card,.dark .creative-card,.dark .school-notice-card,.dark .comment-item,.dark .comment-composer,.dark .about-profile-card,.dark .profile-page-card{border-color:#303A32!important;box-shadow:0 7px 22px rgba(0,0,0,.17)!important}
+.btn-primary{box-shadow:0 4px 12px rgba(46,125,50,.09)!important}
+.btn-soft,.btn-neutral{box-shadow:0 2px 8px rgba(15,23,42,.025)!important}
+.site-input{box-shadow:0 1px 1px rgba(15,23,42,.018)!important}
+.site-input:focus{box-shadow:0 0 0 3px rgba(129,199,132,.17)!important}
+.accessibility-bar{box-shadow:0 6px 18px rgba(15,23,42,.10)!important}
+@media(max-width:767px){body>header{box-shadow:0 1px 0 rgba(27,94,32,.04),0 3px 12px rgba(15,23,42,.02)}}
+@media(prefers-reduced-motion:reduce){*{transition-duration:.01ms!important;animation-duration:.01ms!important}}
+</style>
+<style id="fp-v83-poll-polish">
+.news-poll .poll-options button{display:flex;align-items:center;gap:.65rem}
+.news-poll .poll-option-label{flex:1;min-width:0}
+.news-poll .poll-option-marker{width:1rem;height:1rem;flex:0 0 1rem;border:2px solid #9AA59D;border-radius:50%}
+.news-poll .poll-options button.active .poll-option-marker{border-color:#2E7D32;box-shadow:inset 0 0 0 3px #fff;background:#2E7D32}
+.news-poll .poll-vote-count{margin-left:auto;min-width:2rem;padding:.22rem .45rem;border:1px solid #D5DDD6;border-radius:999px;background:#F2F7F3;color:#1B5E20;text-align:center;font-size:.68rem;font-weight:900;line-height:1.2}
+.dark .news-poll .poll-option-marker{border-color:#69746D}
+.dark .news-poll .poll-options button.active .poll-option-marker{border-color:#81C784;background:#81C784;box-shadow:inset 0 0 0 3px #2D382E}
+.dark .news-poll .poll-vote-count{border-color:#394139;background:#202620;color:#81C784}
+</style>
+
+<style id="fp-v91-mobile-editor">
+.mobile-add-fab{display:none}.mobile-block-hint{display:block;margin-top:.18rem;font-size:.62rem;font-weight:700;letter-spacing:0;text-transform:none;color:#7A857C}.dark .mobile-block-hint{color:#9BA69E}
+@media(max-width:1023px){
+ body.mobile-editor-mode #mobile-block-editor{display:block!important}body.mobile-editor-mode #canvas-shell,body.mobile-editor-mode .canvas-wrap{display:none!important}
+ body.mobile-editor-mode .mobile-add-fab{display:flex;position:fixed;right:1rem;bottom:1rem;z-index:10015;flex-direction:column;align-items:flex-end;gap:.55rem}
+ .mobile-add-toggle{width:52px;height:52px;border:1px solid #C9D8CB;border-radius:999px;background:#2E7D32;color:#fff;font-size:1.65rem;line-height:1;box-shadow:0 10px 26px rgba(15,23,42,.18);transition:transform .16s ease,background .16s ease}.mobile-add-toggle:hover{transform:translateY(-1px);background:#1B5E20}.dark .mobile-add-toggle{border-color:#48634B;background:#81C784;color:#17351A}
+ .mobile-add-menu{display:none;flex-direction:column;align-items:flex-end;gap:.4rem}.mobile-add-menu.is-open{display:flex}.mobile-add-tool{display:flex;align-items:center;gap:.45rem;border:1px solid #D5E0D7;border-radius:999px;padding:.38rem .45rem .38rem .55rem;background:#fff;color:#1B5E20;box-shadow:0 7px 18px rgba(15,23,42,.10);min-width:92px;justify-content:space-between}.mobile-add-tool span{display:inline-flex;width:34px;height:34px;align-items:center;justify-content:center;border-radius:999px;background:#E8F2E9;font-weight:900}.mobile-add-tool small{font-size:.7rem;font-weight:900}.dark .mobile-add-tool{border-color:#38473B;background:#1E231F;color:#D8EADB}.dark .mobile-add-tool span{background:#2D382E;color:#81C784}
+ .mobile-block-card{touch-action:pan-y;user-select:none}.mobile-block-card textarea,.mobile-block-card input,.mobile-block-card select{user-select:text}
+}
+@media(min-width:1024px){.mobile-add-fab{display:none!important}}
+</style>
+<style id="fp-v92-editor-scoped">
+#editor-accessibility-bar{display:none!important}
+@media(max-width:1023px){#desktop-insert-section{display:none!important}}
+</style>
+<link rel="icon" type="image/png" href="assets/branding/brasao-folha-paiquere.png">
+<style id="fp-v92-branding">
+.brand-mark{background:transparent!important;padding:0!important;width:3.2rem!important;height:3.2rem!important;border-radius:0!important;overflow:visible!important}
+.brand-mark img{width:100%!important;height:100%!important;object-fit:contain!important;border-radius:0!important;display:block!important}
+.footer-school-crest{background:#fff;box-shadow:0 4px 12px rgba(0,0,0,.18);display:block}
+</style>
+
+<style id="fp-v93-responsive-polish">
+/* v93 — somente acabamento responsivo solicitado */
+.brand-mark{width:3.8rem!important;height:3.8rem!important;flex:0 0 3.8rem!important}
+#speech-toggle{min-width:0!important;max-width:100%;flex:0 1 auto;min-height:44px;height:auto;white-space:nowrap!important;overflow:visible;line-height:1.2;display:inline-flex;align-items:center;justify-content:center;align-self:stretch;flex-direction:row}
+#speech-toggle #speech-label{min-width:0;white-space:nowrap!important;overflow:visible;text-align:center}
+@media(max-width:640px){
+  .brand-mark{width:3.5rem!important;height:3.5rem!important;flex-basis:3.5rem!important}
+  #speech-toggle{flex:1 1 100%;width:auto;padding:.7rem .9rem!important;gap:.4rem}
+}
+</style>
+<link rel="stylesheet" href="fp-v98-visual-polish.css">
+  <link rel="stylesheet" href="fp-editor-workspace-v130.css">
+  <link rel="stylesheet" href="fp-editor-controls-v131.css">
+<link rel="stylesheet" href="fp-editor-controls-v132.css">
+<link rel="stylesheet" href="fp-editor-controls-v133.css">
+  <link rel="stylesheet" href="fp-editorial-v134.css">
+  <link rel="stylesheet" href="fp-editorial-v138.css">
+  <link rel="stylesheet" href="fp-student-shell-v126.css">
+  <link rel="stylesheet" href="fp-polish-v141.css">
+  <link rel="stylesheet" href="fp-v148-polish.css">
+  <link rel="stylesheet" href="fp-v149-focused-polish.css">
+  <script defer src="pwa.js"></script>
+
+<link rel="stylesheet" href="fp-v157-polish.css">
+  <link rel="stylesheet" href="fp-v159-focused-polish.css">
+  <link rel="stylesheet" href="fp-v160-targeted-polish.css">
+  <link rel="stylesheet" href="fp-v161-polish.css">
+  <link rel="stylesheet" href="fp-v162-polish.css">
+  <link rel="stylesheet" href="fp-v163-polish.css">
+  <link rel="stylesheet" href="fp-v165-polish.css">
+<link rel="stylesheet" href="fp-v168-auth-loading.css">
+  <link rel="stylesheet" href="fp-v181-interface-polish.css">
+<link rel="stylesheet" href="fp-v184-role-navigation-fix.css">
+<body class="antialiased fp-editor-workspace fp-student-shell">
+<div id="fp-auth-loading" class="fp-auth-loading" data-auth-loading-mode="editor"  role="status" aria-live="polite" aria-busy="true" aria-label="Carregando a Área do Estudante"><div class="fp-auth-loading-card"><img src="assets/branding/brasao-folha-paiquere.png" alt="Brasão da Folha do Paiquerê"><p class="fp-auth-loading-message" data-auth-loading-message>Carregando sua Área do Estudante…</p><span class="fp-auth-loading-indicator" aria-hidden="true"><span></span><span></span><span></span></span></div></div>
+<a class="skip-link" href="#conteudo-principal">Pular para o conteúdo principal</a>
+<aside class="fp-sidebar fp-editor-sidebar" id="fp-editor-sidebar" aria-label="Navegação da Área do Estudante">
+  <a class="fp-sidebar-brand" href="index.html" aria-label="Folha do Paiquerê — voltar ao jornal">
+    <img src="assets/branding/brasao-folha-paiquere.png" alt="" class="fp-sidebar-logo">
+    <span class="fp-brand-copy"><strong>Folha do Paiquerê</strong><span>JORNAL ESCOLAR</span></span>
+  </a>
+  <nav class="fp-sidebar-nav" aria-label="Atalhos da Área do Estudante">
+    <a class="fp-nav-item" href="painel.html?tab=perfil" title="Meu perfil"><span class="fp-editor-nav-icon" aria-hidden="true">♙</span><span class="fp-nav-label">Meu perfil</span></a>
+    <a class="fp-nav-item tab-active" href="painel.html?tab=materias" aria-current="page" title="Minhas matérias"><span class="fp-editor-nav-icon" aria-hidden="true">▤</span><span class="fp-nav-label">Minhas matérias</span></a>
+    <span class="fp-nav-divider" aria-hidden="true"></span>
+    <a class="fp-nav-item editor-only-shortcut" href="painel.html?tab=moderar" title="Mesa do editor"><span class="fp-editor-nav-icon" aria-hidden="true">▣</span><span class="fp-nav-label">Mesa do editor</span></a>
+    <a class="fp-nav-item editor-only-shortcut" href="painel.html?tab=pautas" title="Ler pautas"><span class="fp-editor-nav-icon" aria-hidden="true">☷</span><span class="fp-nav-label">Ler pautas</span></a>
+    <a class="fp-nav-item editor-only-shortcut" href="painel.html?tab=conquistas" title="Postar conquista"><span class="fp-editor-nav-icon" aria-hidden="true">♜</span><span class="fp-nav-label">Postar conquista</span></a>
+    <a class="fp-nav-item editor-only-shortcut" href="painel.html?tab=avisos" title="Postar aviso"><span class="fp-editor-nav-icon" aria-hidden="true">◉</span><span class="fp-nav-label">Postar aviso</span></a>
+    <a class="fp-nav-item master-only-shortcut" href="painel.html?tab=usuarios" title="Equipe e acessos"><span class="fp-editor-nav-icon" aria-hidden="true">♧</span><span class="fp-nav-label">Equipe e acessos</span></a>
+    <button class="fp-nav-item fp-theme-toggle" id="theme-toggle" type="button" aria-label="Alternar para modo escuro" title="Modo escuro"><span class="fp-editor-nav-icon" id="theme-icon" aria-hidden="true">☾</span><span class="fp-nav-label" id="theme-label">Modo escuro</span></button>
+    <a class="fp-nav-item" href="painel.html?tab=sobre-interno" title="Sobre"><span class="fp-editor-nav-icon" aria-hidden="true">ⓘ</span><span class="fp-nav-label">Sobre</span></a>
+  </nav>
+  <div class="fp-sidebar-account">
+    <div class="fp-editor-account-row">
+      <span class="fp-account-avatar" id="editor-sidebar-avatar" aria-hidden="true">?</span>
+      <span class="fp-account-copy"><strong id="editor-sidebar-name">Conta</strong><span class="fp-account-meta"><span id="editor-sidebar-role">Estudante</span></span></span>
+      <a class="fp-editor-account-back" href="painel.html?tab=materias" title="Voltar às minhas matérias" aria-label="Voltar às minhas matérias">↗</a>
+    </div>
+  </div>
+</aside>
+<div id="editor-accessibility-bar" aria-label="Ferramentas de acessibilidade" class="accessibility-bar" role="region">
+<div class="flex items-center gap-1.5">
+<div class="ml-auto flex items-center gap-1.5 sm:gap-2">
+<button aria-label="Diminuir tamanho da fonte" class="access-btn" id="font-decrease" type="button">A-</button>
+<button aria-label="Aumentar tamanho da fonte" class="access-btn" id="font-increase" type="button">A+</button>
+<button aria-label="Ativar notificações" aria-pressed="false" class="access-btn" id="notification-toggle" type="button"><span aria-hidden="true" id="notification-icon">🔔</span><span class="sr-only" id="notification-label">Notificações desativadas</span></button>
+
+</div>
+</div>
+</div>
+<header class="border-b border-slate-200 bg-white dark:border-slate-800 dark:bg-[#1E1E1E]">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="min-h-[4.8rem] flex items-center justify-between gap-4">
+<a class="flex items-center gap-3 min-w-0" href="index.html">
+<span aria-hidden="true" class="brand-mark"><img src="assets/branding/brasao-folha-paiquere.png" alt=""></span>
+<span><span class="block text-base sm:text-lg font-extrabold tracking-tight text-[#1B5E20] dark:text-[#81C784]">Folha do Paiquerê</span><span class="brand-title-compact-sub block text-xs sm:text-sm text-slate-600 dark:text-slate-400">Jornal Escolar</span></span>
+</a>
+<nav aria-label="Navegação principal" class="hidden md:flex items-center gap-1">
+<a class="rounded-lg px-4 py-2 text-sm font-semibold hover:bg-[#F2F7F3] dark:hover:bg-[#242424]" href="index.html">Início</a><a class="rounded-lg px-4 py-2 text-sm font-semibold hover:bg-[#F2F7F3] dark:hover:bg-[#242424]" href="noticias.html">Notícias</a><a class="rounded-lg px-4 py-2 text-sm font-semibold hover:bg-[#F2F7F3] dark:hover:bg-[#242424]" href="participar.html">Participar</a><a class="rounded-lg px-4 py-2 text-sm font-semibold hover:bg-[#F2F7F3] dark:hover:bg-[#242424]" href="conquistas.html">Conquistas</a><a class="rounded-lg px-4 py-2 text-sm font-semibold hover:bg-[#F2F7F3] dark:hover:bg-[#242424]" href="sobre.html">Sobre</a></nav>
+<a class="hidden md:inline-flex items-center rounded-lg bg-[#2E7D32] px-4 py-2.5 text-sm font-bold text-white dark:bg-[#81C784] dark:text-[#121212]" href="painel.html">Área do Estudante</a>
+<button aria-controls="mobile-menu" aria-expanded="false" aria-label="Abrir menu" class="md:hidden inline-flex h-11 w-11 items-center justify-center rounded-lg border border-slate-300 dark:border-slate-700" id="mobile-menu-toggle" type="button">☰</button>
+</div>
+<nav aria-label="Navegação móvel" class="md:hidden hidden border-t border-slate-200 py-3 dark:border-slate-800" id="mobile-menu">
+<div class="grid gap-1">
+<a class="rounded-lg px-3 py-3 text-sm font-semibold text-slate-800 hover:bg-[#F2F7F3] dark:text-slate-200 dark:hover:bg-[#242424]" data-nav="home" href="index.html">Início</a><a class="rounded-lg px-3 py-3 text-sm font-semibold text-slate-800 hover:bg-[#F2F7F3] dark:text-slate-200 dark:hover:bg-[#242424]" data-nav="noticias" href="noticias.html">Notícias</a><a class="rounded-lg px-3 py-3 text-sm font-semibold text-slate-800 hover:bg-[#F2F7F3] dark:text-slate-200 dark:hover:bg-[#242424]" data-nav="participar" href="participar.html">Participar</a><a class="rounded-lg px-3 py-3 text-sm font-semibold text-slate-800 hover:bg-[#F2F7F3] dark:text-slate-200 dark:hover:bg-[#242424]" data-nav="conquistas" href="conquistas.html">Conquistas</a><a class="rounded-lg px-3 py-3 text-sm font-semibold text-slate-800 hover:bg-[#F2F7F3] dark:text-slate-200 dark:hover:bg-[#242424]" data-nav="sobre" href="sobre.html">Sobre</a><a class="mt-2 inline-flex items-center justify-center rounded-lg bg-[#2E7D32] px-4 py-3 text-sm font-bold text-white dark:bg-[#81C784] dark:text-[#121212]" href="login.html">Área do Estudante</a></div>
+</nav>
+</div>
+</header>
+<main class="max-w-[1500px] mx-auto px-3 sm:px-4 lg:px-6 py-5" id="conteudo-principal">
+<div class="editor-page-heading"><div><h1 class="fp-v138-editor-title" id="editor-page-title">Nova matéria</h1><p>Crie, edite e prepare seu conteúdo para análise da redação.</p></div><a class="editor-back-link" href="painel.html?tab=materias">← Minhas matérias</a></div>
+<div id="editor-layout-grid" class="grid grid-cols-1 xl:grid-cols-[310px_minmax(0,1fr)] gap-5 items-start">
+<aside id="editor-meta-panel" aria-labelledby="editor-tools-title" class="panel-surface p-4 xl:sticky xl:top-[84px] h-fit max-h-[calc(100vh-104px)] overflow-y-auto">
+<div class="flex items-start justify-between gap-3">
+<div>
+<p class="text-[11px] font-extrabold uppercase tracking-[.14em] text-[#2E7D32] dark:text-[#81C784]">Produção</p>
+<h1 class="mt-1 text-2xl font-extrabold" id="editor-tools-title">Editor de matéria</h1>
+</div>
+<a class="text-xs font-bold text-[#2E7D32] dark:text-[#81C784]" href="painel.html">Painel</a>
+</div>
+<section id="dados-title" aria-labelledby="dados-title-heading" class="mt-5">
+<h2 class="text-xs font-extrabold uppercase tracking-wide text-slate-500" id="dados-title-heading">Dados da matéria</h2>
+<div class="mt-3 space-y-3">
+<div><label class="block text-sm font-bold" for="article-title">Título da matéria <span class="editor-required-mark" id="editor-title-required">*</span></label><input class="site-input mt-2" id="article-title" maxlength="180" placeholder="Título da matéria"/></div>
+<div><label class="block text-sm font-bold" for="article-subtitle">Subtítulo da matéria</label><textarea class="site-input mt-2" id="article-subtitle" maxlength="500" placeholder="Linha de fino ou resumo" rows="3"></textarea></div>
+<div class="editor-category-field"><label class="block text-sm font-bold" for="article-category-trigger">Categoria <span class="editor-required-mark" id="editor-category-required">*</span></label><div class="editor-category-picker mt-2" id="editor-category-picker"><button type="button" id="article-category-trigger" aria-haspopup="true" aria-expanded="false" aria-controls="article-category-menu"><span id="article-category-trigger-label">Selecione até três categorias</span><span class="editor-category-chevron" aria-hidden="true">⌄</span></button><div class="editor-category-menu" id="article-category-menu" role="group" aria-label="Categorias disponíveis" hidden></div><div class="editor-category-selected" id="article-category-selected" aria-live="polite"></div></div><select multiple size="6" class="site-input mt-2 hidden" id="article-category" aria-hidden="true" tabindex="-1"><option>Esportes</option><option>Cultura</option><option>Tecnologia</option><option>Eventos</option><option>Opinião</option><option>Projetos</option><option>Educação</option><option>Meio ambiente</option><option>Comunidade</option><option>Entretenimento</option><option>Cantinho Criativo</option><option>Outro</option></select><textarea class="site-input mt-2 hidden editor-multiline-other" id="article-category-other" rows="3" maxlength="260" placeholder="Digite um tema por linha (máximo de três temas no total)"></textarea><p class="mt-2 text-xs text-slate-500">Escolha até três categorias. Se nenhuma corresponder, selecione “Outro” e descreva o tema.</p></div>
+<div><label class="block text-sm font-bold" for="article-type">Tipo de assunto</label><select class="site-input mt-2" id="article-type"><option value="informacional">Informacional</option><option value="entretenimento">Entretenimento</option></select></div>
+<div class="hidden" id="creative-type-wrap"><label class="block text-sm font-bold" for="creative-type">Formato criativo</label><select class="site-input mt-2" id="creative-type"><option>Poesia</option><option>Conto</option><option>Crônica</option><option>Tirinha</option><option>Arte digital</option><option>Outro</option></select><input class="site-input mt-2 hidden" id="creative-type-other" maxlength="80" placeholder="Qual formato?"/></div>
+<div id="editor-credits-section" class="border-t border-slate-200 pt-4 dark:border-slate-700"><p class="text-xs font-extrabold uppercase tracking-wide text-slate-500">Créditos</p><p class="mt-1 text-xs leading-5 text-slate-500">Selecione uma ou mais pessoas cadastradas. Use a lupa para localizar um nome; “Outro” serve para pessoas que ainda não têm perfil.</p><div class="mt-3 space-y-3">
+<div class="credit-picker" data-credit-picker="researcher"><label class="block text-sm font-bold" for="article-researcher-search">Pesquisa</label><div class="credit-search-wrap mt-2"><span aria-hidden="true">⌕</span><input class="site-input credit-search" id="article-researcher-search" placeholder="Procurar aluno ou responsável" autocomplete="off"/></div><div class="credit-options mt-2" id="article-researcher-options" role="group" aria-label="Pessoas que fizeram a pesquisa"></div><textarea class="site-input hidden mt-2 editor-multiline-other" id="article-researcher-other" rows="3" maxlength="362" placeholder="Digite um nome por linha (máximo de três créditos de pesquisa)"></textarea></div>
+<div class="credit-picker" data-credit-picker="text"><label class="block text-sm font-bold" for="article-text-credit-search">Texto</label><div class="credit-search-wrap mt-2"><span aria-hidden="true">⌕</span><input class="site-input credit-search" id="article-text-credit-search" placeholder="Procurar aluno ou responsável" autocomplete="off"/></div><div class="credit-options mt-2" id="article-text-credit-options" role="group" aria-label="Pessoas que fizeram o texto"></div><textarea class="site-input hidden mt-2 editor-multiline-other" id="article-text-credit-other" rows="3" maxlength="362" placeholder="Digite um nome por linha (máximo de três créditos de texto)"></textarea></div>
+<div class="credit-picker" data-credit-picker="image"><label class="block text-sm font-bold" for="article-image-credit-search">Imagem</label><div class="credit-search-wrap mt-2"><span aria-hidden="true">⌕</span><input class="site-input credit-search" id="article-image-credit-search" placeholder="Procurar aluno ou responsável" autocomplete="off"/></div><div class="credit-options mt-2" id="article-image-credit-options" role="group" aria-label="Pessoas que fizeram a foto ou imagem"></div><textarea class="site-input hidden mt-2 editor-multiline-other" id="article-image-credit-other" rows="3" maxlength="362" placeholder="Digite um nome por linha (máximo de três créditos de imagem)"></textarea></div>
+</div></div>
+</div>
+</section>
+<section aria-labelledby="cover-title" class="mt-6 border-t border-slate-200 pt-5 dark:border-slate-700">
+<div class="flex items-center justify-between gap-3"><div><h2 class="text-xs font-extrabold uppercase tracking-wide text-slate-500" id="cover-title">Capa da matéria <span class="editor-required-mark" id="editor-cover-required">*</span></h2><p class="mt-1 text-xs text-slate-500">Esta imagem será usada no card das Notícias e no destaque da Home.</p></div></div>
+<input accept="image/png,image/jpeg,image/webp" class="hidden" id="cover-upload" type="file"/>
+<div class="editor-cover-picker-row mt-3"><div class="editor-cover-preview-slot" id="cover-preview-slot"><div class="editor-cover-empty" id="cover-empty" aria-label="Espaço reservado para a prévia da capa"></div><div class="hidden editor-cover-preview" id="cover-preview"><img alt="Prévia da imagem do card" id="cover-preview-image"/></div></div><div class="editor-cover-picker-actions"><button class="w-full btn-soft rounded-lg px-3 py-2.5 text-sm font-bold" id="cover-button" type="button">Escolher imagem</button><button class="hidden w-full btn-neutral rounded-lg px-3 py-2.5 text-xs font-bold" id="remove-cover" type="button">Remover capa</button><div class="editor-cover-secondary-actions"><button class="w-full btn-soft rounded-lg px-3 py-2.5 text-xs font-bold fp-v138-cover-html-button" id="paste-cover-html" type="button">Colar HTML da imagem</button><button class="w-full btn-soft rounded-lg px-3 py-2.5 text-xs font-bold" id="adjust-cover-crop" type="button">Ajustar capa</button></div><p class="editor-cover-hint">PNG, JPG ou WebP. Você pode ajustar a área da capa antes de publicar.</p></div></div>
+</section>
+<section id="desktop-insert-section" aria-labelledby="insert-title" class="mt-6 border-t border-slate-200 pt-5 dark:border-slate-700">
+<h2 class="text-xs font-extrabold uppercase tracking-wide text-slate-500" id="insert-title">Adicionar bloco</h2>
+<div class="mt-3 grid grid-cols-2 gap-2">
+<button class="btn-soft rounded-lg px-3 py-2.5 text-sm font-bold" id="add-text" type="button">Adicionar texto</button>
+<button class="btn-soft rounded-lg px-3 py-2.5 text-sm font-bold" id="add-image-button" type="button">Adicionar imagem</button>
+<button class="btn-soft rounded-lg px-3 py-2.5 text-sm font-bold" id="add-poll" type="button">Adicionar enquete</button>
+<button class="btn-soft rounded-lg px-3 py-2.5 text-sm font-bold" id="add-video" type="button">Adicionar vídeo</button>
+
+<button class="hidden btn-soft rounded-lg px-3 py-2.5 text-sm font-bold" id="save-draft-inline" type="button" aria-label="Salvar rascunho"><span class="save-draft-inline-label">Salvar rascunho</span><svg class="save-draft-inline-icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M5 3h12l4 4v14H3V3h2Zm2 0v6h10V3M7 21v-7h10v7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></button>
+<input accept="image/png,image/jpeg,image/webp" class="hidden" id="image-upload" type="file"/>
+</div>
+</section>
+<section aria-labelledby="format-title" class="mt-6 border-t border-slate-200 pt-5 dark:border-slate-700">
+<div class="flex items-center justify-between gap-3"><h2 class="text-xs font-extrabold uppercase tracking-wide text-slate-500" id="format-title">Formatação</h2><span class="text-[11px] font-semibold text-slate-500" id="format-state">Selecione um texto</span></div>
+<div class="mt-3 grid grid-cols-3 gap-2">
+<button class="btn-soft rounded-lg px-2 py-2.5 text-xs font-extrabold" id="text-style-title" type="button">Título</button>
+<button class="btn-soft rounded-lg px-2 py-2.5 text-xs font-extrabold" id="text-style-subtitle" type="button">Subtítulo</button>
+<button class="btn-soft rounded-lg px-2 py-2.5 text-xs font-extrabold" id="text-style-body" type="button">Padrão</button>
+<select aria-label="Fonte" class="site-input col-span-3" id="font-family">
+<option>Inter</option><option>Arial</option><option>Georgia</option><option>Verdana</option><option>Trebuchet MS</option><option>Times New Roman</option><option>Courier New</option><option>Montserrat</option><option>Merriweather</option><option>Tahoma</option><option>Roboto</option><option>Open Sans</option><option>Lato</option><option>Nunito</option><option>Oswald</option><option>Playfair Display</option><option>Source Sans 3</option><option>Raleway</option>
+</select>
+<button aria-pressed="false" class="btn-soft rounded-lg px-3 py-2 font-black" id="bold" type="button">Negrito</button>
+<button aria-pressed="false" class="btn-soft rounded-lg px-3 py-2 italic" id="italic" type="button">Itálico</button>
+<button class="btn-soft rounded-lg px-2 py-2 text-xs font-bold" id="align-left" type="button">Esquerda</button>
+<button class="btn-soft rounded-lg px-2 py-2 text-xs font-bold" id="align-center" type="button">Centro</button>
+<button class="btn-soft rounded-lg px-2 py-2 text-xs font-bold" id="align-right" type="button">Direita</button>
+</div>
+<p class="mt-2 text-[11px] leading-4 text-slate-500">Use Título, Subtítulo ou Padrão para manter a leitura consistente. Negrito e itálico funcionam como alternância: clique novamente para retirar. Fonte e estilo podem ser aplicados só ao trecho selecionado. A cor é automática: preto no modo claro e branco no modo escuro.</p>
+</section>
+<section aria-labelledby="layers-title" class="mt-6 border-t border-slate-200 pt-5 dark:border-slate-700">
+<h2 class="text-xs font-extrabold uppercase tracking-wide text-slate-500" id="layers-title">Camadas</h2>
+<div class="mt-3 grid grid-cols-3 gap-2"><button class="btn-neutral rounded-lg px-2 py-2 text-xs font-bold" id="bring-front" type="button">Frente</button><button class="btn-neutral rounded-lg px-2 py-2 text-xs font-bold" id="send-back" type="button">Trás</button><button class="btn-neutral rounded-lg px-2 py-2 text-xs font-bold" id="delete-object" type="button">Excluir</button></div>
+</section>
+<div class="mt-6 rounded-xl border-l-4 border-[#2E7D32] bg-[#F2F7F3] p-3 text-xs leading-5 dark:border-[#81C784] dark:bg-[#242D25]">Ao enviar para revisão, a matéria é encaminhada à Mesa do Editor e permanece invisível no site até um Editor clicar em <strong>Postar</strong>.</div>
+<div class="mt-5 space-y-2">
+<button class="w-full btn-soft rounded-lg px-3 py-3 text-sm font-bold" id="save-draft" type="button">Salvar rascunho</button>
+<button class="w-full btn-primary rounded-lg px-3 py-3 text-sm font-bold" id="submit-review" type="button">Enviar para revisão</button>
+</div>
+<button class="hidden mt-2 w-full btn-primary rounded-lg px-3 py-3 text-sm font-extrabold" id="post-article" type="button">Postar matéria</button><div class="hidden mt-3 rounded-xl border border-slate-200 bg-slate-50 p-3 dark:border-slate-700 dark:bg-[#1E1E1E]" id="workflow-progress" aria-live="polite"><div class="flex items-center justify-between gap-3"><span class="text-xs font-extrabold" id="workflow-progress-label">Preparando…</span><strong class="text-xs text-[#1B5E20] dark:text-[#81C784]" id="workflow-progress-pct">0%</strong></div><div class="mt-2 h-2 overflow-hidden rounded-full bg-slate-200 dark:bg-slate-700"><div class="h-full w-0 rounded-full bg-[#2E7D32] transition-[width] duration-200 dark:bg-[#81C784]" id="workflow-progress-bar"></div></div></div>
+<p aria-live="polite" class="mt-3 text-sm font-semibold text-[#1B5E20] dark:text-[#81C784]" id="editor-status"></p>
+</aside>
+<section id="editor-preview-column" class="min-w-0">
+<section class="editor-preview-card panel-surface" id="editor-preview-panel" aria-labelledby="editor-preview-title">
+  <div class="editor-preview-header"><div><p class="editor-page-eyebrow">ACOMPANHAMENTO</p><h2 id="editor-preview-title">Prévia da matéria</h2><p class="editor-muted">Acompanhe como o conteúdo será apresentado ao leitor.</p></div></div>
+  <div id="editor-preview-body">
+    <div class="editor-preview-tabs" role="group" aria-label="Tipo de visualização">
+      <button type="button" class="is-active" data-editor-preview-mode="card" aria-pressed="true">Bloco da Matéria</button>
+      <button type="button" data-editor-preview-mode="mobile" aria-pressed="false">Mobile</button>
+      <button type="button" id="open-site-preview" class="editor-preview-full" aria-label="Abrir prévia completa para desktop">Desktop ↗</button>
+    </div>
+    <div id="editor-live-preview" class="editor-live-preview" aria-live="polite"></div>
+  </div>
+</section>
+<div class="editor-original-heading" id="editor-original-preview-heading"><div class="mb-3 flex flex-wrap items-center justify-between gap-3"><div><p class="text-xs font-bold uppercase tracking-wide text-[#2E7D32] dark:text-[#81C784]" id="editor-mode"></p><h2 class="mt-1 text-xl font-extrabold">Área de diagramação</h2></div><div class="flex items-center gap-2"><span class="text-xs font-bold text-slate-500" id="canvas-size-label">800 × 1000 px</span></div></div></div>
+<section aria-labelledby="mobile-block-title" class="hidden mb-4" id="mobile-block-editor"><div class="panel-surface p-4"><div class="flex items-start justify-between gap-3"><div><p class="text-[11px] font-extrabold uppercase tracking-wide text-[#2E7D32] dark:text-[#81C784]">Modo celular</p><h2 class="mt-1 text-xl font-extrabold" id="mobile-block-title">Jornal em blocos</h2><p class="mt-1 text-xs leading-5 text-slate-500 dark:text-slate-400">Cada quadrado representa uma seção do jornal. Toque em uma seção para editar somente o necessário.</p></div><span class="rounded-full bg-[#F2F7F3] px-2.5 py-1 text-[11px] font-bold text-[#1B5E20] dark:bg-[#2D382E] dark:text-[#81C784]">Celular</span></div><div id="mobile-block-list" class="mt-4 space-y-3"></div><section class="mt-4 rounded-2xl border border-slate-200 bg-[#F8FBF8] p-4 dark:border-slate-700 dark:bg-[#202620]" aria-labelledby="mobile-meta-title"><div class="flex items-center justify-between gap-3"><div><p class="text-[11px] font-extrabold uppercase tracking-wide text-[#2E7D32] dark:text-[#81C784]">Ficha</p><h3 class="mt-1 text-sm font-extrabold" id="mobile-meta-title">Dados da matéria</h3></div><span class="text-[11px] font-semibold text-slate-500">Atualiza automaticamente</span></div><div id="mobile-meta-card" class="mt-3 grid grid-cols-2 gap-3 text-xs"></div></section></div></section><div class="mobile-add-fab" id="mobile-add-fab"><div class="mobile-add-menu" id="mobile-add-menu" aria-hidden="true"><button type="button" class="mobile-add-tool" data-mobile-tool="text" title="Adicionar texto" aria-label="Adicionar texto"><span>T</span><small>Texto</small></button><button type="button" class="mobile-add-tool" data-mobile-tool="image" title="Adicionar imagem" aria-label="Adicionar imagem"><span>▧</span><small>Imagem</small></button><button type="button" class="mobile-add-tool" data-mobile-tool="video" title="Adicionar vídeo" aria-label="Adicionar vídeo"><span>▶</span><small>Vídeo</small></button><button type="button" class="mobile-add-tool" data-mobile-tool="audio" title="Adicionar áudio" aria-label="Adicionar áudio"><span>♫</span><small>Áudio</small></button><button type="button" class="mobile-add-tool" data-mobile-tool="poll" title="Adicionar enquete" aria-label="Adicionar enquete"><span>▣</span><small>Enquete</small></button><button type="button" class="mobile-add-tool" data-mobile-tool="save" title="Salvar rascunho" aria-label="Salvar rascunho"><span aria-hidden="true">▣</span><small>Salvar rascunho</small></button></div><button type="button" id="mobile-add-toggle" class="mobile-add-toggle" aria-label="Adicionar elemento" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></button></div><div id="editor-canvas-wrap" class="canvas-wrap rounded-2xl border border-slate-300 p-2 sm:p-3 dark:border-slate-700"><div class="flex justify-center w-full"><div class="bg-white shadow-2xl max-w-full overflow-hidden" id="canvas-shell"><canvas aria-label="Folha de diagramação interativa" height="1000" id="news-canvas" width="800"></canvas></div></div></div>
+</section>
+</div>
+<div aria-labelledby="site-preview-title" aria-modal="true" class="hidden fixed inset-0 z-[10030] bg-black/60 p-3 sm:p-6" id="site-preview-modal" role="dialog">
+<div class="h-full w-full overflow-hidden rounded-2xl bg-[#F8F9FA] dark:bg-[#121212] flex flex-col">
+<div class="shrink-0 flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 bg-white px-4 py-3 dark:border-slate-800 dark:bg-[#1E1E1E]">
+<div><h2 class="font-extrabold" id="site-preview-title">Prévia da matéria no site</h2><p class="text-xs text-slate-500">Confira desktop e celular antes de enviar.</p></div>
+<div class="flex items-center gap-2"><button class="btn-soft rounded-lg px-3 py-2 text-xs font-bold" id="preview-mobile" type="button">Mobile</button><button class="btn-soft rounded-lg px-3 py-2 text-xs font-bold" id="preview-desktop" type="button">Desktop</button><button class="btn-neutral rounded-lg px-3 py-2 text-xs font-bold" id="close-site-preview" type="button">Fechar</button></div>
+</div>
+<div class="flex-1 overflow-auto p-3 sm:p-6"><div class="mx-auto w-full max-w-5xl overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl dark:border-slate-800 dark:bg-[#1E1E1E]" id="site-preview-frame"><div id="site-preview-content"></div></div></div>
+</div>
+</div>
+<div aria-labelledby="poll-title" aria-modal="true" class="hidden fixed inset-0 z-[10025] bg-black/60 p-3 sm:p-6" id="poll-modal" role="dialog">
+<div class="h-full w-full max-w-2xl mx-auto overflow-auto rounded-2xl bg-white p-5 sm:p-7 dark:bg-[#242424]">
+<div class="flex items-start justify-between gap-4"><div><p class="text-xs font-extrabold uppercase tracking-wide text-[#2E7D32] dark:text-[#81C784]">Elemento interativo</p><h2 class="mt-1 text-2xl font-extrabold" id="poll-title">Criar enquete</h2><p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Monte a enquete e veja uma prévia igual à que o leitor encontrará na notícia.</p></div><button class="btn-neutral rounded-lg px-3 py-2 text-sm font-bold" id="close-poll-modal" type="button">Fechar</button></div>
+<div class="mt-6 grid gap-5">
+<div><label class="block text-sm font-bold" for="poll-question">Pergunta</label><input class="site-input mt-2" id="poll-question" maxlength="180" placeholder="Ex.: Qual atividade você mais gostou?"/></div>
+<div><label class="block text-sm font-bold" for="poll-type">Tipo de enquete</label><select class="site-input mt-2" id="poll-type"><option value="single">Escolha única</option><option value="multi">Múltiplas escolhas</option><option value="yesno">Sim / Não</option><option value="rating">Nota de 0 a 5</option></select></div>
+<div id="poll-options-editor"><div class="flex items-center justify-between gap-3"><label class="block text-sm font-bold">Opções</label><button class="btn-soft rounded-lg px-3 py-2 text-xs font-bold" id="poll-add-option" type="button">+ Adicionar opção</button></div><div class="mt-3 grid gap-2" id="poll-options-list"></div><p class="mt-2 text-xs text-slate-500">Use de 2 a 5 opções. As escalas Sim/Não e Nota de 0 a 5 são predefinidas.</p></div>
+<div><p class="text-sm font-bold">Prévia para o leitor</p><div class="mt-3 poll-editor-preview" id="poll-live-preview"></div></div>
+<button class="btn-primary w-full rounded-lg px-4 py-3 text-sm font-extrabold" id="save-poll" type="button">Inserir enquete na matéria</button>
+</div>
+</div>
+</div>
+<div aria-labelledby="video-title" aria-modal="true" class="hidden fixed inset-0 z-[10020] bg-black/60 p-4" id="video-modal" role="dialog"><div class="min-h-full flex items-center justify-center"><div class="w-full max-w-lg rounded-2xl bg-white p-6 dark:bg-[#242424]"><div class="flex items-center justify-between gap-3"><div><h2 class="text-xl font-extrabold" id="video-title">Adicionar vídeo</h2><p class="mt-1 text-xs text-slate-500">YouTube, TikTok, Instagram, Facebook, Vimeo e outros links compatíveis.</p></div><button class="btn-neutral rounded-lg px-3 py-2 text-sm font-bold" id="close-video-modal" type="button">Fechar</button></div><label class="block mt-5 text-sm font-bold" for="video-url">Link do vídeo</label><input autocomplete="url" class="site-input mt-2" id="video-url" placeholder="Cole o link público do vídeo" type="url"/><div class="hidden mt-4 aspect-video overflow-hidden rounded-xl bg-black" id="video-preview"><iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" class="h-full w-full" id="video-preview-frame" title="Pré-visualização do vídeo"></iframe></div><p class="mt-2 text-xs text-slate-500" id="video-url-feedback"></p><button class="mt-5 w-full btn-primary rounded-lg px-4 py-3 text-sm font-bold" id="save-video" type="button">Vincular vídeo</button></div></div></div>
+<div aria-labelledby="audio-title" aria-modal="true" class="hidden fixed inset-0 z-[10025] bg-black/60 p-4" id="audio-modal" role="dialog"><div class="min-h-full flex items-center justify-center"><div class="w-full max-w-lg rounded-2xl bg-white p-6 shadow-2xl dark:bg-[#111d2f]"><div class="flex items-center justify-between gap-3"><div><h2 class="text-xl font-extrabold" id="audio-title">Adicionar áudio</h2><p class="mt-1 text-xs text-slate-500">Use uma URL direta e pública de um arquivo de áudio autorizado. Links de páginas do YouTube/TikTok não são arquivos de áudio.</p></div><button class="btn-neutral rounded-lg px-3 py-2 text-sm font-bold" id="close-audio-modal" type="button">Fechar</button></div><label class="block mt-5 text-sm font-bold" for="audio-url">URL do áudio</label><input autocomplete="url" class="site-input mt-2" id="audio-url" type="url" placeholder="https://exemplo.org/audio.mp3"/><p class="mt-2 text-xs text-slate-500">Para usar apenas áudio, hospede um arquivo MP3, M4A, WAV ou outro formato compatível e cole o link direto. Para vídeos externos, utilize o bloco Vídeo.</p><audio class="hidden mt-4 w-full" id="audio-preview-player" controls preload="metadata"></audio><p class="mt-2 text-xs text-slate-500" id="audio-url-feedback" role="status" aria-live="polite"></p><button class="mt-5 w-full btn-primary rounded-lg px-4 py-3 text-sm font-bold" id="save-audio" type="button">Adicionar áudio</button></div></div></div>
+<div aria-labelledby="image-crop-title" aria-modal="true" class="hidden fixed inset-0 z-[10080] bg-black/70 p-3 sm:p-6" id="image-crop-modal" role="dialog" aria-hidden="true"><div class="min-h-full flex items-center justify-center"><section class="fp-image-crop-dialog w-full max-w-4xl rounded-2xl bg-white p-4 sm:p-6 shadow-2xl dark:bg-[#111d2f]"><header class="flex items-start justify-between gap-4"><div><h2 class="text-xl font-extrabold" id="image-crop-title">Ajustar recorte</h2><p class="mt-1 text-sm text-slate-500 dark:text-slate-300" id="image-crop-help">Arraste a área de recorte ou seus cantos. A imagem original não será alterada.</p></div><button type="button" id="image-crop-close" class="btn-neutral rounded-lg px-3 py-2 text-sm font-bold" aria-label="Fechar recorte">×</button></header><div id="image-crop-stage" class="fp-image-crop-stage" aria-label="Área interativa de recorte"><img id="image-crop-source" alt="Imagem em edição de recorte" draggable="false"><div id="image-crop-selection" class="fp-image-crop-selection" role="application" aria-label="Área selecionada. Arraste para mover."><button type="button" class="fp-image-crop-handle handle-nw" data-crop-handle="nw" aria-label="Ajustar canto superior esquerdo"></button><button type="button" class="fp-image-crop-handle handle-ne" data-crop-handle="ne" aria-label="Ajustar canto superior direito"></button><button type="button" class="fp-image-crop-handle handle-sw" data-crop-handle="sw" aria-label="Ajustar canto inferior esquerdo"></button><button type="button" class="fp-image-crop-handle handle-se" data-crop-handle="se" aria-label="Ajustar canto inferior direito"></button></div></div><p class="mt-2 text-xs text-slate-500" id="image-crop-status" role="status" aria-live="polite"></p><div class="mt-4 flex flex-wrap justify-between gap-2"><button type="button" id="image-crop-reset" class="btn-neutral rounded-lg px-4 py-2.5 text-sm font-bold">Restaurar imagem completa</button><div class="flex flex-wrap gap-2"><button type="button" id="image-crop-cancel" class="btn-neutral rounded-lg px-4 py-2.5 text-sm font-bold">Cancelar</button><button type="button" id="image-crop-apply" class="btn-primary rounded-lg px-4 py-2.5 text-sm font-bold">Aplicar recorte</button></div></div></section></div></div>
+</main>
+<div aria-live="polite" class="sr-only" id="accessibility-status"></div>
+<footer class="mt-12 bg-[#1E1E1E] text-slate-200 dark:bg-[#121212]">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<div><h2 class="text-xl font-extrabold text-white">Folha do Paiquerê</h2><p class="mt-2 text-sm text-[#81C784]">Jornal Escolar</p><p class="mt-4 text-sm text-slate-300">Colégio estudal do campo Antônio Batista do Nascimento - EF II / EM</p><p class="mt-2 text-sm">folhadopaiquere@gmail.com</p></div>
+<div><h3 class="text-sm font-bold uppercase tracking-wide text-white">Acesso</h3><div class="mt-4 space-y-2 text-sm"><a class="block hover:text-[#81C784]" href="index.html">Início</a><a class="block hover:text-[#81C784]" href="noticias.html">Notícias</a><a class="block hover:text-[#81C784]" href="participar.html">Participar</a><a class="block hover:text-[#81C784]" href="conquistas.html">Conquistas</a><a class="block hover:text-[#81C784]" href="sobre.html">Sobre</a></div></div>
+<div><h3 class="text-sm font-bold uppercase tracking-wide text-white">Acessibilidade</h3><div class="mt-5 flex items-center justify-center md:justify-end"><img class="footer-school-crest h-24 w-24 rounded-full object-cover" src="assets/branding/brasao-escola.jpeg" alt="Brasão do Colégio Estadual do Campo Antônio Batista do Nascimento"></div><p class="mt-4 text-sm text-slate-300">A+ / A-, modo claro e escuro e leitor de voz disponíveis.</p><div class="mt-4 inline-flex rounded-lg border border-[#355A38] bg-[#243026] px-3 py-2 text-xs font-semibold text-[#81C784]">✓ Ferramentas ativas</div></div>
+</div>
+<div class="mt-8 border-t border-slate-700 pt-5 text-xs text-slate-400">© 2026 Folha do Paiquerê. Todos os direitos reservados.</div>
+</div>
+</footer>
+<script>
+/* v130: reorganiza os mesmos controles sem recriar IDs usados por editor.js. */
+(() => {
+  const $ = id => document.getElementById(id);
+  document.body.classList.add('fp-editor-workspace');
+  const session = (() => { try { return JSON.parse(localStorage.getItem('fp_session') || 'null'); } catch (_) { return null; } })() || {};
+  const role = String(session.role || 'Estudante');
+  const email = String(session.email || '').toLowerCase();
+  const isMaster = email === 'folhadopaiquere@gmail.com';
+  const isEditor = isMaster || ['Editor', 'Editor-Chefe'].includes(role);
+  const isChief = isMaster || role === 'Editor-Chefe';
+  document.querySelectorAll('.editor-only-shortcut').forEach(el => { el.hidden = !isEditor; });
+  document.querySelectorAll('.master-only-shortcut').forEach(el => { el.hidden = !isChief; });
+  const name = String(session.name || (session.email || 'Conta').split('@')[0] || 'Conta');
+  const shortName = name.trim().split(/\s+/).slice(0, 2).join(' ');
+  if ($('editor-sidebar-name')) $('editor-sidebar-name').textContent = shortName;
+  if ($('editor-sidebar-role')) $('editor-sidebar-role').textContent = isMaster ? 'Administrador Master' : role;
+  if ($('editor-sidebar-avatar')) {
+    const avatar = String(session.avatar || '').trim();
+    $('editor-sidebar-avatar').innerHTML = avatar && /^https?:\/\//i.test(avatar)
+      ? `<img src="${avatar.replace(/&/g, '&amp;').replace(/"/g, '&quot;')}" alt="">`
+      : name.trim().split(/\s+/).filter(Boolean).slice(0, 2).map(part => part[0]).join('').toUpperCase() || '?';
+  }
+
+  const mainGrid = $('editor-layout-grid');
+  const metaPanel = $('editor-meta-panel');
+  const previewColumn = $('editor-preview-column');
+  if (!mainGrid || !metaPanel || !previewColumn) return;
+  const dataSection = $('dados-title');
+  const fieldsWrap = dataSection?.children?.[1];
+  if (fieldsWrap) {
+    fieldsWrap.classList.add('editor-meta-fields');
+    const nodes = [...fieldsWrap.children];
+    const titleField = $('article-title')?.closest('div');
+    const subtitleField = $('article-subtitle')?.closest('div');
+    const categoryField = $('article-category')?.closest('div');
+    titleField?.classList.add('editor-field-title');
+    subtitleField?.classList.add('editor-field-subtitle');
+    categoryField?.classList.add('editor-field-category');
+    // Os metadados legados continuam no DOM para preservar os contratos de salvamento,
+    // mas a área “Classificação complementar” não faz mais parte da interface.
+    const typeField = $('article-type')?.closest('div');
+    const creativeField = $('creative-type-wrap');
+    if (typeField) { typeField.classList.add('editor-legacy-hidden'); }
+    if (creativeField) { creativeField.classList.add('editor-legacy-hidden'); }
+  }
+
+  const coverHeading = $('cover-title');
+  const coverSection = coverHeading?.closest('section');
+  const creditsSection = $('editor-credits-section');
+  if (coverSection && creditsSection && !document.getElementById('editor-cover-credits-grid')) {
+    const group = document.createElement('div');
+    group.id = 'editor-cover-credits-grid';
+    group.className = 'editor-cover-credits-grid';
+    dataSection?.insertAdjacentElement('afterend', group);
+    coverSection.id = 'cover-card-section';
+    // Os créditos ficam agrupados primeiro; a capa vem depois, sem duplicar campos ou listeners.
+
+    const credits = [
+      { key: 'researcher', area: 'research', label: 'Pesquisa' },
+      { key: 'text', area: 'text', label: 'Texto' },
+      { key: 'image', area: 'image', label: 'Imagem' }
+    ];
+    credits.forEach(config => {
+      const picker = creditsSection.querySelector(`[data-credit-picker="${config.key}"]`);
+      if (!picker) return;
+      const card = document.createElement('section');
+      card.className = `editor-credit-card editor-credit-card-${config.area}`;
+      card.setAttribute('aria-label', `Crédito de ${config.label.toLocaleLowerCase('pt-BR')}`);
+      const label = picker.querySelector('label');
+      if (label) label.textContent = config.label;
+      picker.classList.add('editor-credit-picker');
+      card.append(picker);
+      group.append(card);
+    });
+    group.append(coverSection);
+    creditsSection.classList.add('editor-legacy-hidden');
+  }
+
+  const blockEditor = $('mobile-block-editor');
+  const insert = $('desktop-insert-section');
+  if (blockEditor) {
+    blockEditor.classList.remove('hidden');
+    blockEditor.classList.add('editor-content-card');
+    const card = blockEditor.firstElementChild;
+    const h2 = $('mobile-block-title');
+    if (h2) h2.innerHTML = 'Conteúdo <span id="editor-content-required" class="editor-required-mark">*</span>';
+    const headingWrap = h2?.parentElement;
+    if (headingWrap) {
+      headingWrap.classList.add('editor-content-heading');
+      const p = headingWrap.querySelector('p');
+      if (p) p.textContent = 'Organize os blocos na ordem em que deverão aparecer na matéria.';
+      const hint = [...headingWrap.querySelectorAll('p')].find(x => x !== p);
+      if (hint) hint.remove();
+      const badge = headingWrap.parentElement?.querySelector('span.rounded-full');
+      if (badge) badge.remove();
+      const count = document.createElement('span');
+      count.className = 'editor-content-count';
+      count.id = 'editor-content-count';
+      count.textContent = '0 blocos';
+      headingWrap.append(count);
+    }
+    const metaBlock = $('mobile-meta-card')?.closest('section');
+    if (metaBlock) metaBlock.classList.add('hidden');
+    const list = $('mobile-block-list');
+    const shell = $('editor-canvas-model') || (() => {
+      const host = document.createElement('div');
+      host.id = 'editor-canvas-model';
+      host.setAttribute('aria-hidden', 'true');
+      previewColumn.append(host);
+      return host;
+    })();
+    const canvasWrap = $('editor-canvas-wrap');
+    if (canvasWrap) shell.append(canvasWrap);
+    const floatingAdd = $('mobile-add-fab');
+    if (floatingAdd) floatingAdd.hidden = true;
+    if (blockEditor && blockEditor.parentElement !== metaPanel) metaPanel.append(blockEditor);
+  }
+
+  // Os controles legados ficam preservados e ocultos; os comandos de texto usados
+  // com frequência estão nos próprios cartões de bloco. Não exibir ferramentas avançadas.
+  const formatSection = $('format-title')?.closest('section');
+  const layerSection = $('layers-title')?.closest('section');
+  if (formatSection) formatSection.classList.add('editor-legacy-hidden');
+  if (layerSection) layerSection.classList.add('editor-legacy-hidden');
+
+  // Painel fixo e recolhível para inserir blocos. É um painel de ferramentas do conteúdo,
+  // não uma segunda navegação lateral; os IDs dos quatro botões originais são mantidos.
+  if (insert && blockEditor && !document.getElementById('editor-insert-dock')) {
+    const dock = document.createElement('div');
+    dock.id = 'editor-insert-dock';
+    dock.className = 'editor-insert-dock';
+    dock.setAttribute('aria-label', 'Inserir conteúdo na matéria');
+    dock.setAttribute('aria-hidden', 'true');
+    dock.innerHTML = '<div class="editor-insert-dock-row"><div id="editor-insert-dock-body" class="editor-insert-dock-body"></div><button type="button" id="editor-insert-dock-toggle" class="editor-insert-dock-toggle" aria-expanded="true" aria-controls="editor-insert-dock-body" aria-label="Recolher painel de inserção" title="Recolher painel de inserção">−</button></div>';
+    const dockBody = dock.querySelector('#editor-insert-dock-body');
+    dockBody?.append(insert);
+    document.body.append(dock);
+    const insertTools = insert.querySelector('.mt-3.grid');
+    ['add-text', 'add-poll', 'add-image-button', 'add-video'].forEach(id => {
+      const button = $(id);
+      if (button && insertTools) insertTools.append(button);
+    });
+    const compactInsertLabels = [
+      ['add-text', '+ Texto', 'Adicionar texto'],
+      ['add-poll', '+ Enquete', 'Adicionar enquete'],
+      ['add-image-button', '+ Imagem', 'Adicionar imagem'],
+      ['add-video', '+ Vídeo', 'Adicionar vídeo'],
+    ];
+    const quickSaveButton = $('save-draft-inline');
+    if (quickSaveButton && insertTools) { insertTools.append(quickSaveButton); quickSaveButton.classList.remove('hidden'); }
+
+    compactInsertLabels.forEach(([id, label, accessible]) => {
+      const button = $(id);
+      if (!button) return;
+      button.textContent = label;
+      button.title = accessible;
+      button.setAttribute('aria-label', accessible);
+    });
+
+    const toggle = dock.querySelector('#editor-insert-dock-toggle');
+    const setExpanded = expanded => {
+      dock.classList.toggle('is-expanded', expanded);
+      toggle?.setAttribute('aria-expanded', String(expanded));
+      if (toggle) {
+        toggle.textContent = expanded ? '−' : '+';
+        toggle.setAttribute('aria-label', expanded ? 'Recolher painel de inserção' : 'Expandir painel de inserção');
+        toggle.title = expanded ? 'Recolher painel de inserção' : 'Expandir painel de inserção';
+      }
+    };
+    toggle?.addEventListener('click', () => setExpanded(!dock.classList.contains('is-expanded')));
+    setExpanded(true);
+
+    const setDockActive = active => {
+      dock.classList.toggle('is-visible', active);
+      dock.setAttribute('aria-hidden', String(!active));
+      if (!active) setExpanded(false);
+    };
+    if ('IntersectionObserver' in window) {
+      const dockObserver = new IntersectionObserver(entries => {
+        const entry = entries[0];
+        setDockActive(Boolean(entry?.isIntersecting));
+      }, { root: null, threshold: 0 });
+      dockObserver.observe(blockEditor);
+    } else {
+      const updateDockVisibility = () => {
+        const rect = blockEditor.getBoundingClientRect();
+        setDockActive(rect.bottom > 0 && rect.top < window.innerHeight);
+      };
+      window.addEventListener('scroll', updateDockVisibility, { passive: true });
+      window.addEventListener('resize', updateDockVisibility);
+      updateDockVisibility();
+    }
+  }
+
+  let workflow = $('editor-workflow-actions');
+  if (!workflow) {
+    workflow = document.createElement('section');
+    workflow.id = 'editor-workflow-actions';
+    workflow.setAttribute('aria-label', 'Salvar e encaminhar matéria');
+    const intro = document.createElement('p');
+    intro.className = 'editor-muted';
+    intro.textContent = 'O rascunho pode ser salvo durante a criação. O envio para revisão é liberado quando os campos obrigatórios estão preenchidos.';
+    workflow.append(intro);
+    const buttons = document.createElement('div');
+    buttons.className = 'editor-workflow-buttons';
+    ['save-draft', 'submit-review'].forEach(id => { const el = $(id); if (el) buttons.append(el); });
+    workflow.append(buttons);
+    ['post-article', 'workflow-progress', 'editor-status'].forEach(id => { const el = $(id); if (el) workflow.append(el); });
+    const oldButtonsWrap = $('save-draft')?.parentElement;
+    if (oldButtonsWrap && oldButtonsWrap !== buttons && !oldButtonsWrap.id) oldButtonsWrap.remove();
+    const oldBanner = [...metaPanel.querySelectorAll('div')].find(el => el.textContent?.includes('Ao enviar para revisão, a matéria é encaminhada'));
+    if (oldBanner) oldBanner.remove();
+    // Ações de rascunho/revisão ficam logo após capa/créditos e antes do conteúdo,
+    // conforme o fluxo editorial solicitado. Os IDs dos botões não são alterados.
+    if (blockEditor && blockEditor.parentElement === metaPanel) blockEditor.insertAdjacentElement('beforebegin', workflow);
+    else metaPanel.append(workflow);
+    // Remove o invólucro antigo dos botões depois que os botões funcionais foram movidos.
+    [...metaPanel.children].filter(el=>el.classList?.contains('mt-5')&&el.classList?.contains('space-y-2')&&!el.children.length).forEach(el=>el.remove());
+  }
+  const status = $('editor-status');
+  if (status) status.setAttribute('role', 'status');
+
+  // The previous row remains in the DOM only to preserve editor.js references.
+  $('editor-original-preview-heading')?.setAttribute('aria-hidden', 'true');
+})();
+
+</script>
+<div id="image-source-choice-modal" class="fp-image-source-choice-modal hidden" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="image-source-choice-title">
+  <section class="fp-image-source-choice-dialog">
+    <header><div><p class="editor-page-eyebrow">ADICIONAR IMAGEM</p><h2 id="image-source-choice-title">De onde vem a imagem?</h2><p class="editor-muted">Escolha um arquivo do computador ou informe um link/HTML de imagem.</p></div><button type="button" id="image-source-choice-close" class="btn-neutral" aria-label="Fechar">×</button></header>
+    <div class="fp-image-source-choice-options"><button type="button" id="image-source-choice-device" data-image-source-choice="device"><span aria-hidden="true">▧</span><strong>Deste dispositivo</strong><small>Selecionar um arquivo</small></button><button type="button" id="image-source-choice-html" data-image-source-choice="html"><span aria-hidden="true">&lt;/&gt;</span><strong>HTML</strong><small>Colar uma tag ou link de imagem</small></button></div>
+  </section>
+</div>
+<div id="image-html-modal" class="hidden fixed inset-0 z-[10070] bg-black/60 p-4" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="image-html-modal-title">
+  <div class="min-h-full flex items-center justify-center"><section class="fp-v138-image-html-dialog w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl bg-white p-5 shadow-2xl dark:bg-[#1E2631]">
+    <header class="flex items-start justify-between gap-4"><div><h2 id="image-html-modal-title" class="text-lg font-extrabold">Colar HTML da imagem</h2><p id="image-html-modal-help" class="mt-1 text-sm text-slate-600 dark:text-slate-300">Cole o HTML que contém uma imagem ou um link direto para a imagem.</p></div><button type="button" id="image-html-modal-close" class="btn-neutral rounded-lg px-3 py-2 text-sm font-bold" aria-label="Fechar">×</button></header>
+    <label class="block mt-4 text-sm font-bold" for="image-html-source">HTML ou endereço da imagem</label><textarea id="image-html-source" class="site-input mt-2 w-full" rows="6" maxlength="20000" placeholder="&lt;img src=&quot;https://exemplo.com/imagem.jpg&quot; alt=&quot;...&quot;&gt;"></textarea>
+    <p id="image-html-status" class="mt-2 text-sm" role="status" aria-live="polite"></p>
+    <div class="mt-4 flex flex-col-reverse sm:flex-row sm:justify-end gap-2"><button type="button" id="image-html-modal-cancel" class="btn-neutral rounded-lg px-4 py-2.5 text-sm font-bold">Cancelar</button><button type="button" id="image-html-modal-apply" class="btn-primary rounded-lg px-4 py-2.5 text-sm font-bold">Usar imagem</button></div>
+  </section></div>
+</div>
+<script src="firebase-config.js"></script><script src="cloudinary-config.js"></script><script type="module" src="firebase-client.js"></script><script defer src="notifications.js"></script><script defer="" src="storage.js"></script>
+<script defer src="fp-v168-auth-loading.js"></script><script defer="" src="editor.js"></script>
+<link rel="stylesheet" href="fp-v170-polish.css">
+<link rel="stylesheet" href="fp-v173-verified-fixes.css">
+<link rel="stylesheet" href="fp-v178-editor-card-preview.css">
+</body>
+</html>

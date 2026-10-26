@@ -1,0 +1,77 @@
+/* Folha do Paiquerê v148: pontual polish for editorial searches, mobile comfort, editor and popovers. */
+:root { --fp-v148-control-height: 2.85rem; }
+body.fp-student-shell .site-input,
+body.fp-student-shell input[type="search"],
+body.fp-student-shell select.site-input { min-width: 0; max-width: 100%; box-sizing: border-box; }
+body.fp-student-shell .my-articles-toolbar,
+body.fp-student-shell .fp-management-controls,
+body.fp-student-shell .fp-achievement-toolbar,
+body.fp-student-shell .fp-management-search,
+body.fp-student-shell .fp-management-select { min-width: 0; max-width: 100%; }
+body.fp-student-shell .my-articles-search-wrap,
+body.fp-student-shell .fp-management-search { width: 100%; min-width: 0; }
+body.fp-student-shell .my-articles-search-wrap input,
+body.fp-student-shell .fp-management-search input,
+body.fp-student-shell .fp-management-select select { width: 100%; min-width: 0; max-width: 100%; }
+body.fp-student-shell .profile-avatar-hint.sr-only { position: absolute!important; width: 1px!important; height: 1px!important; padding: 0!important; margin: -1px!important; overflow: hidden!important; clip: rect(0,0,0,0)!important; white-space: nowrap!important; border: 0!important; }
+body.fp-student-shell .fp-mobile-quick-grid.is-editor-grid [data-mobile-card="pautas"] { grid-column: 1 / -1; justify-self: center; width: min(100%, 17rem); }
+body.fp-student-shell .fp-mobile-notification-header-actions { display:flex; align-items:center; gap:.5rem; min-width:0; }
+body.fp-student-shell .fp-mobile-notifications-mute { display:inline-flex; align-items:center; justify-content:center; gap:.35rem; min-height:2.35rem; padding:.38rem .62rem; border:1px solid var(--fp-line, #d7e0ea); border-radius:.7rem; color:var(--fp-text, #1d2d40); background:var(--fp-surface, #fff); font-size:.76rem; font-weight:750; white-space:nowrap; }
+.dark body.fp-student-shell .fp-mobile-notifications-mute { color:#edf4ff; background:#18283d; border-color:#344761; }
+body.fp-student-shell .fp-mobile-notifications-close { flex:0 0 auto; }
+body.fp-student-shell .fp-compact-moderation-heading { min-width:0; }
+body.fp-student-shell .fp-achievement-toolbar { grid-template-columns:minmax(0,1fr) minmax(9.5rem,12rem) auto; }
+body.fp-student-shell .fp-achievement-toolbar > * { min-width:0; }
+body.fp-student-shell .fp-achievement-toolbar #achievement-new { max-width:100%; white-space:nowrap; }
+/* The editor keeps its existing data and form controls but no longer needs a second shortcut sidebar. */
+body.fp-editor-workspace.fp-student-shell .fp-editor-sidebar { display:none!important; }
+body.fp-editor-workspace.fp-student-shell #conteudo-principal { width:100%!important; max-width:none!important; margin:0!important; padding:1.25rem clamp(1rem, 3vw, 3.25rem) 2rem!important; box-sizing:border-box; }
+body.fp-editor-workspace.fp-student-shell #editor-cover-credits-grid { grid-template-columns:minmax(0,1fr)!important; align-items:stretch; }
+body.fp-editor-workspace.fp-student-shell #editor-cover-credits-grid > * { min-width:0; }
+body.fp-editor-workspace.fp-student-shell .editor-credit-card { min-width:0; width:100%; }
+body.fp-editor-workspace.fp-student-shell .editor-credit-picker { min-width:0; }
+body.fp-editor-workspace.fp-student-shell .editor-credit-picker input,
+body.fp-editor-workspace.fp-student-shell .editor-credit-picker textarea,
+body.fp-editor-workspace.fp-student-shell .editor-credit-picker select,
+body.fp-editor-workspace.fp-student-shell .editor-rich-text,
+body.fp-editor-workspace.fp-student-shell [contenteditable="true"] { pointer-events:auto!important; user-select:text!important; -webkit-user-select:text!important; caret-color:var(--fp-text, #203149); }
+body.fp-editor-workspace.fp-student-shell .mobile-block-card [contenteditable="true"] { display:block; min-height:7rem; width:100%; touch-action:manipulation; white-space:pre-wrap; overflow-wrap:anywhere; }
+body.fp-editor-workspace.fp-student-shell .editor-image-toolbar { display:flex; flex-wrap:wrap; align-items:center; gap:.45rem; min-width:0; }
+body.fp-editor-workspace.fp-student-shell .editor-image-toolbar button,
+body.fp-editor-workspace.fp-student-shell .editor-image-toolbar select { flex:0 1 auto; min-width:0; max-width:100%; }
+body.fp-editor-workspace.fp-student-shell .editor-cover-picker-row { display:grid; grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr); align-items:start; gap:1rem; min-width:0; }
+body.fp-editor-workspace.fp-student-shell .editor-cover-picker-actions { display:grid; align-content:start; gap:.55rem; min-width:0; }
+body.fp-editor-workspace.fp-student-shell .editor-cover-picker-actions button { width:100%; min-width:0; max-width:100%; white-space:normal; overflow-wrap:anywhere; }
+body.fp-editor-workspace.fp-student-shell .editor-cover-hint { min-width:0; overflow-wrap:anywhere; }
+@media (max-width: 767px), (max-width: 1024px) and (max-height: 600px) and (orientation: landscape) {
+  body.fp-student-shell .my-articles-toolbar { display:grid!important; grid-template-columns:minmax(0,1fr)!important; gap:.58rem!important; width:100%; }
+  body.fp-student-shell .my-articles-toolbar > * { width:100%; min-width:0; max-width:100%; }
+  body.fp-student-shell .my-articles-search-wrap input,
+  body.fp-student-shell #my-articles-sort { min-height:var(--fp-v148-control-height); width:100%; }
+  body.fp-student-shell .fp-management-controls,
+  body.fp-student-shell .fp-pauta-controls { display:grid!important; grid-template-columns:minmax(0,1fr)!important; gap:.55rem!important; width:100%; }
+  body.fp-student-shell .fp-management-controls > *,
+  body.fp-student-shell .fp-pauta-controls > * { width:100%; min-width:0; }
+  body.fp-student-shell .fp-management-search input,
+  body.fp-student-shell .fp-management-select select,
+  body.fp-student-shell #moderation-sort,
+  body.fp-student-shell #suggestions-sort { min-height:var(--fp-v148-control-height); }
+  body.fp-student-shell .fp-achievement-toolbar { display:grid!important; grid-template-columns:minmax(0,1fr)!important; gap:.58rem!important; width:100%; }
+  body.fp-student-shell .fp-achievement-toolbar .fp-management-search { order:1; width:100%; }
+  body.fp-student-shell .fp-achievement-toolbar .fp-management-select { order:2; width:100%; }
+  body.fp-student-shell .fp-achievement-toolbar #achievement-new { order:3; width:100%; min-height:var(--fp-v148-control-height); }
+  body.fp-student-shell .fp-achievement-toolbar select { width:100%; min-height:var(--fp-v148-control-height); }
+  body.fp-student-shell .fp-mobile-notification-header-actions { gap:.35rem; }
+  body.fp-student-shell .fp-mobile-notifications-mute { font-size:.68rem; padding:.34rem .44rem; }
+  body.fp-editor-workspace.fp-student-shell #conteudo-principal { padding:.8rem clamp(.8rem, 3vw, 1.25rem) calc(1.5rem + env(safe-area-inset-bottom))!important; }
+  body.fp-editor-workspace.fp-student-shell #editor-layout-grid { grid-template-columns:minmax(0,1fr)!important; }
+  body.fp-editor-workspace.fp-student-shell #editor-meta-panel { max-height:none!important; overflow:visible!important; position:static!important; }
+  body.fp-editor-workspace.fp-student-shell .editor-cover-picker-row { grid-template-columns:minmax(0,1fr)!important; }
+  body.fp-editor-workspace.fp-student-shell .editor-image-toolbar button,
+  body.fp-editor-workspace.fp-student-shell .editor-image-toolbar select { min-height:2.7rem; }
+  body.fp-editor-workspace.fp-student-shell .editor-image-toolbar [data-image-change] { flex:1 1 100%; }
+}
+@media (min-width: 768px) {
+  body.fp-editor-workspace.fp-student-shell #editor-layout-grid { grid-template-columns:minmax(0,1fr)!important; }
+  body.fp-editor-workspace.fp-student-shell #editor-preview-column { position:static!important; }
+}

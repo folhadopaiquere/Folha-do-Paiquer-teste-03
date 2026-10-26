@@ -1,0 +1,285 @@
+/* Folha do Paiquerê v173 — corrections tied to verified source causes.
+   Loaded last; does not alter Firebase data or permissions. */
+
+/* 1) Public profile biography: the old 5-line and desktop 3-line clamps hid text. */
+.fp-profile-bio,
+.fp-profile-identity-card .fp-profile-bio {
+  display: block !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  overflow: visible !important;
+  -webkit-line-clamp: unset !important;
+  line-clamp: unset !important;
+  -webkit-box-orient: initial !important;
+  white-space: pre-wrap !important;
+  overflow-wrap: anywhere !important;
+  word-break: normal !important;
+}
+
+/* 2) Cover media: normal images fill their frames; cropped images retain the
+   computed crop geometry because the HTML now emits inline !important values. */
+.fp-public-article-media,
+.fp-home-public-card-media,
+.fp-home-feature-image,
+.achievement-media,
+.school-notice-card > .fp-app-image-crop-frame,
+.fp-profile-achievement-image {
+  min-width: 0 !important;
+  overflow: hidden !important;
+}
+.fp-public-article-media > img,
+.fp-home-public-card-media > img,
+.fp-home-feature-image > img,
+.achievement-media > img,
+.school-notice-card > img,
+.fp-profile-achievement-image > img {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  max-height: none !important;
+  object-fit: cover !important;
+  object-position: center !important;
+}
+.fp-public-article-media > .fp-crop-image-window,
+.fp-home-public-card-media > .fp-crop-image-window,
+.fp-home-feature-image > .fp-crop-image-window,
+.fp-home-public-card-media > .fp-app-image-crop-frame,
+.fp-home-feature-image > .fp-app-image-crop-frame,
+.achievement-media > .fp-app-image-crop-frame,
+.fp-profile-achievement-image > .fp-app-image-crop-frame {
+  position: absolute !important;
+  inset: 0 !important;
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  aspect-ratio: auto !important;
+  overflow: hidden !important;
+}
+.fp-crop-image-window > img,
+.fp-app-image-crop-frame > img,
+.fp-body-crop-window > img,
+.fp-editor-crop-preview > img {
+  max-width: none !important;
+  max-height: none !important;
+  object-fit: fill !important;
+}
+.fp-article-page .fp-article-content .fp-crop-image-window > img,
+.fp-article-page .fp-article-cover .fp-crop-image-window > img {
+  height: inherit;
+  max-width: none !important;
+}
+
+/* 3) Published article: prevent wide descendants from widening the page.
+   Intentional inner rails remain horizontally scrollable in their own frames. */
+#single-container {
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+#single-container .fp-article-page {
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: min(900px, 100%) !important;
+  margin-inline: auto !important;
+  box-sizing: border-box !important;
+  overflow-x: clip !important;
+}
+/* A valid article-cover crop must fill the hero's 16:9 frame, not keep the generic 16:10 crop-window ratio. */
+#single-container .fp-article-cover {
+  position: relative !important;
+  overflow: hidden !important;
+}
+#single-container .fp-article-cover > .fp-crop-image-window {
+  position: absolute !important;
+  inset: 0 !important;
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  aspect-ratio: auto !important;
+  overflow: hidden !important;
+}
+#single-container .fp-article-heading,
+#single-container .fp-article-heading-inner,
+#single-container .fp-article-cover,
+#single-container .fp-article-content,
+#single-container .fp-article-footer {
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+#single-container .fp-article-page img,
+#single-container .fp-article-page video,
+#single-container .fp-article-page iframe,
+#single-container .fp-article-page audio,
+#single-container .fp-article-page svg,
+#single-container .fp-article-page canvas {
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+#single-container .fp-article-page p,
+#single-container .fp-article-page h1,
+#single-container .fp-article-page h2,
+#single-container .fp-article-page h3,
+#single-container .fp-article-page figcaption,
+#single-container .fp-article-page a {
+  min-width: 0 !important;
+  overflow-wrap: anywhere !important;
+  word-break: normal !important;
+}
+#single-container .fp-article-page pre,
+#single-container .fp-article-page table {
+  max-width: 100% !important;
+  overflow-x: auto !important;
+}
+@media (max-width: 767px) {
+  body.fp-public-mobile-shell #single-container,
+  body.fp-public-mobile-shell #single-container .fp-article-page {
+    overflow-x: clip !important;
+  }
+  body.fp-public-mobile-shell #single-container .fp-article-cover {
+    margin-inline: 0 !important;
+  }
+}
+
+/* 4) Wide editor: the data/authoring panel remains in page flow. Only the
+   preview card sticks, inside a stretched second column, so it follows scroll. */
+@media (min-width: 1100px) {
+  body.fp-editor-workspace #editor-layout-grid {
+    display: grid !important;
+    grid-template-columns: minmax(0, 65fr) minmax(280px, 35fr) !important;
+    align-items: stretch !important;
+    gap: clamp(.8rem, 1.25vw, 1.2rem) !important;
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+  body.fp-editor-workspace #editor-meta-panel {
+    position: static !important;
+    top: auto !important;
+    grid-column: 1 !important;
+    grid-row: 1 !important;
+    width: 100% !important;
+    height: auto !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    max-height: none !important;
+    overflow: visible !important;
+    align-self: start !important;
+  }
+  body.fp-editor-workspace #editor-preview-column {
+    position: relative !important;
+    inset: auto !important;
+    grid-column: 2 !important;
+    grid-row: 1 !important;
+    align-self: stretch !important;
+    width: 100% !important;
+    height: auto !important;
+    min-width: 0 !important;
+    min-height: 100% !important;
+    max-width: 100% !important;
+    max-height: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: visible !important;
+    z-index: auto !important;
+  }
+  body.fp-editor-workspace #editor-preview-panel {
+    position: sticky !important;
+    top: 5dvh !important;
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    height: 90dvh !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    max-height: 90dvh !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+  }
+  body.fp-editor-workspace #editor-preview-body {
+    display: flex !important;
+    flex: 1 1 auto !important;
+    flex-direction: column !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
+  }
+  body.fp-editor-workspace #editor-live-preview {
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    max-width: 100% !important;
+    max-height: none !important;
+    overflow: auto !important;
+    overscroll-behavior: contain !important;
+  }
+}
+@media (max-width: 1099px) {
+  body.fp-editor-workspace #editor-layout-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+    align-items: start !important;
+  }
+  body.fp-editor-workspace #editor-preview-column {
+    position: relative !important;
+    inset: auto !important;
+    grid-column: 1 !important;
+    grid-row: 2 !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+  body.fp-editor-workspace #editor-preview-panel {
+    position: relative !important;
+    inset: auto !important;
+    width: 100% !important;
+    height: auto !important;
+    max-height: none !important;
+  }
+  body.fp-editor-workspace #editor-live-preview {
+    max-height: 70dvh !important;
+    overflow: auto !important;
+  }
+}
+
+/* 5) Text blocks must grow with their text; wheel events then reach the page/panel. */
+body.fp-editor-workspace .editor-rich-text {
+  height: auto !important;
+  min-height: 9.5rem !important;
+  max-height: none !important;
+  overflow: visible !important;
+  overscroll-behavior: auto !important;
+  overflow-wrap: anywhere !important;
+  white-space: pre-wrap !important;
+}
+body.fp-editor-workspace .mobile-block-card,
+body.fp-editor-workspace .editor-text-block-card,
+body.fp-editor-workspace .editor-rich-text[contenteditable="true"] {
+  min-width: 0 !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* 6) Achievements: mobile uses the dynamic year list; desktop retains year chips. */
+#achievement-public-year.fp-achievement-year-select { display: none !important; }
+@media (max-width: 767px) {
+  #achievement-public-year.fp-achievement-year-select {
+    display: block !important;
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+  #achievement-year-chips { display: none !important; }
+}
+@media (min-width: 768px) {
+  #achievement-public-year.fp-achievement-year-select { display: none !important; }
+  #achievement-year-chips { display: flex !important; }
+}

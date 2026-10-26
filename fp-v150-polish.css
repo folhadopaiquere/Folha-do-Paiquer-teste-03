@@ -1,0 +1,104 @@
+/* Folha do Paiquerê v150 — ajustes pontuais de legibilidade, pesquisa e navegação. */
+:root { --fp-v150-gap: clamp(.65rem, 1.8vw, 1rem); }
+
+/* O Editor-Chefe deixa de usar vermelho; neutral claro e alto contraste substituem a cor forte. */
+body.fp-student-shell .fp-team-role-chief {
+  background: #F7F9FC !important;
+  color: #334155 !important;
+  border-color: #CBD5E1 !important;
+}
+.dark body.fp-student-shell .fp-team-role-chief {
+  background: #283647 !important;
+  color: #F8FAFC !important;
+  border-color: #718096 !important;
+}
+body.fp-student-shell .profile-role-badge.role-chief {
+  background: #F7F9FC !important;
+  color: #334155 !important;
+  border-color: #CBD5E1 !important;
+}
+.dark body.fp-student-shell .profile-role-badge.role-chief {
+  background: #283647 !important;
+  color: #F8FAFC !important;
+  border-color: #718096 !important;
+}
+
+/* The responsive account table must not force name/e-mail into narrow broken columns. */
+body.fp-student-shell .fp-team-user-cell { min-width: 0 !important; max-width: 100%; gap: .65rem; }
+body.fp-student-shell .fp-team-user-details { flex: 1 1 0; width: 0; min-width: 0; }
+body.fp-student-shell .fp-team-user-name {
+  max-width: 100%; overflow-wrap: break-word; word-break: normal; hyphens: auto;
+}
+body.fp-student-shell .fp-team-user-email {
+  max-width: 100%; overflow-wrap: anywhere; word-break: normal; hyphens: none;
+}
+body.fp-student-shell .fp-team-role-badge,
+body.fp-student-shell .fp-team-status-badge { white-space: nowrap; }
+
+/* Give filters a real breathing gap from the results on desktop and safe horizontal padding on phones. */
+body.fp-student-shell .my-articles-status-filters {
+  margin-block: .45rem 1rem !important;
+  padding: .1rem .2rem .25rem !important;
+  gap: .6rem !important;
+}
+body.fp-student-shell .my-articles-status-filters > * { flex: 0 0 auto; }
+body.fp-student-shell .my-articles-results-card { margin-top: .2rem; }
+
+/* Refined, consistent button finish without changing their function or size drastically. */
+body.fp-student-shell .fp-page-btn,
+body.fp-student-shell .fp-action-trigger,
+body.fp-student-shell .fp-mobile-notifications-mute,
+body.fp-student-shell .fp-mobile-settings-item,
+body.fp-student-shell .fp-team-tab,
+body.fp-student-shell .fp-moderation-action,
+body.fp-student-shell .fp-new-notice-button,
+body.fp-student-shell .fp-team-new-access {
+  transition: background-color .16s ease, color .16s ease, border-color .16s ease, box-shadow .16s ease, transform .16s ease;
+}
+body.fp-student-shell .fp-action-trigger {
+  border: 1px solid var(--fp-team-border, #DDE6F0);
+  border-radius: .75rem;
+  background: var(--fp-team-surface, #FFF);
+  color: var(--fp-team-text, #1E2E43);
+  box-shadow: 0 2px 6px rgb(15 23 42 / .06);
+}
+body.fp-student-shell .fp-action-trigger:hover,
+body.fp-student-shell .fp-page-btn:hover:not(:disabled) { box-shadow: 0 4px 12px rgb(15 23 42 / .10); transform: translateY(-1px); }
+body.fp-student-shell :is(button, a, input, select, textarea):focus-visible {
+  outline: 3px solid rgb(75 143 210 / .52);
+  outline-offset: 2px;
+}
+
+/* Hide the fixed app header behind the editorial preview on compact screens. */
+body.fp-preview-open .fp-mobile-topbar,
+body.fp-preview-open .fp-workspace-toolbar { display: none !important; }
+body.fp-preview-open { overflow: hidden; }
+body.fp-student-shell #preview-modal { z-index: 11050 !important; overflow-y: auto; }
+body.fp-student-shell #preview-modal > div { min-height: 100%; }
+
+@media (max-width: 767px), (max-width: 1024px) and (max-height: 600px) and (orientation: landscape) {
+  body.fp-student-shell .fp-team-main-card { padding: .8rem !important; }
+  body.fp-student-shell .fp-team-user-cell { align-items: flex-start; }
+  body.fp-student-shell .fp-team-avatar { flex-basis: 2.55rem; width: 2.55rem; height: 2.55rem; }
+  body.fp-student-shell .fp-team-user-name { font-size: .9rem; line-height: 1.35; }
+  body.fp-student-shell .fp-team-user-email { font-size: .72rem; line-height: 1.42; }
+  body.fp-student-shell .my-articles-status-filters {
+    margin: .55rem .12rem .9rem !important;
+    padding: .25rem .25rem .45rem !important;
+    gap: .55rem !important;
+    overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: thin;
+  }
+  body.fp-student-shell .my-articles-status-filters > * { flex: 0 0 auto; }
+  body.fp-student-shell .fp-action-dropdown-portal { max-width: calc(100vw - 1rem); }
+  body.fp-student-shell .fp-mobile-notification-header-actions { flex-wrap: wrap; }
+}
+@media (prefers-reduced-motion: reduce) {
+  body.fp-student-shell .fp-page-btn,
+  body.fp-student-shell .fp-action-trigger,
+  body.fp-student-shell .fp-mobile-notifications-mute,
+  body.fp-student-shell .fp-mobile-settings-item,
+  body.fp-student-shell .fp-team-tab,
+  body.fp-student-shell .fp-moderation-action,
+  body.fp-student-shell .fp-new-notice-button,
+  body.fp-student-shell .fp-team-new-access { transition: none; }
+}

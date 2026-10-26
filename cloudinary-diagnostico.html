@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Folha do Paiquerê</title><style>body{font-family:Inter,system-ui,sans-serif;max-width:760px;margin:40px auto;padding:0 18px;line-height:1.5;color:#1b1e1b}code,pre{background:#f2f7f3;padding:.35rem .5rem;border-radius:.4rem}button{border:0;background:#2E7D32;color:#fff;padding:.75rem 1rem;border-radius:.65rem;font-weight:800;cursor:pointer}#status{white-space:pre-wrap;margin-top:18px;padding:14px;border:1px solid #d8e2da;border-radius:12px;background:#fbfdfb}</style>
+<style id="fp-v93-responsive-polish">
+/* v93 — somente acabamento responsivo solicitado */
+.brand-mark{width:3.8rem!important;height:3.8rem!important;flex:0 0 3.8rem!important}
+#speech-toggle{min-width:0!important;max-width:100%;flex:0 1 auto;min-height:44px;height:auto;white-space:nowrap!important;overflow:visible;line-height:1.2;display:inline-flex;align-items:center;justify-content:center;align-self:stretch;flex-direction:row}
+#speech-toggle #speech-label{min-width:0;white-space:nowrap!important;overflow:visible;text-align:center}
+@media(max-width:640px){
+  .brand-mark{width:3.5rem!important;height:3.5rem!important;flex-basis:3.5rem!important}
+  #speech-toggle{flex:1 1 100%;width:auto;padding:.7rem .9rem!important;gap:.4rem}
+}
+</style>
+<link rel="stylesheet" href="fp-v170-polish.css">
+</head>
+<body><h1>Diagnóstico do Cloudinary</h1><p>Este teste envia uma imagem mínima para confirmar que <code>cloud_name</code> e <code>uploadPreset</code> estão corretos. Nenhuma API Secret é usada.</p><button id="run">Testar upload</button><div id="status">Aguardando teste.</div>
+<script src="cloudinary-config.js"></script><script>
+const s=document.getElementById('status');
+function set(t){s.textContent=t;}
+async function run(){const cfg=window.FP_CLOUDINARY||{};if(!cfg.enabled||!cfg.cloudName||!cfg.uploadPreset){set('Cloudinary ainda não está configurado. Preencha cloudinary-config.js e coloque enabled: true.');return;}set('Enviando teste…');const blob=await (await fetch('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQIHWP4z8DwHwAF/gL+8v1WJwAAAABJRU5ErkJggg==')).blob();const form=new FormData();form.append('file',blob,'diagnostico.png');form.append('upload_preset',cfg.uploadPreset);form.append('folder',`${cfg.folder||'folha-do-paiquere'}/diagnostics`);const r=await fetch(`https://api.cloudinary.com/v1_1/${encodeURIComponent(cfg.cloudName)}/image/upload`,{method:'POST',body:form});const text=await r.text();if(!r.ok){set(`Falha HTTP ${r.status}.\n\n${text}`);return;}let data={};try{data=JSON.parse(text)}catch(_){}set(`UPLOAD OK\n\nURL: ${data.secure_url||'(sem URL)'}`);}
+document.getElementById('run').onclick=()=>run().catch(e=>set('Erro: '+(e?.message||e)));
+</script></body></html>

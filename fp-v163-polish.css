@@ -1,0 +1,88 @@
+/* Folha do Paiquerê v163 — correções pontuais de largura da prévia e rolagem de Contribuições. */
+
+/* Editor: restore the preview to one quarter of the usable editor width.
+   The grid and fixed panel use matching geometry so the panel remains visible without covering fields. */
+@media (min-width: 1000px) {
+  body.fp-editor-workspace #editor-layout-grid {
+    grid-template-columns: minmax(0, 3fr) minmax(0, 1fr) !important;
+    align-items: start !important;
+  }
+
+  body.fp-editor-workspace #editor-preview-column {
+    width: clamp(220px, calc(25vw - .75rem - clamp(.2rem, .3125vw, .3rem)), 358.5px) !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    right: max(clamp(1rem, 2vw, 1.5rem), calc((100vw - 1500px) / 2 + 1.5rem)) !important;
+  }
+}
+
+/* The editor uses 16px page padding below Tailwind's lg breakpoint (1024px). */
+@media (min-width: 1000px) and (max-width: 1023px) {
+  body.fp-editor-workspace #editor-preview-column {
+    width: calc(25vw - .5rem - clamp(.2rem, .3125vw, .3rem)) !important;
+    right: 1rem !important;
+  }
+}
+
+/* Public profile: preserve the natural height of the Contributions results inside the
+   independently scrollable right pane. Flex shrinking previously let the result region
+   collapse while its carousel/filter cards kept rendering, making the cards look cut off. */
+@media (min-width: 900px) {
+  body.fp-profile-scroll-shell .fp-profile-main > * {
+    flex-shrink: 0 !important;
+    min-width: 0 !important;
+  }
+
+  body.fp-profile-scroll-shell #profile-default-content,
+  body.fp-profile-scroll-shell .fp-profile-main > .fp-profile-filter-results:not([hidden]) {
+    flex: 0 0 auto !important;
+    height: auto !important;
+    min-height: max-content !important;
+    overflow: visible !important;
+  }
+
+  body.fp-profile-scroll-shell #profile-default-content {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1rem !important;
+  }
+
+  body.fp-profile-scroll-shell #profile-default-content > .fp-profile-module {
+    flex: 0 0 auto !important;
+    height: auto !important;
+    min-height: max-content !important;
+    overflow: visible !important;
+  }
+
+  body.fp-profile-scroll-shell .fp-profile-filter-grid {
+    grid-auto-rows: auto !important;
+    align-content: start !important;
+    min-height: max-content !important;
+    overflow: visible !important;
+  }
+
+  body.fp-profile-scroll-shell .fp-profile-filter-card {
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+    align-self: stretch !important;
+  }
+
+  body.fp-profile-scroll-shell .fp-profile-filter-card > .fp-public-article-card {
+    height: auto !important;
+    min-height: 0 !important;
+  }
+
+  body.fp-profile-scroll-shell .fp-profile-carousel-wrap,
+  body.fp-profile-scroll-shell .fp-profile-carousel-viewport,
+  body.fp-profile-scroll-shell .fp-profile-carousel-track,
+  body.fp-profile-scroll-shell .fp-profile-carousel-item {
+    height: auto !important;
+    max-height: none !important;
+  }
+
+  body.fp-profile-scroll-shell .fp-profile-carousel-item .fp-public-article-card {
+    height: auto !important;
+    min-height: 0 !important;
+  }
+}

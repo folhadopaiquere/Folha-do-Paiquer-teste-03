@@ -1,0 +1,26 @@
+/* Folha do Paiquerê v182 — perfil público desktop sem rolagem interna no cartão.
+   Preserva o posicionamento sticky do botão Voltar e da coluna de identidade.
+   A página inteira continua sendo a área de rolagem; o cartão cresce conforme o conteúdo.
+   Escopo exclusivo para desktop para não alterar a apresentação móvel. */
+@media (min-width: 900px) {
+  body.fp-profile-scroll-shell .fp-profile-sidebar {
+    position: sticky !important;
+    top: 7.55rem !important;
+    align-self: start !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    overflow: visible !important;
+    overflow-x: visible !important;
+    overflow-y: visible !important;
+    overscroll-behavior: auto !important;
+    scrollbar-width: auto !important;
+  }
+
+  body.fp-profile-scroll-shell .fp-profile-identity-card {
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+}

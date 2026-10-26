@@ -1,0 +1,91 @@
+/* v98 — polimento visual conservador, sem alteração de lógica */
+:root{
+  --fp-v98-surface:#FFFFFF;
+  --fp-v98-soft:#F3F8F3;
+  --fp-v98-line:#D9E4DB;
+  --fp-v98-line-strong:#C3D1C6;
+  --fp-v98-shadow:0 10px 28px rgba(25,60,31,.07);
+  --fp-v98-shadow-hover:0 14px 32px rgba(25,60,31,.10);
+}
+
+html{scroll-behavior:smooth}
+body{background:linear-gradient(180deg,#F8FAF8 0%,#F4F7F4 100%);}
+.dark body{background:linear-gradient(180deg,#121512 0%,#101310 100%)}
+
+body>header{
+  position:relative;
+  background:rgba(255,255,255,.96)!important;
+  border-bottom-color:var(--fp-v98-line)!important;
+  box-shadow:0 1px 0 rgba(27,94,32,.05),0 8px 24px rgba(15,23,42,.035)!important;
+}
+.dark body>header{background:rgba(25,29,25,.97)!important;border-bottom-color:#303A32!important;box-shadow:0 1px 0 rgba(129,199,132,.06),0 8px 24px rgba(0,0,0,.14)!important}
+
+body>header .brand-mark{filter:drop-shadow(0 5px 9px rgba(27,94,32,.10));transition:filter .18s ease,transform .18s ease}
+body>header a:hover .brand-mark{transform:translateY(-1px);filter:drop-shadow(0 7px 12px rgba(27,94,32,.15))}
+body>header nav a{border:1px solid transparent}
+body>header nav a:hover{border-color:#DCE7DE!important;box-shadow:0 3px 10px rgba(15,23,42,.035)}
+.dark body>header nav a:hover{border-color:#344238!important;box-shadow:0 3px 10px rgba(0,0,0,.16)}
+
+main{position:relative}
+.panel-surface,.news-card,.achievement-card,.creative-card,.school-notice-card,.comment-item,.comment-composer,.about-profile-card,.profile-page-card{
+  border-color:var(--fp-v98-line)!important;
+  box-shadow:var(--fp-v98-shadow)!important;
+  transition:border-color .18s ease,box-shadow .18s ease,background-color .18s ease;
+}
+.panel-surface:hover,.news-card:hover,.achievement-card:hover,.creative-card:hover,.school-notice-card:hover,.comment-item:hover,.about-profile-card:hover,.profile-page-card:hover{
+  border-color:#C7D9CA!important;
+  box-shadow:var(--fp-v98-shadow-hover)!important;
+}
+.dark .panel-surface,.dark .news-card,.dark .achievement-card,.dark .creative-card,.dark .school-notice-card,.dark .comment-item,.dark .comment-composer,.dark .about-profile-card,.dark .profile-page-card{
+  border-color:#303A32!important;
+  box-shadow:0 10px 28px rgba(0,0,0,.20)!important;
+}
+.dark .panel-surface:hover,.dark .news-card:hover,.dark .achievement-card:hover,.dark .creative-card:hover,.dark .school-notice-card:hover,.dark .comment-item:hover,.dark .about-profile-card:hover,.dark .profile-page-card:hover{
+  border-color:#415045!important;
+  box-shadow:0 14px 32px rgba(0,0,0,.25)!important;
+}
+
+.btn-primary,.btn-soft,.btn-neutral{box-shadow:0 4px 12px rgba(15,23,42,.055)!important;transition:transform .16s ease,box-shadow .16s ease,background-color .16s ease,border-color .16s ease}
+.btn-primary:not(:disabled):hover,.btn-soft:not(:disabled):hover,.btn-neutral:not(:disabled):hover{box-shadow:0 7px 16px rgba(15,23,42,.09)!important}
+.btn-primary:not(:disabled):active,.btn-soft:not(:disabled):active,.btn-neutral:not(:disabled):active{box-shadow:0 3px 8px rgba(15,23,42,.06)!important}
+
+.site-input,.panel-input,.about-search-input,.about-search-select{background:#fff!important;border-color:var(--fp-v98-line-strong)!important;box-shadow:0 2px 7px rgba(15,23,42,.025)!important}
+.site-input:hover,.panel-input:hover,.about-search-input:hover,.about-search-select:hover{border-color:#AFC0B3!important}
+.dark .site-input,.dark .panel-input,.dark .about-search-input,.dark .about-search-select{background:#1B201C!important;border-color:#414C45!important}
+
+.accessibility-bar{border-color:#D7E1D9!important;box-shadow:0 10px 28px rgba(15,23,42,.12)!important}
+.dark .accessibility-bar{border-color:#384339!important;box-shadow:0 10px 28px rgba(0,0,0,.27)!important}
+.access-btn{box-shadow:0 2px 8px rgba(15,23,42,.03)}
+
+footer{border-top-color:var(--fp-v98-line)!important}
+.dark footer{border-top-color:#303A32!important}
+
+@media (min-width:768px){
+  main{max-width:100%!important}
+  .profile-page-card,.about-profile-card,.panel-surface{box-shadow:0 11px 30px rgba(25,60,31,.075)!important}
+}
+
+@media (min-width:768px) and (max-width:1199px){
+  body>header .max-w-7xl{padding-left:1.25rem!important;padding-right:1.25rem!important}
+  main{padding-left:1.25rem!important;padding-right:1.25rem!important}
+}
+
+@media (max-width:767px){
+  body{background:linear-gradient(180deg,#F8FAF8 0%,#F3F6F3 100%)}
+  .dark body{background:linear-gradient(180deg,#121512 0%,#101310 100%)}
+  body>header{box-shadow:0 1px 0 rgba(27,94,32,.045),0 5px 18px rgba(15,23,42,.03)!important}
+  body>header .brand-mark{filter:drop-shadow(0 4px 8px rgba(27,94,32,.08))}
+  main{padding-top:2rem!important;padding-bottom:3rem!important}
+  .panel-surface,.news-card,.achievement-card,.creative-card,.school-notice-card,.comment-item,.comment-composer,.about-profile-card,.profile-page-card{box-shadow:0 7px 20px rgba(15,23,42,.055)!important}
+  .panel-surface:hover,.news-card:hover,.achievement-card:hover,.creative-card:hover,.school-notice-card:hover,.comment-item:hover,.about-profile-card:hover,.profile-page-card:hover{box-shadow:0 8px 22px rgba(15,23,42,.07)!important}
+  .btn-primary,.btn-soft,.btn-neutral{min-height:44px}
+  .accessibility-bar{right:.55rem!important;bottom:.55rem!important;max-width:calc(100vw - 1.1rem)!important}
+}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  body>header .brand-mark,.panel-surface,.news-card,.achievement-card,.creative-card,.school-notice-card,.comment-item,.about-profile-card,.profile-page-card,.btn-primary,.btn-soft,.btn-neutral{transition:none!important}
+}
+
+/* v99 — moderação de comentários */
+.comment-moderation-badge{display:inline-flex;align-items:center;padding:.2rem .45rem;border:1px solid #D5DDD6;border-radius:999px;background:#F2F7F3;color:#1B5E20;font-size:.62rem;font-weight:900;line-height:1.2}.dark .comment-moderation-badge{border-color:#394139;background:#202620;color:#81C784}

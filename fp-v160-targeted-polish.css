@@ -1,0 +1,247 @@
+/* v160 — correções direcionadas de fundo dos cartões e proporção da prévia desktop. */
+
+/* Comunidade Escolar: a imagem é fundo do cartão inteiro, inclusive a faixa de estatísticas. */
+.fp-community-profile-card {
+  position: relative !important;
+  isolation: isolate;
+  overflow: hidden !important;
+  background-color: var(--fp-polish-surface) !important;
+}
+.fp-community-profile-card[data-profile-background] {
+  background-image: linear-gradient(135deg, rgba(255,255,255,.68), rgba(244,248,254,.78)), var(--fp-community-wallpaper-image, none) !important;
+  background-size: cover !important;
+  background-position: var(--fp-community-wallpaper-position, 50% 50%) !important;
+  background-repeat: no-repeat !important;
+}
+.dark .fp-community-profile-card[data-profile-background] {
+  background-image: linear-gradient(135deg, rgba(8,18,31,.60), rgba(11,26,45,.74)), var(--fp-community-wallpaper-image, none) !important;
+}
+.fp-community-profile-card:not([data-profile-background]) {
+  background-image: none !important;
+}
+/* The prior absolute wallpaper layer can no longer stop at a child boundary. */
+.fp-community-profile-card > .fp-community-card-wallpaper {
+  display: none !important;
+}
+.fp-community-profile-card .fp-community-divider,
+.fp-community-profile-card .fp-community-stats,
+.fp-community-profile-card .fp-community-stat {
+  background-color: transparent !important;
+}
+.fp-community-profile-card .fp-community-stats {
+  position: relative;
+  z-index: 1;
+  margin-top: auto !important;
+}
+.fp-community-profile-card > :not(.fp-community-card-wallpaper) {
+  position: relative;
+  z-index: 1;
+}
+@media (max-width: 767px) {
+  .fp-community-profile-card[data-profile-background] {
+    background-position: var(--fp-community-wallpaper-position-mobile, var(--fp-community-wallpaper-position, 50% 50%)) !important;
+  }
+}
+
+/* Perfil público: superfície translúcida sem desbotar o contraste do texto. */
+.fp-profile-identity-card {
+  background: rgba(255, 255, 255, .68) !important;
+  -webkit-backdrop-filter: blur(12px) saturate(115%);
+  backdrop-filter: blur(12px) saturate(115%);
+}
+.dark .fp-profile-identity-card {
+  background: rgba(8, 22, 39, .68) !important;
+  -webkit-backdrop-filter: blur(12px) saturate(115%);
+  backdrop-filter: blur(12px) saturate(115%);
+}
+
+/* Meu Perfil: manter o papel de parede na faixa superior e fazê-lo desaparecer antes da divisória. */
+@media (min-width: 768px) {
+  body.fp-student-shell .profile-identity-card {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden !important;
+  }
+  body.fp-student-shell .profile-identity-backdrop {
+    top: 0 !important;
+    right: 0 !important;
+    left: 0 !important;
+    bottom: auto !important;
+    height: 6.65rem !important;
+    max-height: 6.65rem !important;
+    overflow: hidden !important;
+    clip-path: inset(0 0 0 0);
+  }
+  body.fp-student-shell .profile-identity-backdrop::after {
+    background: linear-gradient(180deg, rgba(242,247,253,.10) 0%, rgba(242,247,253,.34) 50%, var(--fp-surface, #fff) 100%) !important;
+  }
+  .dark body.fp-student-shell .profile-identity-backdrop::after {
+    background: linear-gradient(180deg, rgba(8,15,27,.10) 0%, rgba(8,15,27,.36) 50%, var(--fp-surface, #101c2b) 100%) !important;
+  }
+}
+
+/* Editor: usar a largura útil do conteúdo, não apenas o tamanho externo da janela.
+   3fr/1fr corresponde a 75/25; a largura mínima protege a prévia contra zoom e textos longos. */
+body.fp-editor-workspace #conteudo-principal {
+  container-type: inline-size;
+  container-name: editor-available;
+}
+body.fp-editor-workspace #editor-layout-grid {
+  width: 100% !important;
+  min-width: 0 !important;
+  align-items: start !important;
+  gap: clamp(.75rem, 1.35%, 1.2rem) !important;
+}
+@container editor-available (min-width: 800px) {
+  body.fp-editor-workspace #editor-layout-grid {
+    grid-template-columns: minmax(0, 3fr) minmax(220px, 1fr) !important;
+    align-items: start !important;
+  }
+  body.fp-editor-workspace #editor-meta-panel {
+    grid-column: 1 !important;
+    grid-row: 1 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+  body.fp-editor-workspace #editor-preview-column {
+    grid-column: 2 !important;
+    grid-row: 1 !important;
+    position: sticky !important;
+    top: 5vh !important;
+    top: 5dvh !important;
+    align-self: start !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    height: 90vh !important;
+    height: 90dvh !important;
+    max-height: 90vh !important;
+    max-height: 90dvh !important;
+    overflow: hidden !important;
+  }
+  body.fp-editor-workspace #editor-preview-panel {
+    display: flex !important;
+    flex: 1 1 auto !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    max-height: 100% !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+    padding: clamp(.7rem, 1.15%, 1.1rem) !important;
+  }
+  body.fp-editor-workspace #editor-preview-panel > .editor-preview-header {
+    flex: 0 0 auto !important;
+    min-width: 0 !important;
+  }
+  body.fp-editor-workspace #editor-preview-title {
+    font-size: clamp(1.05rem, 1.15vw, 1.3rem) !important;
+    line-height: 1.2 !important;
+    overflow-wrap: anywhere;
+  }
+  body.fp-editor-workspace #editor-preview-panel .editor-muted {
+    font-size: clamp(.78rem, .85vw, .9rem) !important;
+    line-height: 1.45 !important;
+  }
+  body.fp-editor-workspace #editor-preview-body {
+    display: flex !important;
+    flex: 1 1 auto !important;
+    flex-direction: column !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
+  }
+  body.fp-editor-workspace .editor-preview-tabs {
+    flex: 0 0 auto !important;
+    gap: .35rem !important;
+  }
+  body.fp-editor-workspace .editor-preview-tabs button {
+    font-size: clamp(.72rem, .78vw, .86rem) !important;
+    line-height: 1.25 !important;
+    padding: clamp(.42rem, .55vw, .62rem) !important;
+    white-space: normal !important;
+    min-width: 0 !important;
+  }
+  body.fp-editor-workspace #editor-live-preview {
+    flex: 1 1 auto !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow: auto !important;
+    overscroll-behavior: contain;
+  }
+  body.fp-editor-workspace #editor-live-preview.is-mobile {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-inline: auto !important;
+  }
+}
+@container editor-available (max-width: 799.98px) {
+  body.fp-editor-workspace #editor-layout-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+  body.fp-editor-workspace #editor-meta-panel {
+    grid-column: 1 !important;
+    grid-row: 1 !important;
+    min-width: 0 !important;
+  }
+  body.fp-editor-workspace #editor-preview-column {
+    position: static !important;
+    grid-column: 1 !important;
+    grid-row: 2 !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+  body.fp-editor-workspace #editor-preview-panel {
+    display: block !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+  body.fp-editor-workspace #editor-preview-body {
+    display: block !important;
+    overflow: visible !important;
+  }
+}
+/* Fallback for older engines without CSS container-query support. */
+@supports not (container-type: inline-size) {
+  @media (min-width: 1180px) {
+    body.fp-editor-workspace #editor-layout-grid {
+      grid-template-columns: minmax(0, 3fr) minmax(230px, 1fr) !important;
+    }
+    body.fp-editor-workspace #editor-preview-column {
+      position: sticky !important;
+      top: 5vh !important;
+      height: 90vh !important;
+      max-height: 90vh !important;
+      overflow: hidden !important;
+    }
+    body.fp-editor-workspace #editor-preview-panel {
+      display: flex !important;
+      flex-direction: column !important;
+      height: 100% !important;
+      min-height: 0 !important;
+      overflow: hidden !important;
+    }
+    body.fp-editor-workspace #editor-preview-body {
+      display: flex !important;
+      flex: 1 1 auto !important;
+      flex-direction: column !important;
+      min-height: 0 !important;
+      overflow: hidden !important;
+    }
+    body.fp-editor-workspace #editor-live-preview {
+      flex: 1 1 auto !important;
+      min-height: 0 !important;
+      max-height: none !important;
+    }
+  }
+}

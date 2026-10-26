@@ -1,0 +1,100 @@
+/* Folha do Paiquerê v176 — targeted corrections only. */
+
+/* 1) Desktop profile: keep Back and the identity card visible during page scroll.
+   The global public header already occupies the top of the viewport. The Back row
+   sticks immediately below it; the identity sidebar sticks below the Back row.
+   Mobile behavior and the right-hand content/rails are unchanged. */
+@media (min-width: 900px) {
+  body.fp-profile-scroll-shell .fp-profile-topbar {
+    position: sticky !important;
+    top: 4.5rem !important;
+    z-index: 45 !important;
+    align-self: stretch !important;
+    display: flex !important;
+    align-items: center !important;
+    min-height: 2.75rem !important;
+    margin: 0 0 .75rem !important;
+    padding: .3rem .45rem .55rem !important;
+    box-sizing: border-box !important;
+    background: rgba(248, 250, 252, .92) !important;
+    border-bottom: 1px solid rgba(148, 163, 184, .25) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    backdrop-filter: blur(10px) !important;
+  }
+  .dark body.fp-profile-scroll-shell .fp-profile-topbar,
+  body.dark.fp-profile-scroll-shell .fp-profile-topbar {
+    background: rgba(9, 24, 42, .92) !important;
+    border-bottom-color: rgba(100, 116, 139, .3) !important;
+  }
+  body.fp-profile-scroll-shell .fp-profile-topbar [data-profile-back] {
+    flex: 0 0 auto !important;
+  }
+  body.fp-profile-scroll-shell .fp-profile-sidebar {
+    position: sticky !important;
+    top: 7.55rem !important;
+    align-self: start !important;
+    max-height: calc(100dvh - 8rem) !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    overscroll-behavior: contain !important;
+    scrollbar-width: thin !important;
+    z-index: 30 !important;
+  }
+  body.fp-profile-scroll-shell .fp-profile-sidebar::-webkit-scrollbar {
+    width: 6px !important;
+  }
+  body.fp-profile-scroll-shell .fp-profile-sidebar::-webkit-scrollbar-thumb {
+    background: rgba(100, 116, 139, .32) !important;
+    border-radius: 999px !important;
+  }
+  body.fp-profile-scroll-shell .fp-profile-identity-card {
+    min-width: 0 !important;
+    overflow-wrap: anywhere !important;
+  }
+}
+
+/* 2) Desktop achievements: simplify the filter surface and create a calmer hierarchy.
+   Search + sort + year remain the same controls with the same IDs and JS listeners. */
+@media (min-width: 901px) {
+  .achievement-search-panel {
+    padding: 1rem 1.1rem !important;
+    border: 1px solid #dbe4ee !important;
+    border-radius: 1rem !important;
+    background: #f8fafc !important;
+    box-shadow: 0 3px 12px rgba(15, 35, 60, .045) !important;
+  }
+  .dark .achievement-search-panel {
+    border-color: #2c435a !important;
+    background: #0d2035 !important;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, .15) !important;
+  }
+  .achievement-search-panel .achievement-search-controls {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1.35fr) minmax(10.5rem, .82fr) minmax(10.5rem, .82fr) !important;
+    gap: .65rem !important;
+    align-items: center !important;
+    margin-top: .25rem !important;
+  }
+  .achievement-search-panel .achievement-search-input-wrap,
+  .achievement-search-panel .achievement-search-input-wrap .site-input,
+  .achievement-search-panel select.site-input {
+    min-width: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  .achievement-search-panel .site-input {
+    min-height: 45px !important;
+    border-radius: .7rem !important;
+    border-color: #cbd5e1 !important;
+    box-shadow: none !important;
+  }
+  .achievement-search-panel .site-input:focus-visible {
+    outline: 3px solid rgba(59, 130, 246, .2) !important;
+    outline-offset: 1px !important;
+    border-color: #6484a7 !important;
+  }
+  .dark .achievement-search-panel .site-input {
+    border-color: #40546a !important;
+  }
+}

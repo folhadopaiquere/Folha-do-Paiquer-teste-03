@@ -1,0 +1,134 @@
+/* Folha do Paiquerê v161 — correções estritamente direcionadas: crop de cards, densidade dos cartões e layout de desktop. */
+
+/* Editor de matéria: split 75/25 usando largura de viewport real como fallback para navegadores/zoom. */
+body.fp-editor-workspace #conteudo-principal { min-width:0!important; }
+body.fp-editor-workspace #editor-layout-grid { width:100%!important; min-width:0!important; display:grid!important; grid-template-columns:minmax(0,1fr)!important; align-items:start!important; gap:clamp(.8rem,1.25vw,1.2rem)!important; }
+body.fp-editor-workspace #editor-meta-panel, body.fp-editor-workspace #editor-preview-column { min-width:0!important; max-width:100%!important; }
+body.fp-editor-workspace #editor-meta-panel { grid-column:1!important; grid-row:1!important; width:100%!important; height:auto!important; max-height:none!important; overflow:visible!important; position:relative!important; top:auto!important; }
+body.fp-editor-workspace #editor-preview-column { grid-column:1!important; grid-row:2!important; position:relative!important; top:auto!important; width:100%!important; height:auto!important; max-height:none!important; align-self:start!important; overflow:visible!important; }
+body.fp-editor-workspace #editor-preview-panel { position:relative!important; top:auto!important; display:flex!important; flex-direction:column!important; width:100%!important; height:auto!important; min-width:0!important; min-height:0!important; max-height:none!important; overflow:hidden!important; box-sizing:border-box!important; }
+body.fp-editor-workspace #editor-preview-body { min-width:0!important; min-height:0!important; overflow:visible!important; }
+body.fp-editor-workspace #editor-live-preview { min-width:0!important; max-width:100%!important; max-height:70dvh!important; min-height:16rem!important; overflow:auto!important; }
+body.fp-editor-workspace #editor-preview-title { font-size:clamp(1.05rem,1.3vw,1.35rem)!important; line-height:1.25!important; overflow-wrap:anywhere!important; }
+body.fp-editor-workspace #editor-preview-panel .editor-muted { font-size:clamp(.82rem,.92vw,.96rem)!important; line-height:1.45!important; }
+@media (min-width:1000px) {
+  body.fp-editor-workspace #editor-layout-grid { grid-template-columns:minmax(0,3fr) minmax(265px,1fr)!important; align-items:start!important; }
+  body.fp-editor-workspace #editor-meta-panel { grid-column:1!important; grid-row:1!important; width:100%!important; position:relative!important; height:auto!important; max-height:none!important; overflow:visible!important; }
+  body.fp-editor-workspace #editor-preview-column { grid-column:2!important; grid-row:1!important; position:sticky!important; top:5dvh!important; align-self:start!important; width:100%!important; height:90dvh!important; max-height:90dvh!important; overflow:hidden!important; z-index:4!important; }
+  body.fp-editor-workspace #editor-preview-panel { height:100%!important; max-height:100%!important; min-height:0!important; position:relative!important; top:auto!important; overflow:hidden!important; }
+  body.fp-editor-workspace #editor-preview-body { flex:1 1 auto!important; display:flex!important; flex-direction:column!important; min-height:0!important; overflow:hidden!important; }
+  body.fp-editor-workspace #editor-live-preview { flex:1 1 auto!important; min-height:0!important; max-height:none!important; height:auto!important; overflow:auto!important; overscroll-behavior:contain!important; }
+}
+@media (min-width:1000px) and (max-height:620px) {
+  body.fp-editor-workspace #editor-preview-column { height:90dvh!important; max-height:90dvh!important; top:3dvh!important; }
+  body.fp-editor-workspace #editor-preview-panel { padding:.7rem!important; }
+  body.fp-editor-workspace #editor-preview-body { margin-top:.5rem!important; }
+}
+
+/* Cartões da Comunidade Escolar: mesmos dados, menos altura desperdiçada. */
+.about-page .about-profile-grid { grid-auto-rows:minmax(185px,auto)!important; row-gap:.75rem!important; }
+.about-page .fp-community-profile-card { padding:.78rem!important; gap:.5rem!important; min-height:0!important; }
+.about-page .fp-community-profile-card .fp-community-identity { gap:.7rem!important; align-items:center!important; min-width:0!important; }
+.about-page .fp-community-profile-card .about-profile-avatar { width:3.25rem!important; height:3.25rem!important; flex-basis:3.25rem!important; border-radius:.85rem!important; }
+.about-page .fp-community-profile-card .fp-community-identity-copy { min-width:0!important; }
+.about-page .fp-community-profile-card .fp-community-identity-copy h3 { margin:0!important; font-size:clamp(.94rem,1vw,1.02rem)!important; line-height:1.2!important; overflow-wrap:anywhere!important; }
+.about-page .fp-community-profile-card .fp-community-role-line { margin-top:.28rem!important; font-size:.68rem!important; line-height:1.4!important; overflow-wrap:anywhere!important; }
+.about-page .fp-community-profile-card .fp-community-divider { margin:.05rem 0 .15rem!important; }
+.about-page .fp-community-profile-card .fp-community-stats { gap:.8rem!important; min-height:1.55rem!important; margin-top:auto!important; }
+.about-page .fp-community-profile-card .fp-community-stat { gap:.3rem!important; }
+.about-page .fp-community-profile-card .fp-community-stat svg { width:1.05rem!important; height:1.05rem!important; }
+.about-page .fp-community-profile-card .fp-community-stat strong { font-size:.92rem!important; line-height:1.1!important; }
+
+/* Perfil público: manter a coluna estável sem cortar nome, série, título ou links sociais. */
+@media (min-width:900px) {
+  .fp-profile-sidebar { min-width:0!important; max-height:calc(100dvh - 1rem)!important; overflow-x:hidden!important; overflow-y:auto!important; scrollbar-width:thin; scrollbar-color:rgba(90,125,165,.35) transparent; }
+  .fp-profile-identity-card { width:100%!important; height:auto!important; min-height:0!important; max-height:none!important; overflow:visible!important; box-sizing:border-box!important; padding-bottom:1.1rem!important; }
+  .fp-profile-identity-card h1,.fp-profile-identity-card p,.fp-profile-identity-card .fp-profile-role-line,.fp-profile-identity-card .fp-profile-role-line span,.fp-profile-identity-card .profile-public-socials { min-width:0!important; max-width:100%!important; overflow-wrap:anywhere!important; word-break:normal!important; }
+  .fp-profile-identity-card .fp-profile-role-line { display:flex!important; flex-wrap:wrap!important; justify-content:center!important; align-items:center!important; gap:.3rem .4rem!important; white-space:normal!important; }
+  .fp-profile-identity-card .fp-profile-bio { -webkit-line-clamp:3!important; line-clamp:3!important; }
+  .fp-profile-identity-card hr { flex:none!important; }
+  .fp-profile-identity-card .profile-public-socials { justify-content:center!important; flex-wrap:wrap!important; }
+}
+
+/* Crop view reused on notice and achievement cards. It is an aspect-ratio frame over the original image. */
+.fp-app-image-crop-frame { position:relative!important; display:block!important; width:100%!important; height:100%!important; min-width:0!important; min-height:0!important; aspect-ratio:16/9!important; overflow:hidden!important; isolation:isolate!important; border-radius:inherit!important; background:var(--fp-polish-surface-soft,#eaf2fc)!important; }
+.fp-app-image-crop-frame > img { position:absolute!important; display:block!important; max-width:none!important; max-height:none!important; object-fit:fill!important; }
+.school-notice-card > .fp-app-image-crop-frame { width:100%!important; height:auto!important; aspect-ratio:16/9!important; border-radius:0!important; }
+.achievement-media > .fp-app-image-crop-frame { flex:1 1 auto!important; width:100%!important; height:100%!important; aspect-ratio:auto!important; }
+.fp-home-public-card-media > .fp-app-image-crop-frame,.fp-profile-achievement-image > .fp-app-image-crop-frame { position:absolute!important; inset:0!important; width:100%!important; height:100%!important; aspect-ratio:auto!important; }
+
+/* Admin image cropper: same UI for registering notices and achievements; original uploads stay untouched. */
+.fp-admin-image-crop-modal { position:fixed!important; inset:0!important; z-index:13000!important; display:flex; align-items:center; justify-content:center; padding:1rem; background:rgba(3,10,20,.72); backdrop-filter:blur(5px); }
+.fp-admin-image-crop-modal.hidden { display:none!important; }
+.fp-admin-image-crop-dialog { width:min(100%,min(64rem,calc(100vw - 2rem)))!important; max-height:calc(100dvh - 2rem)!important; overflow:auto!important; padding:clamp(1rem,2vw,1.5rem)!important; border:1px solid var(--fp-polish-line,#d3e0ef)!important; border-radius:1.2rem!important; background:var(--fp-polish-surface,#fff)!important; color:var(--fp-polish-text,#111827)!important; box-shadow:0 24px 80px rgba(0,0,0,.3)!important; }
+.dark .fp-admin-image-crop-dialog { background:var(--fp-polish-surface,#101b2a)!important; color:var(--fp-polish-text,#f9fafb)!important; }
+.fp-admin-image-crop-heading { display:flex; align-items:flex-start; justify-content:space-between; gap:1rem; }
+.fp-admin-image-crop-heading h2 { margin:.2rem 0 0; font-size:clamp(1.15rem,2vw,1.5rem); font-weight:900; line-height:1.2; }
+.fp-admin-image-crop-heading p:last-child { margin:.4rem 0 0; max-width:48rem; color:var(--fp-polish-muted,#475569); font-size:.88rem; line-height:1.5; }
+.fp-admin-image-crop-close { flex:none; display:grid; place-items:center; width:2.35rem; height:2.35rem; border:1px solid var(--fp-polish-line); border-radius:.7rem; background:var(--fp-polish-surface-soft); color:var(--fp-polish-text); font-size:1.45rem; }
+.fp-admin-image-crop-stage { position:relative; margin:1rem auto 0; max-width:100%; max-height:54dvh; overflow:hidden; border-radius:.65rem; background:#081321; touch-action:none; }
+.fp-admin-image-crop-stage > img { display:block; width:100%; height:100%; object-fit:fill; pointer-events:none; user-select:none; -webkit-user-drag:none; }
+.fp-admin-image-crop-selection { position:absolute; left:10%; top:10%; width:80%; height:80%; border:2px solid #93c5fd; box-shadow:0 0 0 200vmax rgba(0,0,0,.52); cursor:move; touch-action:none; outline:none; }
+.fp-admin-image-crop-selection.is-dragging { cursor:grabbing; }
+.fp-admin-image-crop-selection > button { position:absolute; width:1rem; height:1rem; min-width:1rem; min-height:1rem; padding:0; border:2px solid #fff; border-radius:50%; background:#2563eb; box-shadow:0 1px 6px #0008; touch-action:none; }
+.fp-admin-image-crop-selection > button[data-admin-crop-handle="nw"] { left:-.55rem; top:-.55rem; cursor:nwse-resize; }
+.fp-admin-image-crop-selection > button[data-admin-crop-handle="ne"] { right:-.55rem; top:-.55rem; cursor:nesw-resize; }
+.fp-admin-image-crop-selection > button[data-admin-crop-handle="sw"] { left:-.55rem; bottom:-.55rem; cursor:nesw-resize; }
+.fp-admin-image-crop-selection > button[data-admin-crop-handle="se"] { right:-.55rem; bottom:-.55rem; cursor:nwse-resize; }
+.fp-admin-image-crop-status { margin:.65rem 0 0; min-height:1.3rem; color:var(--fp-polish-muted,#475569); font-size:.8rem; line-height:1.45; }
+.fp-admin-image-crop-actions { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:.7rem; margin-top:1rem; }
+.fp-admin-image-crop-actions > div { display:flex; justify-content:flex-end; flex-wrap:wrap; gap:.5rem; }
+.fp-admin-image-crop-actions button { min-height:2.55rem; padding:.6rem .85rem!important; border-radius:.75rem!important; font-weight:800!important; }
+.fp-admin-image-crop-actions button:disabled { opacity:.45; cursor:not-allowed; }
+.fp-notice-image-preview-shell.is-cropped { position:relative!important; display:block!important; width:100%!important; height:auto!important; min-height:0!important; aspect-ratio:16/9!important; padding:0!important; overflow:hidden!important; }
+.fp-notice-image-preview-shell.is-cropped .fp-notice-image-preview { position:absolute!important; left:var(--fp-admin-crop-left)!important; top:var(--fp-admin-crop-top)!important; width:var(--fp-admin-crop-width)!important; height:var(--fp-admin-crop-height)!important; max-width:none!important; max-height:none!important; padding:0!important; margin:0!important; border:0!important; border-radius:0!important; object-fit:fill!important; }
+.fp-admin-achievement-image-preview-shell:not(.hidden) { display:block; width:100%; }
+.fp-admin-achievement-image-preview-shell.is-cropped { position:relative!important; width:100%!important; aspect-ratio:16/9!important; overflow:hidden!important; border-radius:.8rem!important; padding:0!important; }
+.fp-admin-achievement-image-preview-shell.is-cropped .fp-achievement-image-preview { position:absolute!important; left:var(--fp-admin-crop-left)!important; top:var(--fp-admin-crop-top)!important; width:var(--fp-admin-crop-width)!important; height:var(--fp-admin-crop-height)!important; max-width:none!important; max-height:none!important; padding:0!important; margin:0!important; border:0!important; border-radius:0!important; object-fit:fill!important; }
+@media (prefers-reduced-motion:reduce) { .fp-admin-image-crop-modal * { animation:none!important; transition:none!important; } }
+
+/* Tipografia confortável no editor: limites fluidos evitam textos minúsculos em telas largas
+   e mantêm os campos proporcionais quando a janela ou o zoom mudam. */
+@media (min-width:1000px) {
+  body.fp-editor-workspace #dados-title label,
+  body.fp-editor-workspace #editor-cover-credits-grid label,
+  body.fp-editor-workspace #desktop-insert-section label,
+  body.fp-editor-workspace #mobile-block-editor label {
+    font-size:clamp(.86rem,.86vw,.98rem)!important;
+    line-height:1.4!important;
+  }
+  body.fp-editor-workspace #dados-title .site-input,
+  body.fp-editor-workspace #editor-cover-credits-grid .site-input,
+  body.fp-editor-workspace #desktop-insert-section .site-input,
+  body.fp-editor-workspace #mobile-block-editor .site-input {
+    font-size:clamp(.92rem,.92vw,1.02rem)!important;
+    line-height:1.4!important;
+  }
+  body.fp-editor-workspace #dados-title p,
+  body.fp-editor-workspace #editor-cover-credits-grid p,
+  body.fp-editor-workspace #desktop-insert-section p,
+  body.fp-editor-workspace #mobile-block-editor p {
+    font-size:clamp(.78rem,.78vw,.88rem);
+    line-height:1.5;
+  }
+  body.fp-editor-workspace #editor-preview-panel .editor-preview-tabs button {
+    font-size:clamp(.76rem,.8vw,.9rem)!important;
+  }
+}
+
+/* Do not squeeze the profile card into the viewport height: allow its left column to scroll
+   independently if a long name, role, bio or social list needs extra room. */
+@media (min-width:900px) {
+  body.fp-profile-scroll-shell .fp-profile-sidebar {
+    height:calc(100dvh - 1rem)!important;
+    min-height:0!important;
+    overflow-y:auto!important;
+    overflow-x:hidden!important;
+    scrollbar-gutter:stable;
+  }
+  body.fp-profile-scroll-shell .fp-profile-identity-card {
+    flex:0 0 auto!important;
+    min-height:max-content!important;
+    overflow:visible!important;
+  }
+}

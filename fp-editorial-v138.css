@@ -1,0 +1,36 @@
+/* v138 — correções tipográficas, permissões de navegação e seleção de imagem por HTML/link. */
+
+/* Títulos de seção: retirar o rótulo pequeno duplicado e dar hierarquia ao título escolhido. */
+.fp-management-heading .fp-v138-section-title{margin:0;color:var(--fp-text,#1D2938);font-size:clamp(1.85rem,2.6vw,2.45rem);font-weight:950;letter-spacing:-.04em;line-height:1.1}
+.dark .fp-management-heading .fp-v138-section-title{color:#EAF2FC}
+.editor-page-heading .fp-v138-editor-title{margin:.05rem 0 .1rem!important;font-size:clamp(2.2rem,3vw,3rem)!important;font-weight:950!important;letter-spacing:-.045em!important;line-height:1.04!important;color:var(--editor-text)!important}
+[data-panel="avisos"] > .fp-management-heading .fp-section-eyebrow,
+[data-panel="pautas"] > .fp-management-heading .fp-section-eyebrow{font-size:clamp(1.12rem,1.55vw,1.3rem)!important;line-height:1.25;letter-spacing:.1em}
+
+/* Visibilidade vem imediatamente à esquerda do estado Publicado. */
+.fp-moderation-row-status{display:flex;align-items:center;justify-content:flex-end;gap:.42rem;min-width:0;white-space:nowrap}
+.fp-moderation-row-status .fp-moderation-visibility{font-size:.62rem;line-height:1.25;white-space:nowrap}
+@media(max-width:767px){.fp-moderation-row-status{gap:.4rem;flex-wrap:wrap;align-items:center}.fp-moderation-row-status .fp-moderation-visibility{font-size:.6rem}}
+
+/* Seleção de imagem da conquista no mesmo padrão visual de Postar aviso. */
+.fp-achievement-image-actions{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap}
+.fp-achievement-image-field .fp-image-url-label{margin:.1rem 0 0;color:#78879B;font-size:.7rem;font-weight:750}
+.dark .fp-achievement-image-field .fp-image-url-label{color:#9DADC1}
+.fp-achievement-image-field>.site-input{min-width:0;width:100%}
+.fp-achievement-image-field .fp-image-select-btn{align-self:flex-start}
+.fp-achievement-image-preview{max-height:12rem!important}
+
+/* HTML da imagem: diálogo acessível e botões compactos. */
+.fp-v138-image-html-dialog{border:1px solid #D9E2ED;color:#23364B}
+.dark .fp-v138-image-html-dialog{border-color:#34475E;color:#E8EEF6}
+#image-html-source{min-height:8.5rem;resize:vertical;white-space:pre-wrap;overflow-wrap:anywhere}
+.fp-v138-cover-html-button{min-width:0!important}
+.editor-image-toolbar{flex-wrap:nowrap!important;gap:.32rem!important;overflow-x:auto;padding-bottom:.12rem;scrollbar-width:thin}
+.editor-image-toolbar .fp-v138-image-html-button{flex:0 0 auto;min-width:2.7rem;min-height:2.2rem;padding:.32rem .44rem!important;font-size:.68rem!important;line-height:1!important;white-space:nowrap}
+.editor-image-toolbar select{flex:0 1 7.5rem;min-width:4.4rem}
+@media(max-width:520px){
+  .editor-image-toolbar{gap:.22rem!important}
+  .editor-image-toolbar .fp-v138-image-html-button{min-width:2.35rem;padding:.28rem .35rem!important}
+  .editor-image-toolbar select{flex:0 1 6.15rem;min-width:3.8rem;font-size:.65rem!important}
+}
+.editor-cover-picker-actions .fp-v138-cover-html-button{flex:0 0 100%!important;width:100%!important;max-width:100%!important;}

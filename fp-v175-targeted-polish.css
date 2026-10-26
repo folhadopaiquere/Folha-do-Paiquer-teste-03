@@ -1,0 +1,53 @@
+/* Folha do Paiquerê v175 — only the three requested profile/filter refinements. */
+
+/* 1) Desktop public profile: return the left identity card to normal document flow.
+   The whole page scrolls, instead of keeping the sidebar/card sticky or independently scrollable.
+   Mobile layout and both horizontal rails are deliberately untouched. */
+@media (min-width: 900px) {
+  body.fp-profile-scroll-shell .fp-profile-topbar {
+    position: static !important;
+    inset: auto !important;
+  }
+  body.fp-profile-scroll-shell .fp-profile-sidebar {
+    position: relative !important;
+    top: auto !important;
+    inset-block-start: auto !important;
+    align-self: start !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    overflow: visible !important;
+    overflow-x: visible !important;
+    overflow-y: visible !important;
+    overscroll-behavior: auto !important;
+  }
+}
+
+/* 2) Desktop achievements: preserve the existing order (search, sort, year),
+   but reserve enough width for both filters and constrain the search field. */
+@media (min-width: 901px) {
+  .achievement-search-panel .achievement-search-controls {
+    display: grid !important;
+    grid-template-columns: minmax(12rem, .85fr) minmax(11rem, 1fr) minmax(11rem, 1fr) !important;
+    gap: .7rem !important;
+    align-items: center !important;
+  }
+  .achievement-search-panel .achievement-search-input-wrap,
+  .achievement-search-panel .achievement-search-input-wrap .site-input,
+  .achievement-search-panel select.site-input {
+    min-width: 0 !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+}
+
+/* 3) Desktop filters remain aligned as two controls when the search moves to its own row. */
+@media (min-width: 601px) and (max-width: 900px) {
+  .achievement-search-panel .achievement-search-controls {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+  }
+  .achievement-search-panel .achievement-search-input-wrap {
+    grid-column: 1 / -1 !important;
+    min-width: 0 !important;
+  }
+}

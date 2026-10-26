@@ -1,0 +1,21 @@
+/* v184: role-restricted navigation must remain hidden despite .fp-nav-item { display:flex }. */
+#student-nav .fp-nav-item[hidden],
+#student-nav .fp-nav-item.hidden,
+#student-nav .fp-nav-divider[hidden],
+#student-nav .fp-nav-divider.hidden,
+.fp-editor-sidebar .fp-nav-item[hidden],
+.fp-editor-sidebar .fp-nav-item.hidden,
+.fp-editor-sidebar .editor-only-shortcut[hidden],
+.fp-editor-sidebar .editor-only-shortcut.hidden,
+.fp-editor-sidebar .master-only-shortcut[hidden],
+.fp-editor-sidebar .master-only-shortcut.hidden {
+  display: none !important;
+}
+
+.fp-community-registration-year {
+  margin: .3rem 0 0;
+  color: var(--fp-muted, #64748b);
+  font-size: .68rem;
+  line-height: 1.35;
+}
+.dark .fp-community-registration-year { color: #a8b4c4; }

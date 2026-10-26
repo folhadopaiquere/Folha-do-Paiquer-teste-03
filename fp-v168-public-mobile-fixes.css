@@ -1,0 +1,353 @@
+/* Folha do Paiquerê v168 — refinamentos públicos compactos e ajustes funcionais de apresentação. */
+:root {
+  --fp-v168-blue: #285486;
+  --fp-v168-blue-deep: #102842;
+  --fp-v168-surface: #ffffff;
+  --fp-v168-line: #dbe5ef;
+}
+
+/* The skip link remains available to keyboard users, but does not cover the page on touch screens. */
+@media (max-width: 767px) {
+  body.fp-public-mobile-shell > .skip-link,
+  body.fp-public-mobile-shell .skip-link {
+    position: fixed !important;
+    top: .5rem !important;
+    left: .5rem !important;
+    z-index: 11000 !important;
+    transform: translateY(-180%) !important;
+    background: #153b61 !important;
+    color: #fff !important;
+    border: 1px solid rgba(255,255,255,.35) !important;
+    box-shadow: 0 6px 20px rgba(7,24,43,.22) !important;
+  }
+  body.fp-public-mobile-shell > .skip-link:focus,
+  body.fp-public-mobile-shell > .skip-link:focus-visible,
+  body.fp-public-mobile-shell .skip-link:focus,
+  body.fp-public-mobile-shell .skip-link:focus-visible {
+    transform: translateY(0) !important;
+  }
+
+  /* Remove the long desktop footer only from the compact public experience. */
+  body.fp-public-mobile-shell > footer,
+  body.fp-public-mobile-shell footer,
+  body.fp-public-mobile-shell .about-footer {
+    display: none !important;
+  }
+
+  /* Lighter photographic overlay and slightly more room for the home feature. */
+  body.fp-public-mobile-shell .fp-home-hero {
+    height: clamp(12rem, 58vw, 15rem) !important;
+    min-height: 12rem !important;
+    box-shadow: 0 7px 18px rgba(11,37,69,.085) !important;
+  }
+  body.fp-public-mobile-shell .fp-home-hero-overlay {
+    background: linear-gradient(90deg,
+      rgba(5,22,41,.74) 0%,
+      rgba(7,28,50,.56) 54%,
+      rgba(7,28,50,.17) 100%) !important;
+  }
+  body.fp-public-mobile-shell .fp-home-hero-content {
+    padding: .92rem 1rem !important;
+    text-shadow: 0 1px 2px rgba(0,0,0,.18);
+  }
+
+  /* Home: latest news are full-width vertical cards, not horizontal media rows. */
+  body.fp-public-mobile-shell .fp-home-content-section[aria-labelledby="noticias-recentes-titulo"] #home-news-grid {
+    display: grid !important;
+    grid-template-columns: minmax(0,1fr) !important;
+    grid-auto-flow: row !important;
+    align-items: stretch !important;
+    gap: .8rem !important;
+    overflow: visible !important;
+  }
+  body.fp-public-mobile-shell #home-news-grid .fp-home-news-card {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    height: auto !important;
+    overflow: hidden !important;
+    border-radius: 1rem !important;
+    border: 1px solid var(--fp-mobile-line, #dbe5ef) !important;
+    background: var(--fp-mobile-surface, #fff) !important;
+    box-shadow: 0 3px 10px rgba(11,37,69,.035) !important;
+  }
+  body.fp-public-mobile-shell #home-news-grid .fp-home-public-card-media {
+    position: relative !important;
+    inset: auto !important;
+    display: block !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    aspect-ratio: 16 / 8.5 !important;
+    overflow: hidden !important;
+    border-radius: 0 !important;
+  }
+  body.fp-public-mobile-shell #home-news-grid .fp-home-public-card-media > img,
+  body.fp-public-mobile-shell #home-news-grid .fp-home-public-card-media > .fp-crop-image-window,
+  body.fp-public-mobile-shell #home-news-grid .fp-home-public-card-media > .fp-app-image-crop-frame,
+  body.fp-public-mobile-shell #home-news-grid .fp-home-public-card-media > .fp-image-crop-frame {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    max-width: none !important;
+    object-fit: cover !important;
+  }
+  body.fp-public-mobile-shell #home-news-grid .fp-home-public-card-media img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+  }
+  body.fp-public-mobile-shell #home-news-grid .fp-home-public-card-body {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: .38rem !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    padding: .78rem .85rem .85rem !important;
+    overflow: hidden !important;
+  }
+  body.fp-public-mobile-shell #home-news-grid .fp-home-news-meta {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: .3rem !important;
+    min-width: 0 !important;
+  }
+  body.fp-public-mobile-shell #home-news-grid .fp-home-card-tags {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    overflow: hidden !important;
+    white-space: nowrap !important;
+  }
+  body.fp-public-mobile-shell #home-news-grid .fp-home-card-tags > span,
+  body.fp-public-mobile-shell #home-news-grid .fp-home-card-tags .fp-editorial-highlight-badge {
+    flex: 0 1 auto !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+  }
+  body.fp-public-mobile-shell #home-news-grid .fp-home-public-card h3 {
+    display: -webkit-box !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+    font-size: .96rem !important;
+    line-height: 1.32 !important;
+    -webkit-box-orient: vertical !important;
+    -webkit-line-clamp: 2 !important;
+  }
+  body.fp-public-mobile-shell #home-news-grid .fp-home-card-summary {
+    display: -webkit-box !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+    font-size: .78rem !important;
+    line-height: 1.45 !important;
+    -webkit-box-orient: vertical !important;
+    -webkit-line-clamp: 2 !important;
+  }
+  body.fp-public-mobile-shell #home-news-grid .fp-home-news-date {
+    display: inline-flex !important;
+    flex-wrap: nowrap !important;
+    gap: .3rem !important;
+    max-width: 100% !important;
+    font-size: .67rem !important;
+  }
+  body.fp-public-mobile-shell #home-news-grid .fp-home-card-footer { display: none !important; }
+
+  /* News counters remain on one compact line beside “Ler matéria”. */
+  body.fp-public-mobile-shell.fp-news-feed-page .fp-public-article-footer {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    gap: .4rem !important;
+    flex-wrap: nowrap !important;
+  }
+  body.fp-public-mobile-shell.fp-news-feed-page .fp-public-read-link {
+    flex: 0 0 auto !important;
+    grid-row: auto !important;
+    justify-self: auto !important;
+    white-space: nowrap !important;
+  }
+  body.fp-public-mobile-shell.fp-news-feed-page .fp-public-article-interactions {
+    display: inline-flex !important;
+    flex: 0 1 auto !important;
+    justify-content: flex-end !important;
+    align-items: center !important;
+    width: auto !important;
+    min-width: 0 !important;
+    margin-left: auto !important;
+    gap: .25rem !important;
+    grid-row: auto !important;
+  }
+  body.fp-public-mobile-shell.fp-news-feed-page .fp-public-article-interactions .reaction-btn,
+  body.fp-public-mobile-shell.fp-news-feed-page .fp-public-icon-link,
+  body.fp-public-mobile-shell.fp-news-feed-page .fp-public-views {
+    min-height: 1.9rem !important;
+    height: 1.9rem !important;
+    padding: .2rem .32rem !important;
+    gap: .18rem !important;
+    font-size: .63rem !important;
+  }
+  body.fp-public-mobile-shell.fp-news-feed-page .fp-public-article-interactions svg,
+  body.fp-public-mobile-shell.fp-news-feed-page .fp-public-icon-link svg,
+  body.fp-public-mobile-shell.fp-news-feed-page .fp-public-views svg { width: .86rem !important; height: .86rem !important; }
+  body.fp-public-mobile-shell.fp-news-feed-page .fp-public-article-date { margin-top: .45rem !important; }
+}
+
+/* News page: the date and reading time follow the subtitle/excerpt, and the counts sit to the right of the read link. */
+body.fp-news-feed-page .fp-public-article-date { margin-top: .5rem; }
+body.fp-news-feed-page .fp-public-article-footer {
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  gap: .7rem !important;
+}
+body.fp-news-feed-page .fp-public-read-link { flex: 0 0 auto; white-space: nowrap; }
+body.fp-news-feed-page .fp-public-article-interactions {
+  display: inline-flex !important;
+  justify-content: flex-end !important;
+  align-items: center !important;
+  gap: .4rem !important;
+  width: auto !important;
+  min-width: 0 !important;
+  margin-left: auto !important;
+}
+
+/* Article detail action rail: compact silhouette buttons above the mobile bottom bar. */
+@media (max-width: 767px) {
+  body.fp-public-mobile-shell .fp-article-action-rail {
+    position: fixed !important;
+    z-index: 10038 !important;
+    top: auto !important;
+    right: auto !important;
+    bottom: calc(4.5rem + env(safe-area-inset-bottom)) !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: .3rem !important;
+    width: max-content !important;
+    max-width: calc(100vw - 1.1rem) !important;
+    padding: .36rem !important;
+    border-radius: 1rem !important;
+    background: rgba(255,255,255,.96) !important;
+    border: 1px solid #d5e1ee !important;
+    box-shadow: 0 5px 16px rgba(10,31,54,.12) !important;
+    backdrop-filter: blur(14px) !important;
+  }
+  .dark body.fp-public-mobile-shell .fp-article-action-rail {
+    background: rgba(10,27,46,.97) !important;
+    border-color: #304760 !important;
+    box-shadow: 0 5px 16px rgba(0,0,0,.28) !important;
+  }
+  body.fp-public-mobile-shell .fp-article-action-rail .fp-article-rail-like,
+  body.fp-public-mobile-shell .fp-article-action-rail .fp-article-rail-button { flex: 0 0 auto !important; }
+  body.fp-public-mobile-shell .fp-article-action-rail .fp-article-rail-button,
+  body.fp-public-mobile-shell .fp-article-action-rail .fp-article-rail-like .reaction-btn {
+    display: inline-flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: .18rem !important;
+    min-width: 2.55rem !important;
+    width: auto !important;
+    min-height: 2.45rem !important;
+    height: 2.45rem !important;
+    padding: .28rem .42rem !important;
+    border-radius: .7rem !important;
+    font-size: .68rem !important;
+    line-height: 1 !important;
+  }
+  body.fp-public-mobile-shell .fp-article-action-rail svg { width: 1.15rem !important; height: 1.15rem !important; flex: 0 0 auto !important; }
+  body.fp-public-mobile-shell .fp-article-action-rail .sr-only { position: absolute !important; width: 1px !important; height: 1px !important; padding: 0 !important; margin: -1px !important; overflow: hidden !important; clip: rect(0,0,0,0) !important; white-space: nowrap !important; border: 0 !important; }
+}
+
+/* Achievements: compact, dynamic horizontal year filters below search/sort. */
+.achievement-search-panel { padding: 0 !important; background: transparent !important; border: 0 !important; box-shadow: none !important; }
+.achievement-search-title { display: none !important; }
+.achievement-search-controls {
+  display: grid !important;
+  grid-template-columns: minmax(0,1fr) minmax(10.5rem, 13.5rem) !important;
+  align-items: center !important;
+  gap: .65rem !important;
+}
+.achievement-year-chips {
+  display: flex;
+  align-items: center;
+  gap: .45rem;
+  width: 100%;
+  margin-top: .72rem;
+  padding: .08rem 0 .35rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  scrollbar-width: thin;
+  -webkit-overflow-scrolling: touch;
+}
+.achievement-year-chips:empty { display: none; }
+.achievement-year-chip {
+  flex: 0 0 auto;
+  min-height: 2.35rem;
+  padding: .48rem .85rem;
+  border: 1px solid #d5e1ee;
+  border-radius: 999px;
+  background: #fff;
+  color: #475569;
+  font-size: .78rem;
+  font-weight: 800;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color .15s ease, border-color .15s ease, color .15s ease;
+}
+.achievement-year-chip:hover { border-color: #8fb1d6; }
+.achievement-year-chip.is-active { background: #285486; border-color: #285486; color: #fff; }
+.dark .achievement-year-chip { background: #10243a; color: #c6d6e8; border-color: #304760; }
+.dark .achievement-year-chip.is-active { background: #8eb9e7; color: #071a30; border-color: #8eb9e7; }
+@media(max-width:767px) {
+  body.fp-public-mobile-shell .achievement-search-panel { margin-top: .8rem !important; }
+  body.fp-public-mobile-shell .achievement-search-controls { grid-template-columns: minmax(0,1fr) !important; gap: .55rem !important; }
+  body.fp-public-mobile-shell .achievement-search-input-wrap,
+  body.fp-public-mobile-shell #achievement-public-sort { width: 100% !important; min-width: 0 !important; }
+  body.fp-public-mobile-shell .achievement-year-chips { gap: .38rem; margin-top: .55rem; }
+  body.fp-public-mobile-shell .achievement-year-chip { min-height: 2.15rem; padding: .42rem .72rem; font-size: .72rem; }
+}
+
+/* About directory: readable heading, search first, sort immediately below; no year filter control. */
+.about-search-title { align-items: flex-start !important; gap: .8rem !important; }
+.about-search-title > div { min-width: 0 !important; flex: 1 1 auto !important; }
+.about-search-title h2 { max-width: 100% !important; overflow-wrap: anywhere !important; text-wrap: pretty !important; }
+.about-search-controls {
+  display: grid !important;
+  grid-template-columns: minmax(0,1fr) !important;
+  gap: .65rem !important;
+  margin-top: 1rem !important;
+}
+.about-search-input, .about-search-select { width: 100% !important; min-width: 0 !important; }
+@media(max-width:767px) {
+  body.fp-public-mobile-shell .about-search-panel { padding: 1rem !important; }
+  body.fp-public-mobile-shell .about-search-title { gap: .65rem !important; align-items: flex-start !important; }
+  body.fp-public-mobile-shell .about-search-icon { flex: 0 0 2.55rem !important; width: 2.55rem !important; height: 2.55rem !important; }
+  body.fp-public-mobile-shell .about-search-title h2 { font-size: clamp(1.3rem, 6vw, 1.75rem) !important; line-height: 1.15 !important; letter-spacing: -.035em !important; }
+  body.fp-public-mobile-shell .about-search-title .about-eyebrow { margin-bottom: .18rem !important; }
+  body.fp-public-mobile-shell .about-search-panel > p { margin-top: .65rem !important; line-height: 1.5 !important; }
+  body.fp-public-mobile-shell .about-search-controls { margin-top: .85rem !important; gap: .55rem !important; }
+}
+
+/* On article detail pages, the fixed rail takes the place of the old floating accessibility toolbar.
+   The original controls remain in the DOM and on the other public pages. */
+body.fp-article-detail-page .accessibility-bar { display: none !important; }

@@ -1,0 +1,253 @@
+/* Folha do Paiquerê v141 — polimento conservador da Área do Estudante e do editor.
+   Esta camada padroniza títulos e faz o editor reutilizar o shell visual já existente. */
+
+/* Todos os títulos principais de seções internas usam a mesma hierarquia tipográfica. */
+body.fp-student-shell .fp-v141-section-title {
+  margin: 0;
+  color: var(--fp-text, #17283e);
+  font-size: clamp(1.85rem, 2.6vw, 2.45rem);
+  font-weight: 950;
+  letter-spacing: -.04em;
+  line-height: 1.1;
+  overflow-wrap: anywhere;
+}
+body.fp-student-shell .fp-management-heading .fp-v141-section-title {
+  margin: 0;
+}
+body.fp-student-shell .fp-management-heading > p:last-child,
+body.fp-student-shell .fp-team-page-heading > p:last-child {
+  margin: .4rem 0 0;
+  color: var(--fp-muted, #61738a);
+  font-size: .88rem;
+  line-height: 1.55;
+}
+body.fp-student-shell .fp-team-page-heading {
+  display: grid;
+  gap: 0;
+}
+.dark body.fp-student-shell .fp-v141-section-title {
+  color: var(--fp-text, #eaf2ff);
+}
+
+/* Sidebar do editor: mesmos tokens, proporções e pontos de quebra do painel principal. */
+body.fp-editor-workspace.fp-student-shell .fp-editor-sidebar {
+  width: var(--fp-sidebar-width, 17.25rem);
+  gap: 0;
+  padding: 1.05rem .85rem .8rem;
+  background: linear-gradient(180deg, var(--fp-sidebar, #10243e) 0%, var(--fp-sidebar-deep, #0b1a2e) 100%);
+  border-right: 1px solid rgba(157, 188, 222, .12);
+  color: #f2f6fc;
+  box-shadow: 8px 0 28px rgba(8, 23, 42, .055);
+}
+body.fp-editor-workspace.fp-student-shell .fp-editor-sidebar .fp-sidebar-brand {
+  gap: .72rem;
+  padding: .25rem .38rem .95rem;
+  border-bottom-color: rgba(209, 226, 246, .14);
+}
+body.fp-editor-workspace.fp-student-shell .fp-editor-sidebar .fp-sidebar-logo {
+  width: 2.7rem;
+  height: 2.7rem;
+  flex-basis: 2.7rem;
+  padding: .2rem;
+  border-radius: .8rem !important;
+  background: rgba(255,255,255,.96);
+  filter: none;
+}
+body.fp-editor-workspace.fp-student-shell .fp-editor-sidebar .fp-sidebar-nav {
+  gap: .28rem;
+  margin-top: 1.1rem;
+  padding: .12rem .05rem .7rem;
+}
+body.fp-editor-workspace.fp-student-shell .fp-editor-sidebar .fp-nav-item {
+  gap: .82rem;
+  min-height: 2.8rem;
+  padding: .67rem .8rem;
+  border: 1px solid transparent;
+  border-radius: .78rem;
+  color: #cfdaea;
+  background: transparent;
+  font-size: .84rem;
+  font-weight: 650;
+  line-height: 1.25;
+  text-align: left;
+  text-decoration: none;
+}
+body.fp-editor-workspace.fp-student-shell .fp-editor-sidebar .fp-nav-item:hover {
+  background: var(--fp-sidebar-hover, #1b3554);
+  color: #fff;
+}
+body.fp-editor-workspace.fp-student-shell .fp-editor-sidebar .fp-nav-item.tab-active {
+  color: #fff;
+  border-color: rgba(151, 195, 242, .17);
+  background: linear-gradient(100deg, #2c5f98, #326fae);
+  box-shadow: inset 3px 0 #a4d0ff, 0 5px 14px rgba(3, 13, 28, .12);
+}
+body.fp-editor-workspace.fp-student-shell .fp-editor-sidebar .fp-editor-nav-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.18rem;
+  height: 1.18rem;
+  flex: 0 0 1.18rem;
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
+  color: currentColor;
+  font-size: 1.05rem;
+  line-height: 1;
+}
+body.fp-editor-workspace.fp-student-shell .fp-editor-sidebar .fp-theme-toggle {
+  width: 2.9rem;
+  height: 2.9rem;
+  min-width: 2.9rem;
+  min-height: 2.9rem;
+  justify-content: center;
+  padding: 0;
+  border: 1px solid #cbd9e9;
+  border-radius: 50%;
+  color: #234f7e;
+  background: #fff;
+  font-size: 1.38rem;
+  box-shadow: 0 4px 14px rgba(27, 60, 97, .1);
+}
+body.fp-editor-workspace.fp-student-shell .fp-editor-sidebar .fp-theme-toggle:hover {
+  color: #1b4f86;
+  background: #eaf3ff;
+}
+body.fp-editor-workspace.fp-student-shell .fp-sidebar-account {
+  padding-top: .75rem;
+}
+body.fp-editor-workspace.fp-student-shell .fp-editor-account-row {
+  display: flex;
+  align-items: center;
+  gap: .62rem;
+  min-width: 0;
+}
+body.fp-editor-workspace.fp-student-shell .fp-editor-account-back {
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  flex: 0 0 2rem;
+  border: 1px solid rgba(220, 236, 255, .18);
+  border-radius: .65rem;
+  color: #d7e8ff;
+  text-decoration: none;
+  font-size: 1rem;
+}
+body.fp-editor-workspace.fp-student-shell .fp-editor-account-back:hover {
+  background: rgba(255,255,255,.1);
+  color: #fff;
+}
+.dark body.fp-editor-workspace.fp-student-shell .fp-editor-sidebar {
+  background: linear-gradient(180deg, #091426 0%, #060d19 100%);
+  border-right-color: #1d2d43;
+}
+.dark body.fp-editor-workspace.fp-student-shell .fp-editor-sidebar .fp-nav-item {
+  color: #bdcce0;
+}
+.dark body.fp-editor-workspace.fp-student-shell .fp-editor-sidebar .fp-nav-item:hover {
+  color: #fff;
+  background: #172c47;
+}
+.dark body.fp-editor-workspace.fp-student-shell .fp-editor-sidebar .fp-nav-item.tab-active {
+  color: #fff;
+  background: linear-gradient(100deg, #23466e, #2a5e92);
+  border-color: #315d89;
+  box-shadow: inset 3px 0 #9bcaff, 0 5px 14px rgba(0,0,0,.18);
+}
+.dark body.fp-editor-workspace.fp-student-shell .fp-editor-sidebar .fp-theme-toggle {
+  color: #c8e3ff;
+  border-color: #385576;
+  background: #1a2b43;
+  box-shadow: none;
+}
+.dark body.fp-editor-workspace.fp-student-shell .fp-editor-sidebar .fp-theme-toggle:hover {
+  background: #253e5d;
+}
+
+/* A coluna principal acompanha exatamente a largura responsiva do shell compartilhado. */
+body.fp-editor-workspace.fp-student-shell #conteudo-principal {
+  width: calc(100% - var(--fp-sidebar-width, 17.25rem)) !important;
+  max-width: none !important;
+  margin: 0 0 0 var(--fp-sidebar-width, 17.25rem) !important;
+}
+
+@media (max-width: 960px) and (min-width: 768px) {
+  body.fp-editor-workspace.fp-student-shell .fp-editor-sidebar {
+    padding-left: .68rem;
+    padding-right: .68rem;
+  }
+  body.fp-editor-workspace.fp-student-shell .fp-editor-sidebar .fp-nav-item {
+    gap: .65rem;
+    padding-left: .65rem;
+    padding-right: .55rem;
+    font-size: .79rem;
+  }
+}
+@media (max-width: 767px) {
+  body.fp-editor-workspace.fp-student-shell .fp-editor-sidebar {
+    padding: .8rem .36rem .65rem;
+    align-items: stretch;
+  }
+  body.fp-editor-workspace.fp-student-shell .fp-editor-sidebar .fp-sidebar-brand {
+    justify-content: center;
+    padding: .12rem 0 .85rem;
+  }
+  body.fp-editor-workspace.fp-student-shell .fp-editor-sidebar .fp-sidebar-logo {
+    width: 2.75rem;
+    height: 2.75rem;
+    flex-basis: 2.75rem;
+  }
+  body.fp-editor-workspace.fp-student-shell .fp-editor-sidebar .fp-sidebar-nav {
+    gap: .42rem;
+    margin-top: .8rem;
+    padding-left: 0;
+    padding-right: 0;
+  }
+  body.fp-editor-workspace.fp-student-shell .fp-editor-sidebar .fp-nav-item {
+    justify-content: center;
+    gap: 0;
+    min-height: 2.8rem;
+    padding: .65rem .2rem;
+    border-radius: .72rem;
+  }
+  body.fp-editor-workspace.fp-student-shell .fp-editor-sidebar .fp-editor-nav-icon {
+    width: 1.23rem;
+    height: 1.23rem;
+    flex-basis: 1.23rem;
+  }
+  body.fp-editor-workspace.fp-student-shell .fp-editor-sidebar .fp-theme-toggle {
+    width: 2.55rem;
+    height: 2.55rem;
+    min-width: 2.55rem;
+    min-height: 2.55rem;
+    font-size: 1.25rem;
+  }
+  body.fp-editor-workspace.fp-student-shell .fp-editor-account-row {
+    justify-content: center;
+  }
+  body.fp-editor-workspace.fp-student-shell .fp-editor-account-back {
+    display: none;
+  }
+}
+@media (max-width: 360px) {
+  body.fp-editor-workspace.fp-student-shell .fp-editor-sidebar {
+    padding-left: .28rem;
+    padding-right: .28rem;
+  }
+  body.fp-editor-workspace.fp-student-shell .fp-editor-sidebar .fp-sidebar-logo {
+    width: 2.45rem;
+    height: 2.45rem;
+    flex-basis: 2.45rem;
+  }
+  body.fp-editor-workspace.fp-student-shell .fp-editor-sidebar .fp-nav-item {
+    min-height: 2.55rem;
+  }
+  body.fp-editor-workspace.fp-student-shell .fp-editor-sidebar .fp-theme-toggle {
+    width: 2.3rem;
+    height: 2.3rem;
+    min-width: 2.3rem;
+    min-height: 2.3rem;
+  }
+}

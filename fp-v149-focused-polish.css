@@ -1,0 +1,159 @@
+/* Folha do Paiquerê v149 — correções pontuais de busca, formulários e responsividade.
+   Mantém os módulos de negócio existentes; prioriza áreas de toque e preserva campos ao digitar. */
+:root { --fp-v149-control-height: 2.9rem; }
+
+/* Campos de pesquisa e controles administrativos não podem encolher nem sair do cartão. */
+body.fp-student-shell .fp-management-controls,
+body.fp-student-shell .fp-management-search,
+body.fp-student-shell .fp-management-select,
+body.fp-student-shell .fp-notice-controls,
+body.fp-student-shell .fp-moderation-manager,
+body.fp-student-shell .my-articles-management,
+body.fp-student-shell .fp-team-user-cell,
+body.fp-student-shell .fp-achievement-toolbar { min-width:0; max-width:100%; box-sizing:border-box; }
+body.fp-student-shell .fp-management-search input,
+body.fp-student-shell .fp-management-select select,
+body.fp-student-shell .my-articles-search-wrap input,
+body.fp-student-shell #my-articles-sort,
+body.fp-student-shell #moderation-author-search,
+body.fp-student-shell #school-notice-search,
+body.fp-student-shell #suggestions-search,
+body.fp-student-shell #achievement-admin-search { width:100%; min-width:0; max-width:100%; box-sizing:border-box; }
+body.fp-student-shell #school-notice-search,
+body.fp-student-shell #suggestions-search,
+body.fp-student-shell #achievement-admin-search,
+body.fp-student-shell #moderation-author-search { min-height:var(--fp-v149-control-height); }
+
+/* Order for desktop: search/sort first, status classifiers after. */
+body.fp-student-shell .my-articles-management { display:flex!important; flex-direction:column; min-width:0; }
+body.fp-student-shell .my-articles-toolbar { order:1; display:grid; grid-template-columns:minmax(0,1fr) minmax(10rem,14rem); align-items:end; gap:.7rem; min-width:0; }
+body.fp-student-shell .my-articles-status-filters { order:2; }
+body.fp-student-shell .my-articles-results-card { order:3; min-width:0; }
+body.fp-student-shell #my-articles-pagination { order:4; }
+body.fp-student-shell .fp-moderation-manager { display:flex!important; flex-direction:column; min-width:0; }
+body.fp-student-shell .fp-moderation-controls { order:1; }
+body.fp-student-shell #moderation-status-tabs { order:2; }
+body.fp-student-shell .fp-moderation-results-card { order:3; min-width:0; }
+body.fp-student-shell #moderation-pagination { order:4; }
+
+/* The notice create action is part of the same ordered toolbar as search and filter. */
+body.fp-student-shell .fp-notice-controls { display:grid!important; grid-template-columns:minmax(0,1fr) minmax(9rem,12rem) auto; align-items:center; gap:.65rem; width:100%; }
+body.fp-student-shell .fp-notice-controls > * { min-width:0; max-width:100%; }
+body.fp-student-shell .fp-notice-controls #school-notice-new { min-height:var(--fp-v149-control-height); white-space:nowrap; }
+
+/* Role labels and permission status communicate different concepts. */
+body.fp-student-shell .fp-team-role-student { background:#E6F2FF!important; color:#285E91!important; border-color:#C9E0FA!important; }
+body.fp-student-shell .fp-team-role-editor { background:#FFF2CC!important; color:#875600!important; border-color:#F2D78C!important; }
+body.fp-student-shell .fp-team-role-chief { background:#FEE7E7!important; color:#B42318!important; border-color:#FBCACA!important; }
+.dark body.fp-student-shell .fp-team-role-student { background:#1E3856!important; color:#BBD9FF!important; border-color:#355D87!important; }
+.dark body.fp-student-shell .fp-team-role-editor { background:#473713!important; color:#FFE5A0!important; border-color:#755B24!important; }
+.dark body.fp-student-shell .fp-team-role-chief { background:#451A1A!important; color:#FCA5A5!important; border-color:#7F1D1D!important; }
+body.fp-student-shell .fp-team-status-allowed { background:#E6F7EC!important; color:#17663B!important; border-color:#BDE7CB!important; }
+body.fp-student-shell .fp-team-status-blocked { background:#FDECEC!important; color:#A62222!important; border-color:#F5C5C5!important; }
+.dark body.fp-student-shell .fp-team-status-allowed { background:#183B2A!important; color:#A7F3C0!important; border-color:#286746!important; }
+.dark body.fp-student-shell .fp-team-status-blocked { background:#421F24!important; color:#FFB4B4!important; border-color:#7B333C!important; }
+body.fp-student-shell .fp-team-profile-link { color:inherit; text-decoration:none; flex:0 0 auto; cursor:pointer; }
+body.fp-student-shell .fp-team-profile-link:focus-visible,
+body.fp-student-shell .fp-team-name-link:focus-visible { outline:2px solid var(--fp-accent,#3778b9); outline-offset:3px; border-radius:.35rem; }
+body.fp-student-shell .fp-team-name-link { display:inline-block; max-width:100%; color:var(--fp-team-text,#1e293b); text-decoration:none; overflow-wrap:anywhere; cursor:pointer; }
+body.fp-student-shell .fp-team-name-link:hover { text-decoration:underline; text-underline-offset:2px; }
+.dark body.fp-student-shell .fp-team-name-link { color:var(--fp-team-text,#edf4ff); }
+body.fp-student-shell .fp-team-avatar { overflow:hidden; }
+body.fp-student-shell .fp-team-avatar-image { pointer-events:none; }
+
+/* Gear silhouette and compact-only return buttons on admin sections. */
+body.fp-student-shell .fp-mobile-settings > summary { display:grid; place-items:center; }
+body.fp-student-shell .fp-mobile-settings > summary svg { display:block; width:1.55rem; height:1.55rem; }
+body.fp-student-shell .fp-mobile-section-back { display:none; }
+body.fp-student-shell .fp-subpage-heading { min-width:0; }
+
+/* Editor: credits are intentionally ordered Recherche/Pesquisa -> Texto -> Imagem -> Capa.
+   Reset the legacy grid-area declarations so the DOM order is also the visual order. */
+body.fp-editor-workspace.fp-student-shell #editor-cover-credits-grid {
+  display:grid!important; grid-template-columns:minmax(0,1fr)!important; grid-template-areas:none!important;
+  align-items:stretch!important; gap:1rem!important; min-width:0; width:100%;
+}
+body.fp-editor-workspace.fp-student-shell #editor-cover-credits-grid > *,
+body.fp-editor-workspace.fp-student-shell #editor-cover-credits-grid .editor-credit-card,
+body.fp-editor-workspace.fp-student-shell #editor-cover-credits-grid #cover-card-section {
+  grid-area:auto!important; position:relative; inset:auto; z-index:0; min-width:0; max-width:100%; width:100%; box-sizing:border-box;
+}
+body.fp-editor-workspace.fp-student-shell .editor-credit-picker,
+body.fp-editor-workspace.fp-student-shell .editor-credit-picker label,
+body.fp-editor-workspace.fp-student-shell .editor-credit-picker input,
+body.fp-editor-workspace.fp-student-shell .editor-credit-picker textarea,
+body.fp-editor-workspace.fp-student-shell .editor-credit-picker select,
+body.fp-editor-workspace.fp-student-shell .mobile-block-card,
+body.fp-editor-workspace.fp-student-shell .editor-content-card { min-width:0; max-width:100%; box-sizing:border-box; }
+body.fp-editor-workspace.fp-student-shell .editor-rich-text,
+body.fp-editor-workspace.fp-student-shell [contenteditable="true"],
+body.fp-editor-workspace.fp-student-shell .mobile-block-card input,
+body.fp-editor-workspace.fp-student-shell .mobile-block-card textarea,
+body.fp-editor-workspace.fp-student-shell .mobile-block-card select {
+  pointer-events:auto!important; user-select:text!important; -webkit-user-select:text!important;
+  touch-action:auto!important; caret-color:var(--fp-text,#203149); max-width:100%; min-width:0; box-sizing:border-box;
+}
+body.fp-editor-workspace.fp-student-shell .mobile-block-card [contenteditable="true"] {
+  display:block; min-height:8rem; width:100%; padding:.85rem; position:relative; z-index:1;
+  overflow-wrap:anywhere; white-space:pre-wrap; overscroll-behavior:contain;
+}
+body.fp-editor-workspace.fp-student-shell .editor-image-toolbar {
+  display:grid!important; grid-template-columns:repeat(2,minmax(0,1fr)); align-items:stretch;
+  gap:.5rem; min-width:0; max-width:100%; width:100%;
+}
+body.fp-editor-workspace.fp-student-shell .editor-image-toolbar button,
+body.fp-editor-workspace.fp-student-shell .editor-image-toolbar select {
+  min-width:0; max-width:100%; width:100%; min-height:2.7rem; white-space:normal;
+  overflow-wrap:anywhere; box-sizing:border-box;
+}
+body.fp-editor-workspace.fp-student-shell .editor-cover-picker-row { min-width:0; max-width:100%; }
+body.fp-editor-workspace.fp-student-shell .editor-cover-picker-actions { min-width:0; max-width:100%; }
+body.fp-editor-workspace.fp-student-shell .editor-cover-picker-actions button { min-width:0; max-width:100%; white-space:normal; overflow-wrap:anywhere; }
+
+@media (max-width:767px), (max-width:1024px) and (max-height:600px) and (orientation:landscape) {
+  /* Mobile: classifiers first, then search/sort. */
+  body.fp-student-shell .my-articles-management { gap:.7rem!important; }
+  body.fp-student-shell .my-articles-status-filters { order:1!important; }
+  body.fp-student-shell .my-articles-toolbar { display:contents!important; }
+  body.fp-student-shell .my-articles-search-wrap { order:2!important; }
+  body.fp-student-shell .my-articles-sort-wrap { order:2!important; }
+  body.fp-student-shell .fp-moderation-manager { gap:.7rem!important; }
+  body.fp-student-shell #moderation-status-tabs { order:1!important; }
+  body.fp-student-shell .fp-moderation-controls { order:2!important; }
+  body.fp-student-shell .fp-moderation-controls,
+  body.fp-student-shell .fp-pauta-controls { width:100%; }
+  body.fp-student-shell .fp-notice-controls { grid-template-columns:minmax(0,1fr)!important; gap:.6rem!important; }
+  body.fp-student-shell .fp-notice-controls .fp-management-search { order:1; }
+  body.fp-student-shell .fp-notice-controls .fp-management-select { order:2; }
+  body.fp-student-shell .fp-notice-controls #school-notice-new { order:3; width:100%; }
+  body.fp-student-shell .fp-team-page-heading.fp-subpage-heading,
+  body.fp-student-shell .fp-management-heading.fp-subpage-heading {
+    display:grid!important; grid-template-columns:minmax(0,1fr) auto; align-items:center;
+    gap:.3rem .65rem; margin:0 0 .85rem; max-width:none; width:100%;
+  }
+  body.fp-student-shell .fp-team-page-heading.fp-subpage-heading h2,
+  body.fp-student-shell .fp-management-heading.fp-subpage-heading h2 { grid-column:1; grid-row:1; min-width:0; font-size:clamp(1.35rem,5.2vw,1.65rem); }
+  body.fp-student-shell .fp-team-page-heading.fp-subpage-heading p,
+  body.fp-student-shell .fp-management-heading.fp-subpage-heading p { grid-column:1; grid-row:2; min-width:0; font-size:.86rem; line-height:1.45; }
+  body.fp-student-shell .fp-mobile-section-back {
+    grid-column:2; grid-row:1 / span 2; display:inline-flex!important; align-items:center; justify-content:center;
+    min-height:2.55rem; padding:.55rem .72rem; border:1px solid #c8dcf2; border-radius:.75rem;
+    color:#215b91; background:#edf5ff; font-size:.8rem; font-weight:850; white-space:nowrap;
+  }
+  .dark body.fp-student-shell .fp-mobile-section-back { color:#d4e7ff; background:#1a2e46; border-color:#355274; }
+  body.fp-student-shell .fp-notice-list-heading { display:block; }
+  body.fp-student-shell .fp-notice-list-heading > div { min-width:0; }
+  body.fp-student-shell .fp-achievement-toolbar { grid-template-columns:minmax(0,1fr)!important; }
+  body.fp-student-shell .fp-achievement-toolbar .fp-management-search { order:1!important; }
+  body.fp-student-shell .fp-achievement-toolbar .fp-management-select { order:2!important; }
+  body.fp-student-shell .fp-achievement-toolbar #achievement-new { order:3!important; width:100%; }
+  body.fp-student-shell .fp-mobile-brand { width:clamp(3rem,13vw,3.55rem)!important; }
+  body.fp-editor-workspace.fp-student-shell #conteudo-principal { min-width:0; overflow-x:clip; }
+  body.fp-editor-workspace.fp-student-shell #editor-cover-credits-grid { gap:.75rem!important; }
+  body.fp-editor-workspace.fp-student-shell .editor-image-toolbar { gap:.42rem; }
+}
+
+@media (min-width:768px) {
+  body.fp-student-shell .fp-team-main-card { max-width:100%; }
+  body.fp-editor-workspace.fp-student-shell #conteudo-principal { padding-left:clamp(1.25rem,3vw,3.75rem)!important; padding-right:clamp(1.25rem,3vw,3.75rem)!important; }
+}

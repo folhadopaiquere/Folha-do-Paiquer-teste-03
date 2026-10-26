@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Folha do Paiquerê</title>
+<style>
+body{font-family:system-ui,-apple-system,sans-serif;background:#f2f7f3;color:#121212;margin:0;padding:32px}
+main{max-width:680px;margin:8vh auto;background:#fff;border-radius:18px;padding:28px;box-shadow:0 10px 30px rgba(0,0,0,.08)}
+input,button{font:inherit;min-height:44px;width:100%;box-sizing:border-box;margin:.4rem 0;padding:.7rem;border-radius:10px;border:1px solid #ccd8ce}
+button{background:#2e7d32;color:white;border:0;font-weight:700;cursor:pointer}button:disabled{opacity:.6}
+#status{margin-top:14px;white-space:pre-wrap}
+small{color:#5d6a60}
+</style>
+
+<style id="fp-v93-responsive-polish">
+/* v93 — somente acabamento responsivo solicitado */
+.brand-mark{width:3.8rem!important;height:3.8rem!important;flex:0 0 3.8rem!important}
+#speech-toggle{min-width:0!important;max-width:100%;flex:0 1 auto;min-height:44px;height:auto;white-space:nowrap!important;overflow:visible;line-height:1.2;display:inline-flex;align-items:center;justify-content:center;align-self:stretch;flex-direction:row}
+#speech-toggle #speech-label{min-width:0;white-space:nowrap!important;overflow:visible;text-align:center}
+@media(max-width:640px){
+  .brand-mark{width:3.5rem!important;height:3.5rem!important;flex-basis:3.5rem!important}
+  #speech-toggle{flex:1 1 100%;width:auto;padding:.7rem .9rem!important;gap:.4rem}
+}
+</style>
+<link rel="stylesheet" href="fp-v170-polish.css">
+</head>
+<body>
+<main>
+<h1>Inicialização do Editor-Chefe</h1>
+<p>Use somente para a primeira inicialização do UID administrativo já criado no Firebase Authentication.</p>
+<form id="f">
+<label>E-mail<br><input id="email" type="email" required autocomplete="username"></label>
+<label>Senha<br><input id="password" type="password" required autocomplete="current-password"></label>
+<label>Nome público<br><input id="name" type="text" value="Editor-Chefe" required></label>
+<button id="go">Ativar Editor-Chefe</button>
+</form>
+<div id="status"></div>
+<small>Depois de concluir, este arquivo pode ser removido do servidor.</small>
+</main>
+<script type="module">
+import './firebase-config.js';
+import { getAuth, signInWithEmailAndPassword, signOut } from 'https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js';
+import { initializeApp, getApps, getApp } from 'https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js';
+import { getFirestore, doc, setDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js';
+const $=id=>document.getElementById(id);
+const BOOTSTRAP_UID='lS9e7GzRx2XmfuPdnxNpMjNCpqe2';
+$('f').addEventListener('submit', async e=>{
+ e.preventDefault(); $('go').disabled=true; $('status').textContent='Testando autenticação Firebase...';
+ try{
+   const firebaseApp = getApps().length ? getApp() : initializeApp(window.FOLHA_FIREBASE.config);
+   const auth = getAuth(firebaseApp);
+   const db = getFirestore(firebaseApp);
+   const credential = await signInWithEmailAndPassword(auth, $('email').value.trim(), $('password').value);
+   if(credential.user.uid!==BOOTSTRAP_UID) { await signOut(auth); throw new Error('Esta conta não corresponde ao UID administrativo preparado para o bootstrap.'); }
+   const now = new Date().toISOString();
+   const profile={uid:BOOTSTRAP_UID,email:credential.user.email||$('email').value.trim(),name:$('name').value.trim(),role:'Editor-Chefe',bio:'',academicHistory:'',profileYear:'',contributions:[],avatar:credential.user.photoURL||'',accessRevoked:false,createdAt:now,updatedAt:now};
+   await setDoc(doc(db,'users',BOOTSTRAP_UID),{...profile,createdAt:serverTimestamp(),updatedAt:serverTimestamp()},{merge:true});
+   await setDoc(doc(db,'publicProfiles',BOOTSTRAP_UID),{...profile,createdAt:serverTimestamp(),updatedAt:serverTimestamp()},{merge:true});
+   $('status').textContent='Editor-Chefe inicializado com sucesso. Agora você pode entrar pelo login normal do site.';
+   await signOut(auth);
+ }catch(err){ const code=err?.code || 'erro-desconhecido';
+   const msg=err?.message || String(err);
+   console.error('[Folha Firebase bootstrap]', code, msg, err);
+   $('status').innerHTML=`<strong>Falha no Firebase</strong><br><code>${String(code).replace(/</g,'&lt;')}</code><br>${String(msg).replace(/&/g,'&amp;').replace(/</g,'&lt;')}<br><br><small>Abra o Console do navegador (F12 → Console) se precisar do erro completo.</small>`; }
+ finally{ $('go').disabled=false; }
+});
+</script>
+</body>
+</html>

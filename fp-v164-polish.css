@@ -1,0 +1,163 @@
+/* Folha do Paiquerê v164 — correções estritas para perfil público e cartões de Sobre. */
+
+/* Sobre: os cartões devem ter altura natural, sem as alturas mínimas antigas (245px/185px).
+   Cada cartão termina no conteúdo de identidade + divisória + contadores, sem esticar até
+   preencher a linha inteira. A área com papel de parede envolve só identidade e divisória. */
+.about-page .about-profile-grid {
+  grid-auto-rows: auto !important;
+  align-items: start !important;
+  align-content: start !important;
+  grid-auto-flow: row !important;
+}
+.about-page .fp-community-profile-card {
+  --fp-community-card-padding: .72rem;
+  align-self: start !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  padding: var(--fp-community-card-padding) !important;
+  gap: .28rem !important;
+  background-color: var(--fp-polish-surface, #fff) !important;
+  background-image: none !important;
+  box-sizing: border-box !important;
+}
+.about-page .fp-community-profile-card[data-profile-background] {
+  background-color: var(--fp-polish-surface, #fff) !important;
+  background-image: none !important;
+  background-size: auto !important;
+}
+.about-page .fp-community-identity-zone {
+  position: relative !important;
+  isolation: isolate !important;
+  min-width: 0 !important;
+  margin: -.72rem -.72rem 0 !important;
+  padding: .72rem .72rem .2rem !important;
+  overflow: hidden !important;
+  border-radius: .95rem .95rem 0 0 !important;
+  box-sizing: border-box !important;
+}
+.about-page .fp-community-identity-zone > .fp-community-card-wallpaper {
+  display: block !important;
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 0 !important;
+  pointer-events: none !important;
+  background-image: none !important;
+  background-size: cover !important;
+  background-position: var(--fp-community-wallpaper-position, 50% 50%) !important;
+  background-repeat: no-repeat !important;
+}
+.about-page .fp-community-profile-card[data-profile-background] .fp-community-identity-zone > .fp-community-card-wallpaper {
+  background-image: linear-gradient(135deg, rgba(255,255,255,.68), rgba(244,248,254,.78)), var(--fp-community-wallpaper-image, none) !important;
+}
+.dark .about-page .fp-community-profile-card[data-profile-background] .fp-community-identity-zone > .fp-community-card-wallpaper {
+  background-image: linear-gradient(135deg, rgba(8,18,31,.60), rgba(11,26,45,.74)), var(--fp-community-wallpaper-image, none) !important;
+}
+.about-page .fp-community-identity-zone > .fp-community-identity,
+.about-page .fp-community-identity-zone > .fp-community-divider {
+  position: relative !important;
+  z-index: 1 !important;
+}
+.about-page .fp-community-identity-zone > .fp-community-divider {
+  display: block !important;
+  margin: .22rem 0 0 !important;
+  border: 0 !important;
+  border-top: 1px solid var(--fp-polish-line, rgba(120,140,160,.3)) !important;
+  width: 100% !important;
+}
+.about-page .fp-community-profile-card .fp-community-identity {
+  min-width: 0 !important;
+  align-items: center !important;
+}
+.about-page .fp-community-profile-card .fp-community-identity-copy,
+.about-page .fp-community-profile-card .fp-community-role-line {
+  min-width: 0 !important;
+  overflow-wrap: anywhere !important;
+}
+.about-page .fp-community-profile-card .fp-community-stats {
+  position: relative !important;
+  z-index: 1 !important;
+  flex: 0 0 auto !important;
+  margin: 0 !important;
+  min-height: 1.55rem !important;
+  align-self: stretch !important;
+}
+.about-page .fp-community-profile-card .fp-community-stat {
+  min-width: 0 !important;
+}
+@media (max-width: 767px) {
+  .about-page .fp-community-identity-zone > .fp-community-card-wallpaper {
+    background-position: var(--fp-community-wallpaper-position-mobile, var(--fp-community-wallpaper-position, 50% 50%)) !important;
+  }
+}
+
+/* Public profile right pane: the main pane owns vertical scrolling. Nested modules and
+   cards retain natural height; no child should shrink to fit a 100%-height ancestor. */
+@media (min-width: 900px) {
+  body.fp-profile-scroll-shell .fp-profile-main {
+    min-height: 0 !important;
+    flex: 1 1 0% !important;
+    height: 100% !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    align-items: stretch !important;
+  }
+  body.fp-profile-scroll-shell .fp-profile-main > * {
+    flex: 0 0 auto !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    min-width: 0 !important;
+    overflow: visible !important;
+  }
+  body.fp-profile-scroll-shell #profile-default-content,
+  body.fp-profile-scroll-shell #profile-default-content > .fp-profile-module,
+  body.fp-profile-scroll-shell .fp-profile-filter-results:not([hidden]) {
+    flex: 0 0 auto !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+  body.fp-profile-scroll-shell #profile-default-content {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 1rem !important;
+  }
+  body.fp-profile-scroll-shell .fp-profile-carousel-wrap,
+  body.fp-profile-scroll-shell .fp-profile-carousel-viewport,
+  body.fp-profile-scroll-shell .fp-profile-carousel-track,
+  body.fp-profile-scroll-shell .fp-profile-carousel-item {
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+  }
+  body.fp-profile-scroll-shell .fp-profile-carousel-viewport {
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+  }
+  body.fp-profile-scroll-shell .fp-profile-filter-grid {
+    grid-auto-rows: auto !important;
+    align-content: start !important;
+    align-items: start !important;
+    min-height: 0 !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
+  body.fp-profile-scroll-shell .fp-profile-filter-card {
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    overflow: visible !important;
+    align-self: start !important;
+  }
+  body.fp-profile-scroll-shell .fp-profile-filter-card > .fp-public-article-card,
+  body.fp-profile-scroll-shell .fp-profile-filter-card .fp-profile-achievement-card,
+  body.fp-profile-scroll-shell .fp-profile-carousel-item .fp-public-article-card {
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    align-self: start !important;
+  }
+}

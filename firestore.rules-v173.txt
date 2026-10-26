@@ -1,0 +1,351 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() { return request.auth != null; }
+    // Uma conta revogada não mantém privilégios só porque o cargo permanece no documento.
+    // Contas sem documento users (por exemplo, sessões anônimas para pautas públicas)
+    // continuam sujeitas às permissões específicas de cada coleção.
+    function accountActive() {
+      return signedIn()
+        && (!exists(/databases/$(database)/documents/users/$(request.auth.uid))
+          || get(/databases/$(database)/documents/users/$(request.auth.uid)).data.get('accessRevoked', false) != true);
+    }
+    function role() {
+      return accountActive()
+        && exists(/databases/$(database)/documents/users/$(request.auth.uid))
+        ? get(/databases/$(database)/documents/users/$(request.auth.uid)).data.get('role', '')
+        : '';
+    }
+    function isMaster() {
+      return signedIn() && request.auth.token.get('email', '') == 'folhadopaiquere@gmail.com';
+    }
+    function isEditor() { return isMaster() || role() in ['Editor', 'Editor-Chefe']; }
+    function isChief() { return isMaster() || role() == 'Editor-Chefe'; }
+    function isOwner(uid) { return accountActive() && request.auth.uid == uid; }
+    function hasProfileEditAuthorization(uid) {
+      return exists(/databases/$(database)/documents/profileChangeRequests/$(uid))
+        && get(/databases/$(database)/documents/profileChangeRequests/$(uid)).data.get('kind', '') in ['', 'profileAuthorization']
+        && get(/databases/$(database)/documents/profileChangeRequests/$(uid)).data.get('authorized', false) == true;
+    }
+    function validProfileBackgroundCrop(crop) {
+      return crop is map
+        && crop.keys().hasOnly(['desktopX', 'desktopY', 'mobileX', 'mobileY'])
+        && crop.keys().hasAll(['desktopX', 'desktopY', 'mobileX', 'mobileY'])
+        && crop.desktopX is int && crop.desktopX >= 0 && crop.desktopX <= 100
+        && crop.desktopY is int && crop.desktopY >= 0 && crop.desktopY <= 100
+        && crop.mobileX is int && crop.mobileX >= 0 && crop.mobileX <= 100
+        && crop.mobileY is int && crop.mobileY >= 0 && crop.mobileY <= 100;
+    }
+
+    function publicProfileMatchesUserRecord(uid) {
+      return exists(/databases/$(database)/documents/users/$(uid))
+        && request.resource.data.get('uid', uid) == uid
+        && request.resource.data.get('email', '') == get(/databases/$(database)/documents/users/$(uid)).data.get('email', '')
+        && request.resource.data.get('name', '') == get(/databases/$(database)/documents/users/$(uid)).data.get('name', '')
+        && request.resource.data.get('role', 'Estudante') == get(/databases/$(database)/documents/users/$(uid)).data.get('role', 'Estudante')
+        && request.resource.data.get('accessRevoked', false) == get(/databases/$(database)/documents/users/$(uid)).data.get('accessRevoked', false)
+        && request.resource.data.get('bio', '') == get(/databases/$(database)/documents/users/$(uid)).data.get('bio', '')
+        && request.resource.data.get('academicHistory', '') == get(/databases/$(database)/documents/users/$(uid)).data.get('academicHistory', '')
+        && request.resource.data.get('assignedTitle', '') == get(/databases/$(database)/documents/users/$(uid)).data.get('assignedTitle', '')
+        && request.resource.data.get('profileYear', '') == get(/databases/$(database)/documents/users/$(uid)).data.get('profileYear', '')
+        && request.resource.data.get('schoolYear', '') == get(/databases/$(database)/documents/users/$(uid)).data.get('schoolYear', '')
+        && request.resource.data.get('contributions', []) == get(/databases/$(database)/documents/users/$(uid)).data.get('contributions', [])
+        && request.resource.data.get('socialLinks', []) == get(/databases/$(database)/documents/users/$(uid)).data.get('socialLinks', [])
+        && request.resource.data.get('avatar', '') == get(/databases/$(database)/documents/users/$(uid)).data.get('avatar', '')
+        && request.resource.data.get('profileBackgroundImage', '') == get(/databases/$(database)/documents/users/$(uid)).data.get('profileBackgroundImage', '')
+        && request.resource.data.get('profileBackgroundCrop', null) == get(/databases/$(database)/documents/users/$(uid)).data.get('profileBackgroundCrop', null);
+    }
+    function isPublicProfileMetadataSync(uid) {
+      return isOwner(uid)
+        && publicProfileMatchesUserRecord(uid)
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+          'uid','email','name','role','accessRevoked','updatedAt'
+        ]);
+    }
+    function isBootstrapChief(uid) { return uid == 'lS9e7GzRx2XmfuPdnxNpMjNCpqe2'; }
+
+    match /users/{uid} {
+      allow read: if signedIn() && (request.auth.uid == uid || isChief() || isEditor());
+      allow create: if isChief() || (isOwner(uid)
+        && (isBootstrapChief(uid)
+          || (request.resource.data.role == 'Estudante'
+              && request.resource.data.accessRevoked == false)));
+      allow update: if isChief()
+        // A própria conta pode registrar apenas o aceite inicial do tour; não pode zerá-lo nem alterar outros campos.
+        || (isOwner(uid)
+          && resource.data.get('accessRevoked', false) != true
+          && resource.data.get('welcomeTourCompleted', false) != true
+          && request.resource.data.get('welcomeTourCompleted', false) == true
+          && request.resource.data.get('welcomeTourAcceptedAt', '') is string
+          && request.resource.data.get('welcomeTourAcceptedAt', '').size() <= 40
+          && request.resource.data.get('uid', uid) == uid
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['uid','welcomeTourCompleted','welcomeTourAcceptedAt','updatedAt']))
+        || (isOwner(uid)
+          && (isEditor() || hasProfileEditAuthorization(uid))
+          && request.resource.data.get('role', 'Estudante') == resource.data.get('role', 'Estudante')
+          && request.resource.data.get('accessRevoked', false) == resource.data.get('accessRevoked', false)
+          // Only the Chief/Master branch above may change the school position.
+          && request.resource.data.get('assignedTitle', '') == resource.data.get('assignedTitle', '')
+          && request.resource.data.get('uid', uid) == uid
+          && request.resource.data.get('assignedTitle', '') is string
+          && request.resource.data.get('assignedTitle', '').size() <= 100
+          && request.resource.data.get('schoolYear', '') in [
+            '', '6º ano do Ensino Fundamental II', '7º ano do Ensino Fundamental II',
+            '8º ano do Ensino Fundamental II', '9º ano do Ensino Fundamental II',
+            '1ª série do Ensino Médio', '2ª série do Ensino Médio', '3ª série do Ensino Médio'
+          ]
+          && request.resource.data.get('socialLinks', []) is list
+          && request.resource.data.get('socialLinks', []).size() <= 3
+          && request.resource.data.get('profileBackgroundImage', '') is string
+          && request.resource.data.get('profileBackgroundImage', '').size() <= 2000
+          && (!('profileBackgroundCrop' in request.resource.data) || validProfileBackgroundCrop(request.resource.data.profileBackgroundCrop))
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+            'uid','name','bio','academicHistory','assignedTitle','profileYear','schoolYear','contributions','socialLinks','avatar','profileBackgroundImage','profileBackgroundCrop','updatedAt'
+          ]));
+      allow delete: if false;
+    }
+
+    match /publicProfiles/{uid} {
+      allow read: if true;
+      // A criação do espelho público só pode reproduzir os dados já salvos em users/{uid}.
+      // O login pode sincronizar metadados de identidade, mas não editar conteúdo de perfil.
+      allow create: if isChief() || (isOwner(uid) && publicProfileMatchesUserRecord(uid));
+      allow update: if isChief()
+        || isPublicProfileMetadataSync(uid)
+        || (isOwner(uid)
+          && (isEditor() || hasProfileEditAuthorization(uid))
+          && request.resource.data.get('uid', uid) == uid
+          // The users/{uid} document is the authority for these fields. Do not
+          // reject legacy public profiles only because role/accessRevoked were absent.
+          && publicProfileMatchesUserRecord(uid)
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+            'uid','email','name','role','accessRevoked','bio','academicHistory','assignedTitle','profileYear','schoolYear','contributions','socialLinks','avatar','profileBackgroundImage','profileBackgroundCrop','updatedAt'
+          ]));
+      // O Editor-Chefe pode retirar o espelho público durante a revogação no plano Spark.
+      allow delete: if isChief();
+    }
+
+    match /articles/{articleId} {
+      // O prazo editorial é gravado como timestamp no momento da aprovação.
+      // Uma publicação antiga sem editorEditUntil fica acessível somente ao Editor-Chefe.
+      function editorWindowOpen() {
+        return signedIn()
+          && isEditor()
+          && resource.data.get('status', '') == 'Aprovado'
+          && resource.data.get('authorUid', '') == request.auth.uid
+          && resource.data.get('editorEditUntil', timestamp.date(1970, 1, 1)) is timestamp
+          && request.time < resource.data.get('editorEditUntil', timestamp.date(1970, 1, 1));
+      }
+      function highlightUnchangedOrChief() {
+        return isChief()
+          || request.resource.data.get('editorialHighlight', false)
+            == resource.data.get('editorialHighlight', false);
+      }
+      function visibilityUnchanged() {
+        // Non-chief users cannot remove or alter the legacy visibility marker to
+        // make a previously published record look like a never-published draft.
+        return ('visible' in request.resource.data) == ('visible' in resource.data)
+          && request.resource.data.get('visible', null) == resource.data.get('visible', null);
+      }
+      function approvalWindowUnchanged() {
+        return request.resource.data.get('approvedAt', null)
+            == resource.data.get('approvedAt', null)
+          && request.resource.data.get('editorEditUntil', null)
+            == resource.data.get('editorEditUntil', null)
+          && request.resource.data.get('publicationHistoryLegacy', false)
+            == resource.data.get('publicationHistoryLegacy', false);
+      }
+      function validNewApprovalWindow() {
+        // Primeira aprovação: não pode existir uma data de publicação anterior.
+        // Valores null legados equivalem a ausência de histórico.
+        return resource.data.get('approvedAt', null) == null
+          && resource.data.get('editorEditUntil', null) == null
+          && resource.data.get('publicationHistoryLegacy', false) != true
+          && request.resource.data.get('publicationHistoryLegacy', false)
+            == resource.data.get('publicationHistoryLegacy', false)
+          // New, never-published submissions from the current client do not yet
+          // have a visible field. An old record with that field is ambiguous and
+          // must be handled by the Editor-Chefe instead of receiving a new window.
+          && !('visible' in resource.data)
+          && request.resource.data.get('approvedAt', null) is timestamp
+          && request.resource.data.get('editorEditUntil', null) is timestamp
+          && request.resource.data.approvedAt <= request.time + duration.value(5, 'm')
+          && request.resource.data.approvedAt >= request.time - duration.value(5, 'm')
+          && request.resource.data.editorEditUntil
+            == request.resource.data.approvedAt + duration.value(7, 'd');
+      }
+      function validExistingApprovalWindow() {
+        // Reaprovação de matéria que já foi publicada: conserva rigorosamente
+        // a janela original, e só pode ocorrer enquanto ela ainda estiver aberta.
+        // Datas legadas armazenadas como texto não passam nesta verificação;
+        // nesses casos, a aprovação deve ser feita pelo Editor-Chefe.
+        return resource.data.get('approvedAt', null) is timestamp
+          && resource.data.get('editorEditUntil', null) is timestamp
+          && resource.data.get('publicationHistoryLegacy', false) != true
+          && resource.data.editorEditUntil
+            == resource.data.approvedAt + duration.value(7, 'd')
+          && request.resource.data.get('approvedAt', null) == resource.data.approvedAt
+          && request.resource.data.get('editorEditUntil', null) == resource.data.editorEditUntil
+          && request.resource.data.get('publicationHistoryLegacy', false)
+            == resource.data.get('publicationHistoryLegacy', false)
+          && request.time < resource.data.editorEditUntil;
+      }
+
+      // Matérias aprovadas e visíveis continuam públicas. A Mesa, entretanto,
+      // só mostra ao Editor-Chefe todas as publicações e ao Editor apenas:
+      // (a) itens ainda em fluxo editorial; (b) a própria publicação no prazo.
+      allow read: if (resource.data.get('status', '') == 'Aprovado'
+            && resource.data.get('visible', false) == true)
+        || isChief()
+        || (isEditor() && resource.data.get('status', '') in ['Rascunho', 'Pendente', 'Ajustes'])
+        || editorWindowOpen()
+        || (accountActive()
+          && !isEditor()
+          && resource.data.get('authorUid', '') == request.auth.uid);
+
+      allow create: if accountActive()
+        && request.resource.data.authorUid == request.auth.uid
+        && request.resource.data.status in ['Rascunho', 'Pendente', 'Ajustes']
+        && request.resource.data.get('editorialHighlight', false) == false
+        && !('approvedAt' in request.resource.data)
+        && !('editorEditUntil' in request.resource.data)
+        && !('publicationHistoryLegacy' in request.resource.data);
+
+      // A decisão editorial pode aprovar uma matéria pendente; a janela de sete
+      // dias é validada pelo servidor de regras e não pode ser alongada depois.
+      allow update: if isChief()
+        || (isEditor()
+          && resource.data.status == 'Pendente'
+          && request.resource.data.authorUid == resource.data.authorUid
+          && highlightUnchangedOrChief()
+          && ((request.resource.data.status in ['Pendente', 'Ajustes']
+                && approvalWindowUnchanged()
+                && visibilityUnchanged())
+            || (request.resource.data.status == 'Aprovado'
+                && validNewApprovalWindow())
+            || (request.resource.data.status == 'Aprovado'
+                && validExistingApprovalWindow()
+                && visibilityUnchanged())))
+        || (isEditor()
+          && resource.data.status == 'Aprovado'
+          && resource.data.authorUid == request.auth.uid
+          && editorWindowOpen()
+          && request.resource.data.authorUid == resource.data.authorUid
+          && request.resource.data.status == 'Aprovado'
+          && approvalWindowUnchanged()
+          && visibilityUnchanged()
+          && highlightUnchangedOrChief())
+        || (isEditor()
+          && resource.data.status == 'Aprovado'
+          && resource.data.authorUid == request.auth.uid
+          && editorWindowOpen()
+          && request.resource.data.authorUid == resource.data.authorUid
+          && request.resource.data.status == 'Rascunho'
+          && approvalWindowUnchanged()
+          && visibilityUnchanged()
+          && highlightUnchangedOrChief())
+        || (isEditor()
+          && resource.data.status in ['Rascunho', 'Ajustes']
+          && request.resource.data.authorUid == resource.data.authorUid
+          && request.resource.data.status in ['Rascunho', 'Ajustes', 'Pendente']
+          && approvalWindowUnchanged()
+          && visibilityUnchanged()
+          && highlightUnchangedOrChief())
+        || (accountActive()
+          && !isEditor()
+          && resource.data.authorUid == request.auth.uid
+          && resource.data.status in ['Rascunho', 'Ajustes']
+          && request.resource.data.authorUid == resource.data.authorUid
+          && request.resource.data.status in ['Rascunho', 'Ajustes', 'Pendente']
+          && approvalWindowUnchanged()
+          && visibilityUnchanged()
+          && request.resource.data.get('editorialHighlight', false)
+            == resource.data.get('editorialHighlight', false));
+
+      allow delete: if isChief()
+        || (isEditor() && resource.data.status == 'Pendente')
+        || (accountActive()
+          && !isEditor()
+          && resource.data.authorUid == request.auth.uid
+          && resource.data.status in ['Rascunho', 'Ajustes']);
+
+      // Contadores públicos usam regras próprias e não permitem editar conteúdo.
+      allow update: if resource.data.status == 'Aprovado'
+        && resource.data.visible == true
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['views'])
+        && ((!('views' in resource.data) && request.resource.data.views == 1)
+          || (('views' in resource.data) && request.resource.data.views == resource.data.views + 1));
+
+      allow update: if resource.data.status == 'Aprovado'
+        && resource.data.visible == true
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['likes'])
+        && request.resource.data.likes >= 0
+        && request.resource.data.likes <= resource.data.likes + 1
+        && request.resource.data.likes >= resource.data.likes - 1;
+    }
+
+    match /achievements/{achievementId} {
+      allow read: if true;
+      allow create, update, delete: if isEditor();
+    }
+
+    match /chatMessages/{messageId} {
+      allow read: if isEditor()
+        || (resource.data.get('messageType', '') == 'pauta' && resource.data.get('channel', '') == 'participar')
+        || (accountActive() && resource.data.get('messageType', '') != 'pauta');
+
+      allow create: if (request.resource.data.get('messageType', '') == 'pauta'
+          && request.resource.data.get('channel', '') == 'participar')
+        || accountActive();
+
+      allow update, delete: if isEditor()
+        || (accountActive()
+          && resource.data.get('messageType', '') != 'pauta'
+          && resource.data.get('authorUid', '') == request.auth.uid);
+    }
+
+    match /comments/{commentId} {
+      allow read: if true;
+      allow create: if true;
+      // O navegador mantém a identidade local do autor; o app exibe
+      // Excluir somente para o comentário daquele navegador.
+      allow delete: if true;
+      allow update: if false;
+    }
+    match /reactions/{reactionId} {
+      allow read: if true;
+      allow create, update: if true;
+      allow delete: if true;
+    }
+
+    match /pollVotes/{voteId} {
+      allow read: if true;
+      allow create: if true;
+      allow update, delete: if false;
+    }
+
+    match /suggestions/{suggestionId} {
+      // A redação pode consultar e moderar todas as pautas; cada conta autenticada,
+      // inclusive visitante anônimo do Firebase Auth, só consulta/exclui as próprias.
+      allow read: if isEditor()
+        || (accountActive() && resource.data.get('authorUid', '') == request.auth.uid);
+      allow create: if true;
+      allow update: if isEditor();
+      allow delete: if isEditor()
+        || (accountActive() && resource.data.get('authorUid', '') == request.auth.uid);
+    }
+
+    match /profileChangeRequests/{requestId} {
+      allow read: if isEditor() || (accountActive() && (request.auth.uid == resource.data.studentUid || request.auth.uid == requestId));
+      allow create: if (accountActive() && request.resource.data.studentUid == request.auth.uid && request.resource.data.status == 'Pendente')
+        || (isEditor() && request.resource.data.kind == 'profileAuthorization' && request.resource.data.uid == requestId);
+      allow update: if isEditor();
+      allow delete: if isChief();
+    }
+
+    match /schoolNotices/{noticeId} {
+      allow read: if true;
+      allow create, update, delete: if isEditor();
+    }
+  }
+}

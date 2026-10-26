@@ -1,0 +1,161 @@
+/* Folha do Paiquerê v151 — correções cirúrgicas para cabeçalho e pesquisas móveis. */
+
+/* O cabeçalho compacto usa marinho profundo em qualquer tema, com contraste mantido. */
+@media (max-width: 767px), (max-width: 1024px) and (max-height: 600px) and (orientation: landscape) {
+  body.fp-student-shell .fp-mobile-topbar {
+    background: #0B1730 !important;
+    background-color: #0B1730 !important;
+    color: #F1F6FF !important;
+    border-bottom-color: #2A4264 !important;
+    box-shadow: 0 4px 18px rgb(4 14 31 / .28) !important;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+
+  body.fp-student-shell .fp-mobile-settings > summary,
+  body.fp-student-shell .fp-mobile-bell {
+    background: #142744 !important;
+    color: #EFF6FF !important;
+    border-color: #304968 !important;
+  }
+
+  body.fp-student-shell .fp-mobile-settings > summary svg,
+  body.fp-student-shell .fp-mobile-bell svg {
+    color: inherit !important;
+    stroke: currentColor;
+  }
+
+  body.fp-student-shell .fp-mobile-settings[open] > summary {
+    background: #203A5E !important;
+    border-color: #6E9DD3 !important;
+    color: #FFFFFF !important;
+  }
+
+  /*
+   * Causa-raiz das pesquisas em formato de quadrado:
+   * o CSS anterior definia duas colunas (1.4rem + 1fr), mas o ícone e o label
+   * são posicionados absolutamente. O único item no fluxo — o input — acabava
+   * na primeira coluna de apenas 1.4rem. Os wrappers voltam a ser blocos de largura total.
+   */
+  body.fp-student-shell .fp-management-search,
+  body.fp-student-shell .my-articles-search-wrap {
+    display: block !important;
+    position: relative !important;
+    grid-template-columns: none !important;
+    gap: 0 !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  body.fp-student-shell .fp-management-search > span,
+  body.fp-student-shell .my-articles-search-icon {
+    position: absolute !important;
+    left: .82rem !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    z-index: 2 !important;
+    display: block !important;
+    width: auto !important;
+    height: auto !important;
+    margin: 0 !important;
+    justify-self: auto !important;
+    pointer-events: none !important;
+    line-height: 1 !important;
+  }
+
+  body.fp-student-shell .fp-management-search .site-input,
+  body.fp-student-shell .my-articles-search-wrap .site-input,
+  body.fp-student-shell #moderation-author-search,
+  body.fp-student-shell #school-notice-search,
+  body.fp-student-shell #suggestions-search,
+  body.fp-student-shell #achievement-admin-search,
+  body.fp-student-shell #my-articles-search {
+    display: block !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    min-height: 2.9rem !important;
+    margin: 0 !important;
+    padding: .7rem .8rem .7rem 2.35rem !important;
+    box-sizing: border-box !important;
+    color: #17283E !important;
+    font-size: 16px !important;
+    line-height: 1.35 !important;
+    text-indent: 0 !important;
+    opacity: 1 !important;
+    -webkit-text-fill-color: currentColor !important;
+    caret-color: #24598F !important;
+  }
+
+  .dark body.fp-student-shell .fp-management-search .site-input,
+  .dark body.fp-student-shell .my-articles-search-wrap .site-input,
+  .dark body.fp-student-shell #moderation-author-search,
+  .dark body.fp-student-shell #school-notice-search,
+  .dark body.fp-student-shell #suggestions-search,
+  .dark body.fp-student-shell #achievement-admin-search,
+  .dark body.fp-student-shell #my-articles-search {
+    background: #17263D !important;
+    color: #F0F5FC !important;
+    border-color: #405673 !important;
+    -webkit-text-fill-color: #F0F5FC !important;
+    caret-color: #BBD9FF !important;
+  }
+
+  body.fp-student-shell .fp-management-search .site-input::placeholder,
+  body.fp-student-shell .my-articles-search-wrap .site-input::placeholder {
+    color: #65758A !important;
+    opacity: 1 !important;
+    -webkit-text-fill-color: currentColor !important;
+  }
+
+  .dark body.fp-student-shell .fp-management-search .site-input::placeholder,
+  .dark body.fp-student-shell .my-articles-search-wrap .site-input::placeholder {
+    color: #B5C4D9 !important;
+    opacity: 1 !important;
+  }
+
+  body.fp-student-shell .fp-management-search .site-input:focus,
+  body.fp-student-shell .my-articles-search-wrap .site-input:focus {
+    outline: 3px solid rgb(92 157 229 / .34) !important;
+    outline-offset: 1px !important;
+    box-shadow: 0 0 0 2px rgb(92 157 229 / .16) !important;
+  }
+
+  /* Deixa o campo nome/e-mail mais largo sem reduzir a área de toque das ações. */
+  body.fp-student-shell .fp-team-table {
+    width: 100% !important;
+    min-width: 660px !important;
+    table-layout: fixed !important;
+  }
+  body.fp-student-shell .fp-team-table thead th:nth-child(1),
+  body.fp-student-shell .fp-team-table tbody td:nth-child(1) { width: 300px !important; }
+  body.fp-student-shell .fp-team-table thead th:nth-child(2),
+  body.fp-student-shell .fp-team-table tbody td:nth-child(2) { width: 100px !important; }
+  body.fp-student-shell .fp-team-table thead th:nth-child(3),
+  body.fp-student-shell .fp-team-table tbody td:nth-child(3) { width: 180px !important; }
+  body.fp-student-shell .fp-team-table thead th:nth-child(4),
+  body.fp-student-shell .fp-team-table tbody td:nth-child(4) { width: 80px !important; }
+
+  body.fp-student-shell .fp-team-user-cell {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    gap: .55rem !important;
+  }
+  body.fp-student-shell .fp-team-user-details {
+    flex: 1 1 auto !important;
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+  }
+  body.fp-student-shell .fp-team-user-name,
+  body.fp-student-shell .fp-team-user-email {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-wrap: anywhere !important;
+    word-break: normal !important;
+  }
+}

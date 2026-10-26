@@ -1,0 +1,38 @@
+/* v133 — correções focadas no campo de texto, capa e painel de inserção. */
+/* O placeholder vazio forçava uma segunda caixa ao lado da capa por causa de uma regra antiga com !important. */
+#editor-cover-credits-grid #cover-empty{display:none!important}
+#editor-cover-credits-grid .editor-cover-preview-slot:not(.has-cover){display:none!important;min-height:0!important;height:0!important}
+#editor-cover-credits-grid .editor-cover-preview-slot.has-cover{display:flex!important;min-height:13rem!important;height:auto!important;width:100%;min-width:0}
+#editor-cover-credits-grid .editor-cover-preview-slot.has-cover #cover-preview{display:block!important;width:100%;min-height:13rem!important;max-height:18rem!important}
+#editor-cover-credits-grid .editor-cover-preview-slot.has-cover #cover-preview-image{display:block;width:100%;min-height:13rem;max-height:18rem;object-fit:cover;border-radius:1rem}
+
+/* O botão recolhido fica no ponto âncora; expandido, o painel abre somente para a esquerda. */
+#editor-insert-dock{left:50%!important;right:auto!important;bottom:.85rem!important;top:auto!important;transform:translateX(-50%);width:min(420px,calc(100vw - 290px))!important;max-width:calc(100vw - 1.2rem)!important;}
+#editor-insert-dock.is-expanded{transform:translateX(-100%)!important}
+#editor-insert-dock:not(.is-expanded){transform:translateX(-50%)!important}
+#editor-insert-dock #desktop-insert-section .mt-3.grid{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:.28rem!important}
+#editor-insert-dock #desktop-insert-section button{grid-column:auto / span 1!important;grid-row:1!important;min-height:2.3rem!important;padding:.35rem .28rem!important;font-size:.7rem!important;white-space:nowrap!important;overflow:hidden;text-overflow:ellipsis}
+#editor-insert-dock-toggle{flex:0 0 2rem!important;width:2rem!important;height:2rem!important;min-height:2rem!important}
+
+/* O editor é texto multilinha real: preserva Enter, linhas vazias e texto após um ponto de quebra. */
+.editor-rich-text{white-space:pre-wrap!important;overflow-wrap:anywhere}
+.editor-rich-text .editor-rich-line{white-space:pre-wrap!important;min-height:1.35em}
+
+@media(max-width:1023px){
+  #editor-insert-dock{left:calc(50% + 1.5rem)!important;width:min(420px,calc(50vw - 4.3rem))!important;max-width:calc(50vw - 4.3rem)!important;bottom:.65rem!important}
+  #editor-insert-dock.is-expanded{transform:translateX(-100%)!important}
+  #editor-insert-dock:not(.is-expanded){transform:translateX(-50%)!important}
+  #editor-cover-credits-grid .editor-cover-preview-slot.has-cover,#editor-cover-credits-grid .editor-cover-preview-slot.has-cover #cover-preview{min-height:11rem!important}
+  #editor-cover-credits-grid .editor-cover-preview-slot.has-cover #cover-preview-image{min-height:11rem;max-height:15rem}
+}
+@media(max-width:640px){
+  /* Em telas estreitas, a âncora vai para a borda direita para o painel caber à esquerda sem cobrir a navegação. */
+  #editor-insert-dock{left:calc(100vw - .75rem)!important;width:calc(100vw - 5.9rem)!important;max-width:calc(100vw - 5.9rem)!important;bottom:.45rem!important;padding:.22rem!important;border-radius:.8rem!important;transform:translateX(-100%)!important}
+  #editor-insert-dock.is-expanded,#editor-insert-dock:not(.is-expanded){transform:translateX(-100%)!important}
+  #editor-insert-dock .editor-insert-dock-row{gap:.2rem}
+  #editor-insert-dock #desktop-insert-section .mt-3.grid{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:.15rem!important}
+  #editor-insert-dock #desktop-insert-section button{grid-column:auto / span 1!important;grid-row:1!important;min-height:2.2rem!important;padding:.28rem .08rem!important;font-size:.62rem!important;border-radius:.5rem!important}
+  #editor-insert-dock-toggle{flex-basis:1.8rem!important;width:1.8rem!important;height:1.8rem!important;min-height:1.8rem!important;font-size:.86rem!important}
+  #editor-cover-credits-grid .editor-cover-preview-slot.has-cover,#editor-cover-credits-grid .editor-cover-preview-slot.has-cover #cover-preview{min-height:9rem!important}
+  #editor-cover-credits-grid .editor-cover-preview-slot.has-cover #cover-preview-image{min-height:9rem;max-height:13rem}
+}
